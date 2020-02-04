@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+    <!-- 리뷰 INSERT SQL -->
+	<insert id="insertReview" parameterType="ReviewVo">
+	<![CDATA[
+	INSERT INTO review
+	(reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, cmtCnt)
+	VALUES(seq_review_no.nextVal, #{uuid}, #{beerNo}, #{reviewContent}, #{reviewPic}, #{rating}, #{regDate}, 0, 0)
+	]]>
+	</insert>
+    <!-- 해시태그 INSERT SQL -->
+	<insert id="insertHashtag" parameterType="HashtagVo">
+	<![CDATA[
+	INSERT INTO hashtag
+	(tagNo, tagName, reviewNo, beerNo)
+	VALUES(seq_tag_no.nextVal, #{tagName}, #{reviewNo}, #{beerNo})
+	]]>
+	</insert>
+	<!-- 리뷰 SELECT BY reviewContent -->
+	<select id="selectByReviewContent" resultType="ReviewVo" parameterType="string">
+	<![CDATA[
+	SELECT reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, cmtCnt
+	FROM review
+	WHERE reviewContent = #{reviewContent}
+	]]>
+	</select>
+</mapper>

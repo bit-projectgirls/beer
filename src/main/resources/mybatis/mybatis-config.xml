@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- MyBatis 설정 파일 -->
+<configuration>
+	<typeAliases>
+		<typeAlias alias="UserVo" type="com.bit.beer.repository.UserVo"/>
+		<typeAlias alias="BeerVo" type="com.bit.beer.repository.BeerVo"/>
+		<typeAlias alias="ReviewVo" type="com.bit.beer.repository.ReviewVo"/>
+		<typeAlias alias="HashtagVo" type="com.bit.beer.repository.HashtagVo"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="/mybatis/mappers/users.xml"/>
+		<mapper resource="/mybatis/mappers/review.xml"/>
+	</mappers>
+</configuration>
