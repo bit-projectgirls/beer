@@ -39,9 +39,19 @@ public class ReviewService {
 		}
 		return 0 != insertedCount;
 	}
+	
 	public boolean insertReview(ReviewVo reviewVo) {
 		int insertedCount = reviewDao.insertReview(reviewVo);
 		return 1 == insertedCount;
-		
+	}
+	
+	public ReviewVo getReviewByContent(String reviewCnt) {
+		ReviewVo vo = reviewDao.selectReviewByContent(reviewCnt);
+		return vo;
+	}
+	
+	public List<HashtagVo> getHashtagByKeyword(String keyword) {
+		List<HashtagVo> list = reviewDao.selectTagByKeyword(keyword);
+		return list;
 	}
 }

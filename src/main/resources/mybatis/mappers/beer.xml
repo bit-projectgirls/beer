@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="beer">
+	<!-- 나라 목록 받아오기 -->
+	<select id="selectCountry" resultType="String" parameterType="String">
+	<![CDATA[
+	SELECT DISTINCT country
+	FROM beers
+	WHERE UPPER(country) Like UPPER('%'|| UPPER(#{keyword}) ||'%')
+	ORDER BY country
+	]]>
+	</select>
+	<!-- 맥주 종류 받아오기 -->
+	<select id="selectType" resultType="String">
+	<![CDATA[
+	SELECT DISTINCT type
+	FROM beers
+	ORDER BY type
+	]]>
+	</select>
+	<!-- 맥주 SELECT by beerNo -->
+	<select id="selectBeerByNo" resultType="BeerVo" parameterType="int">
+	    SELECT *
+	    FROM beers
+	    WHERE beerNo = #{beerNo}
+	</select>
+	<!-- 맥주 SELECT by Filter -->
+	<select id="selectBeer" resultType="BeerVo" parameterType="map">
+		SELECT *
+		FROM beers
+		WHERE beername IS NOT NULL
+		<if test="ctrylist != null">
+			AND country in
+			<foreach item="country" index="index" collection="ctrylist" open="(" separator="," close=")">
+			    #{country}
+			</foreach>
+		</if>
+		<if test="minabv != null and maxabv != null">
+		    <![CDATA[ AND abv >= #{minabv} AND abv <= #{maxabv} ]]>
+		</if>
+		<if test="typelist != null">
+			AND type in
+			<foreach item="type" index="index" collection="typeylist" open="(" separator="," close=")">
+			    #{type}
+			</foreach>
+		</if>
+	</select>
+</mapper>

@@ -6,8 +6,8 @@
 	<insert id="insertReview" parameterType="ReviewVo">
 	<![CDATA[
 	INSERT INTO review
-	(reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, cmtCnt)
-	VALUES(seq_review_no.nextVal, #{uuid}, #{beerNo}, #{reviewContent}, #{reviewPic}, #{rating}, #{regDate}, 0, 0)
+	(reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt)
+	VALUES(seq_review_no.nextVal, #{uuid}, #{beerNo}, #{reviewContent}, #{reviewPic}, #{rating}, sysdate, 0)
 	]]>
 	</insert>
     <!-- 해시태그 INSERT SQL -->
@@ -21,9 +21,17 @@
 	<!-- 리뷰 SELECT BY reviewContent -->
 	<select id="selectByReviewContent" resultType="ReviewVo" parameterType="string">
 	<![CDATA[
-	SELECT reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, cmtCnt
+	SELECT reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt
 	FROM review
-	WHERE reviewContent = #{reviewContent}
+	WHERE reviewContent = #{reviewCnt}
+	]]>
+	</select>
+	<!-- 태그 SELECT BY keyword -->
+	<select id="selectTagByKeyword" resultType="HashtagVo" parameterType="string">
+	<![CDATA[
+	SELECT tagNo, tagName, reviewNo, beerNo
+	FROM hashtag
+	WHERE UPPER(tagName) Like UPPER('%' ||  #{keyword} || '%')
 	]]>
 	</select>
 </mapper>

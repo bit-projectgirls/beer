@@ -1,6 +1,8 @@
 package com.bit.beer.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,14 +43,14 @@ public class SearchController {
 	@RequestMapping(value="/searchkeyword", method=RequestMethod.POST)
 	public String search(@RequestParam(value="keyword") String keyword, Model model) {
 		logger.info("search start: " + keyword);
-		String indexName = "users";
+		String indexName = "beer";
 		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(QueryBuilders.matchQuery("id", keyword));
+		searchSourceBuilder.query(QueryBuilders.matchQuery("beerName", keyword));
 		searchSourceBuilder.from(0);
 		searchSourceBuilder.size(10);
 		searchSourceBuilder.sort(
-				new FieldSortBuilder("userno").order(SortOrder.DESC));
+				new FieldSortBuilder("beerName").order(SortOrder.DESC));
 		
 		SearchRequest request = new SearchRequest(indexName);		
 		request.source(searchSourceBuilder);
@@ -66,78 +68,61 @@ public class SearchController {
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "문서조회 실패";
+			return "searchresult";
 		}
-		model.addAttribute("list", resultList);
+		model.addAttribute("beerList", resultList);
 		return "searchresult";
 	}
 	
 	// 해시태그 검색
-	@RequestMapping(value = "/searchtag", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String getMap(@RequestParam(value="keyword") String keyword) {
-		logger.info("search tag start: " + keyword);
-		String indexName = "users";
-		
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(QueryBuilders.matchQuery("username", keyword));
-		searchSourceBuilder.from(0);
-		searchSourceBuilder.size(10);
-		searchSourceBuilder.sort(
-				new FieldSortBuilder("userno").order(SortOrder.DESC));
-		
-		SearchRequest request = new SearchRequest(indexName);		
-		request.source(searchSourceBuilder);
-		
-		SearchResponse response = null;
-		SearchHits searchHits = null;
-		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
-		try {
-			RestHighLevelClient client = createConnection();
-			response = client.search(request, RequestOptions.DEFAULT);
-			searchHits = response.getHits();
-			for(SearchHit hit : searchHits) {
-				Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-				resultList.add(sourceAsMap);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return gson.toJson(resultList);
-	}
+//	@RequestMapping(value = "/searchtag", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/text; charset=utf8")
+//	@ResponseBody
+//	public String getMap(@RequestParam(value="keyword") String keyword) {
+//		logger.info("search tag start: " + keyword);
+//		String indexName = "users";
+//		
+//		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+//		searchSourceBuilder.query(QueryBuilders.matchQuery("username", keyword));
+//		searchSourceBuilder.from(0);
+//		searchSourceBuilder.size(10);
+//		searchSourceBuilder.sort(
+//				new FieldSortBuilder("userno").order(SortOrder.DESC));
+//		
+//		SearchRequest request = new SearchRequest(indexName);		
+//		request.source(searchSourceBuilder);
+//		
+//		SearchResponse response = null;
+//		SearchHits searchHits = null;
+//		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+//		try {
+//			RestHighLevelClient client = createConnection();
+//			response = client.search(request, RequestOptions.DEFAULT);
+//			searchHits = response.getHits();
+//			for(SearchHit hit : searchHits) {
+//				Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+//				resultList.add(sourceAsMap);
+//			}
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		logger.info(resultList.toString());
+//		return gson.toJson(resultList);
+//	}
 	
-	// 나라 검색
-	@RequestMapping(value="/searchcountry", method=RequestMethod.POST)
-	public String searchCountry(@RequestParam(value="keyword") String keyword, Model model) {
-		logger.info("search start: " + keyword);
-		String indexName = "users";
-		
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(QueryBuilders.matchQuery("id", keyword));
-		searchSourceBuilder.from(0);
-		searchSourceBuilder.size(10);
-		searchSourceBuilder.sort(
-				new FieldSortBuilder("userno").order(SortOrder.DESC));
-		
-		SearchRequest request = new SearchRequest(indexName);		
-		request.source(searchSourceBuilder);
-		
-		SearchResponse response = null;
-		SearchHits searchHits = null;
-		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
-		try {
-			RestHighLevelClient client = createConnection();
-			response = client.search(request, RequestOptions.DEFAULT);
-			searchHits = response.getHits();
-			for(SearchHit hit : searchHits) {
-				Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-				resultList.add(sourceAsMap);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			return "문서조회 실패";
-		}
-		model.addAttribute("list", resultList);
-		return "searchresult";
-	}
+//	// 나라 검색
+//	@RequestMapping(value="/searchcountry", method={ RequestMethod.GET, RequestMethod.POST }, produces = "application/text; charset=utf8")
+//	@ResponseBody
+//	public String searchCountry(@RequestParam(value="keyword") String keyword, Model model) {
+//		logger.info("search start: " + keyword);
+//		List<String> test = new ArrayList<String>();
+//		test.addAll(Arrays.asList("한국", "독일", "프랑스", "일본", "중국", "벨기에", "미국"));
+//		Iterator<String> iter = test.iterator();
+//		while(iter.hasNext()) {
+//			String country = iter.next();
+//			if(!country.contains(keyword)) {
+//				iter.remove();
+//			}
+//		}
+//		return gson.toJson(test);
+//	}
 }

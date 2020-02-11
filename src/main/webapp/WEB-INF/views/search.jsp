@@ -25,22 +25,27 @@
 	</form>
 
 	<h5>최근 검색 기록</h5>
-	<div id="searchresult"></div>
+	<div id="searchresult">
+	</div>
 </div>
 </body>
 <script>
 $(document).ready(function() {
 	$("#keywordinput").keyup(function(event){
 		var keyword = document.getElementById("keywordinput").value.trim();
-		$.ajax({
-		    url : "<c:url value="/searchkeyword"/>",
-		    dataType : "html",
-		    type : "post",
-		    data : {keyword: keyword},
-		    success : function(result){
-		        $("#searchresult").html(result);
-		    }
-		});
+		if(keyword.length == 0){
+			// 쿠키 사용 검색기록 출력
+		}else{
+			$.ajax({
+			    url : "<c:url value="/searchkeyword"/>",
+			    dataType : "html",
+			    type : "post",
+			    data : {keyword: keyword},
+			    success : function(result){
+			        $("#searchresult").html(result);
+			    }
+			});
+		}
 	})
 });
 </script>

@@ -31,28 +31,10 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value="/search", method=RequestMethod.GET)
-	public String searchForm() {
-		logger.info("search page load");
-		return "search";		
-	}
-	
-	@RequestMapping(value="/list")
-	public String list() {
-		logger.info("list page load");
-		return "list";
-	}
-	
 	@RequestMapping(value="/mypage")
 	public String myPage() {
 		logger.info("My page load");
 		return "mypage";
-	}
-	
-	@RequestMapping(value="/beer/{beerNo}")
-	public String beerInfoPage(@PathVariable("beerNo") int beerNo) {
-		logger.info("beer page load: " + beerNo);
-		return "beer";
 	}
 	
 	@RequestMapping(value="/map")

@@ -9,18 +9,18 @@ CREATE TABLE users (
     joinDate    DATE            NOT NULL
 );
 
-CREATE TABLE company (
-    companyNo   NUMBER PRIMARY KEY,
+CREATE TABLE country (
     country     VARCHAR2(100) NOT NULL,
-    companyName VARCHAR2(200) NOT NULL
+    countryKo   VARCHAR2(200) NOT NULL
 );
 
-CREATE TABLE beers (
+CREATE TABLE beer (
     beerNo      NUMBER PRIMARY KEY,
     beerName    VARCHAR2(100) NOT NULL,
     beerPic     VARCHAR2(100),
     companyNo   NUMBER, -- foreign key
-    type        VARCHAR2(100),
+    country     VARCHAR2(100) NOT NULL,
+    beerType        VARCHAR2(100),
     abv         NUMBER,
     rating      NUMBER NOT NULL,
     ratingBA    NUMBER,
@@ -29,7 +29,7 @@ CREATE TABLE beers (
 
 CREATE TABLE beer_like (
     bLikeNo NUMBER PRIMARY KEY,
-    uuid    NUMBER NOT NULL, -- foriegn key
+    uuid    VARCHAR2(200) NOT NULL, -- foriegn key
     beerNo NUMBER NOT NULL, -- foriegn key
     regDate DATE NOT NULL
 );
@@ -43,28 +43,19 @@ CREATE TABLE hashtag (
 
 CREATE TABLE review (
     reviewNo    NUMBER PRIMARY KEY,
-    uuid        NUMBER, -- foreign key
+    uuid        VARCHAR2(200), -- foreign key
     beerNo      NUMBER, -- foreign key
     reviewContent   VARCHAR2(4000),
     reviewPic   VARCHAR2(100),
     rating      NUMBER NOT NULL,
     regDate     DATE NOT NULL,
-    likeCnt     NUMBER NOT NULL,
-    cmtCnt      NUMBER NOT NULL
-);
-
-CREATE TABLE comment (
-    cmtNo NUMBER PRIMARY KEY,
-    reviewNo NUMBER NOT NULL, -- foriegn key
-    uuid NUMBER NOT NULL, -- foriegn key
-    cmtContent VARCHAR2(500) NOT NULL,
-    regDate DATE NOT NULL    
+    likeCnt     NUMBER NOT NULL
 );
 
 CREATE TABLE review_like (
     rLikeNo NUMBER PRIMARY KEY,
     reviewNo NUMBER NOT NULL, -- foriegn key
-    uuid NUMBER NOT NULL -- foriegn key
+    uuid VARCHAR2(200) NOT NULL -- foriegn key
 );
 
 -- 시퀀스 생성
@@ -81,6 +72,8 @@ CREATE SEQUENCE seq_review_no
 -- 테이블 삭제
 DROP TABLE users;
 DROP TABLE hashtag;
+DROP TABLE review;
+DROP TABLE beer_like;
 
 -- 시퀀스 삭제
 DROP SEQUENCE seq_tag_no;
@@ -88,3 +81,7 @@ DROP SEQUENCE seq_tag_no;
 -- 테이블 확인
 SELECT * FROM users;
 SELECT * FROM hashtag;
+SELECT * FROM review;
+SELECT tagNo, tagName, reviewNo, beerNo
+	FROM hashtag
+	WHERE UPPER(tagName) Like UPPER('%' || '해시' || '%');

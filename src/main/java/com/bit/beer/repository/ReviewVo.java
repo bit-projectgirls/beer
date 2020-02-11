@@ -11,7 +11,7 @@ public class ReviewVo {
 	private double rating;
 	private Date regDate;
 	private int likeCnt;
-	private int cmtCnt;
+	
 	public int getReviewNo() {
 		return reviewNo;
 	}
@@ -60,17 +60,10 @@ public class ReviewVo {
 	public void setLikeCnt(int likeCnt) {
 		this.likeCnt = likeCnt;
 	}
-	public int getCmtCnt() {
-		return cmtCnt;
-	}
-	public void setCmtCnt(int cmtCnt) {
-		this.cmtCnt = cmtCnt;
-	}
-	
 	@Override
 	public String toString() {
 		return "ReviewVo [reviewNo=" + reviewNo + ", uuid=" + uuid + ", beerNo=" + beerNo + ", reviewContent="
 				+ reviewContent + ", reviewPic=" + reviewPic + ", rating=" + rating + ", regDate=" + regDate
-				+ ", likeCnt=" + likeCnt + ", cmtCnt=" + cmtCnt + "]";
+				+ ", likeCnt=" + likeCnt + "]";
 	}
 }

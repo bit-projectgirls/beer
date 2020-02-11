@@ -13,5 +13,6 @@
 	<mappers>
 		<mapper resource="/mybatis/mappers/users.xml"/>
 		<mapper resource="/mybatis/mappers/review.xml"/>
+		<mapper resource="/mybatis/mappers/beer.xml"/>
 	</mappers>
 </configuration>

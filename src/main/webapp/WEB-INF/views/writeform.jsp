@@ -33,12 +33,17 @@
     </style>
   </head>
   <body>
-  <a href="<c:url value="/"/>">뒤로</a>
+  <a href="<c:url value="/beer/${ beerVo.beerNo }"/>">뒤로</a>
   <h3>맥주 정보</h3>
-  <form id="reviewForm" method="post" action="<c:url value="write"/>">
+  <div>
+  ${ beerVo.beerName }</br>
+  ${ beerVo.company } from ${ beerVo.country }
+  </div>
+  <form id="reviewForm" method="post" action="<c:url value="/write"/>">
     <input name="uuid" type="hidden" value="${ authUser.uuid }">
-    <input name="beerNo" type="hidden" value="1">
-	<input id="rating" type="text" class="kv-fa rating" data-size="xl" showClear="false">
+    <input name="beerNo" type="hidden" value="${ beerVo.beerNo }">
+    <input name="reviewPic" type="hidden" value="default">
+	<input id="rating" type="text" value="${ rating }" class="kv-fa rating" data-size="xl" showClear="false">
 	<h5>리뷰작성하기</h5>
 	<p
 	   id="testMultiple"
@@ -88,11 +93,11 @@
               if (this.range.isContentEditable(this.current.element)) {
                 return (
                   '#' +
-                  item.original.username 
+                  item.original.tagName 
                 );
               }
-			console.log(item.original.name);
-              return "#" + item.original.name;
+			console.log(item.original.tagName);
+              return "#" + item.original.tagName;
             },
 
             // function retrieving an array of objects
@@ -100,9 +105,9 @@
         	    remoteSearch(text, users => cb(users));
             },
 
-            lookup: "username",
+            lookup: "tagName",
 
-            fillAttr: "username"
+            fillAttr: "tagName"
           }
         ]
       });
