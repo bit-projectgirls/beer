@@ -1,6 +1,7 @@
 package com.bit.beer.repository;
 
 public class BeerVo {
+	private int idx;
 	private int beerNo;
 	private String beerName;
 	private String beerPic;
@@ -10,6 +11,13 @@ public class BeerVo {
 	private double abv;
 	private double ratingBA;
 	private String note;
+	
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
 	public int getBeerNo() {
 		return beerNo;
 	}
@@ -67,8 +75,9 @@ public class BeerVo {
 	
 	@Override
 	public String toString() {
-		return "BeerVo [beerNo=" + beerNo + ", beerName=" + beerName + ", beerPic=" + beerPic + ", type=" + type
-				+ ", country=" + country + ", company=" + company + ", abv=" + abv + ", ratingBA=" + ratingBA
-				+ ", note=" + note + "]";
+		return "BeerVo [idx=" + idx + ", beerNo=" + beerNo + ", beerName=" + beerName + ", beerPic=" + beerPic
+				+ ", type=" + type + ", country=" + country + ", company=" + company + ", abv=" + abv + ", ratingBA="
+				+ ratingBA + ", note=" + note + "]";
 	}
+	
 }

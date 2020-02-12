@@ -26,11 +26,20 @@
 
 	<h5>최근 검색 기록</h5>
 	<div id="searchresult">
+		<table class="table table-sm">
+		<c:forEach items="${ beerlist }" var="beerVo">
+			<tr>
+				<td><a href="<c:url value="/beer/${ beerVo.beerNo }"/>"><strong>${ beerVo.beerName }</strong></a></td>
+				<td>by ${ beerVo.company }</td>
+			</tr>
+		</c:forEach>
+</table>
 	</div>
 </div>
 </body>
 <script>
 $(document).ready(function() {
+	console.log(document.cookie);
 	$("#keywordinput").keyup(function(event){
 		var keyword = document.getElementById("keywordinput").value.trim();
 		if(keyword.length == 0){

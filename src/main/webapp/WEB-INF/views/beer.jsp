@@ -19,24 +19,46 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
   <body>
-  <a href="<c:url value="/"/>">뒤로</a>
+  <a href="<c:url value="/list"/>">뒤로</a>
   <div>
-	  ${ beerVo.beerNo }<br/>
-	  <h3>${ beerVo.beerName }</h3><br/>
-	  <input id="ratingBA" name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating">${ beerVo.ratingBA }<br/>
-	  ${ beerVo.company } from ${ beerVo.country }<br/>
+	${ beerVo.company }<br/>
+	<h3>${ beerVo.beerName }</h3><br/>
+	${ beerVo.type } from ${ beerVo.country }<br/>
+  </div>
+  <div>
+	Beeradvocate
+	<h3>${ beerVo.ratingBA }</h3><br/>
   </div>
   <div id="rating">
-     <form id="ratingform" method="post" action="<c:url value="/reviewform"/>">
-     <input id="beerNo" type="hidden" name="beerNo" value="${ beerVo.beerNo }">
-	 <input id="starRating" type="text" value="${ rating }" class="kv-fa rating" data-size="xl" showClear="false">
-	 </form>
+  	리뷰 남기기
+    <form id="ratingform" method="post" action="<c:url value="/reviewform"/>">
+    <input id="beerNo" type="hidden" name="beerNo" value="${ beerVo.beerNo }">
+	<input id="starRating" type="text" value="${ rating }" class="kv-fa rating" data-size="xl" showClear="false">
+	</form>
+  </div>
+  <div>
+  	리뷰<br/>
+  	<c:if test="${ empty reviewlist }">
+  		아직 작성된 리뷰가 없어요.
+  	</c:if>
+  	<c:if test="${ not empty reviewlist }">
+	    <table class="table table-sm">
+		<c:forEach items="${ reviewlist }" var="reviewVo">
+			<tr>
+				<td>${ reviewVo.reviewContent }</td>
+				<td><input name="ratingReview" value="${ reviewVo.rating }" class="kv-fa rating"></td>
+				<td>by ${ reviewVo.nickname }</td>
+			</tr>
+		</c:forEach>
+	    </table>
+    </c:if>
   </div>
 </body>
 <script>
 	//star rating
-	$('#ratingBA').rating({
+	$('#ratingReview').rating({
 		displayOnly: true,
+		size: 'xs',
 		step: 0.5,
 		showCaption: false,
 		theme: 'krajee-fa',
@@ -61,54 +83,5 @@
     	inputRating.setAttribute("value", rating);
     	formObj.appendChild(inputRating);
     	formObj.submit();
-	});
-	// cookie 저장
-	function setCookie(cookie_name, value, days) {
-		var exdate = new Date();
-		exdate.setDate(exdate.getDate() + days);
-		// 설정 일수만큼 현재시간에 만료값으로 지정
-		var cookie_value = escape(value) + ((days == null) ? '' : ';    expires=' + exdate.toUTCString());
-		document.cookie = cookie_name + '=' + cookie_value;
-		console.log(document.cookie);
-	}
-	function getCookie(cookie_name) {
-		var x, y;
-		var val = document.cookie.split(';');
-		
-		for (var i = 0; i < val.length; i++) {
-			x = val[i].substr(0, val[i].indexOf('='));
-			y = val[i].substr(val[i].indexOf('=') + 1);
-			x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
-			if (x == cookie_name) {
-				return unescape(y); // unescape로 디코딩 후 값 리턴
-			}
-		}
-	}
-	function addCookie(id) {
-		var items = getCookie('beerViewed'); // 이미 저장된 값을 쿠키에서 가져오기
-		var maxItemNum = 10; // 최대 저장 가능한 아이템개수
-		var expire = 7; // 쿠키값을 저장할 기간
-		if (items) {
-		var itemArray = items.split(',');
-		if (itemArray.indexOf(id) != -1) {
-			// 이미 존재하는 경우 종료
-			console.log('Already exists.');
-		}
-		else {
-			// 새로운 값 저장 및 최대 개수 유지하기
-			itemArray.unshift(id);
-			if (itemArray.length > maxItemNum ) itemArray.length = 5;
-				items = itemArray.join(',');
-				setCookie('beerViewd', items, expire);
-			}
-		}
-		else {
-			// 신규 id값 저장하기
-			setCookie('productItems', id, expire);
-		}
-	}
-	$(document).ready(function() {
-		var beerNo = document.getElementById("beerNo").value;
-		addCookie(beerNo);
 	});
 </script>

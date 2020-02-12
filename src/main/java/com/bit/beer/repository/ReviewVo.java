@@ -5,6 +5,7 @@ import java.util.Date;
 public class ReviewVo {
 	private int reviewNo;
 	private String uuid;
+	private String nickname;
 	private int beerNo;
 	private String reviewContent;
 	private String reviewPic;
@@ -60,10 +61,16 @@ public class ReviewVo {
 	public void setLikeCnt(int likeCnt) {
 		this.likeCnt = likeCnt;
 	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	@Override
 	public String toString() {
-		return "ReviewVo [reviewNo=" + reviewNo + ", uuid=" + uuid + ", beerNo=" + beerNo + ", reviewContent="
-				+ reviewContent + ", reviewPic=" + reviewPic + ", rating=" + rating + ", regDate=" + regDate
-				+ ", likeCnt=" + likeCnt + "]";
+		return "ReviewVo [reviewNo=" + reviewNo + ", uuid=" + uuid + ", nickname=" + nickname + ", beerNo=" + beerNo
+				+ ", reviewContent=" + reviewContent + ", reviewPic=" + reviewPic + ", rating=" + rating + ", regDate="
+				+ regDate + ", likeCnt=" + likeCnt + "]";
 	}
 }

@@ -1,7 +1,6 @@
 package com.bit.beer.controller;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 

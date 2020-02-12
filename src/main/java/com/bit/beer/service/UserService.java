@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bit.beer.repository.UserDao;
+import com.bit.beer.repository.UserDaoImpl;
 import com.bit.beer.repository.UserVo;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,7 +24,7 @@ import com.google.gson.JsonParser;
 @Service
 public class UserService {
 	@Autowired
-	private UserDao userDao;
+	private UserDaoImpl userDao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 

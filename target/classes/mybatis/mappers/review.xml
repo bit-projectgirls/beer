@@ -26,12 +26,20 @@
 	WHERE reviewContent = #{reviewCnt}
 	]]>
 	</select>
+	<!-- 리뷰 SELECT BY beerNo -->
+	<select id="selectByBeerNo" resultType="ReviewVo" parameterType="int">
+	<![CDATA[
+	SELECT reviewNo, review.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname
+	FROM review, users
+	WHERE review.uuid = users.uuid AND beerNo = #{beerNo}
+	]]>
+	</select>
 	<!-- 태그 SELECT BY keyword -->
 	<select id="selectTagByKeyword" resultType="HashtagVo" parameterType="string">
 	<![CDATA[
 	SELECT tagNo, tagName, reviewNo, beerNo
 	FROM hashtag
-	WHERE UPPER(tagName) Like UPPER('%' ||  #{keyword} || '%')
+	WHERE UPPER(tagName) Like UPPER('%' || #{keyword} || '%')
 	]]>
 	</select>
 </mapper>

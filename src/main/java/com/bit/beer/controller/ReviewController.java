@@ -26,7 +26,6 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	
 	// 리뷰 DB에 저장
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String reviewAction(@ModelAttribute ReviewVo reviewVo) {
@@ -40,7 +39,7 @@ public class ReviewController {
 		if(tagList != null) {
 			reviewService.insertHashtag(reviewVo, tagList);
 		}
-		return "beer";
+		return "redirect:/beer/"+reviewVo.getBeerNo();
 	}
 	
 	@RequestMapping(value = "/searchtag", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/text; charset=utf8")

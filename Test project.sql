@@ -82,6 +82,8 @@ DROP SEQUENCE seq_tag_no;
 SELECT * FROM users;
 SELECT * FROM hashtag;
 SELECT * FROM review;
-SELECT tagNo, tagName, reviewNo, beerNo
-	FROM hashtag
-	WHERE UPPER(tagName) Like UPPER('%' || 'ÇØ½Ã' || '%');
+SELECT * FROM beer;
+SELECT reviewNo, users.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname
+FROM review, users
+WHERE review.uuid = users.uuid AND beerNo = 127486; 
+SELECT * FROM beer WHERE rownum <= 10;
