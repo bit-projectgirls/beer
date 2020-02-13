@@ -14,6 +14,18 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpHost;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,32 +71,7 @@ public class BeerController {
 		
 		// 쿠키 생성
 		Cookie[] cookies = request.getCookies();
-		String cookieValue = "";
-		if (cookies != null) {
-			for(Cookie cookie : cookies) {
-				if("beerViewed".equals(cookie.getName())) {
-					try {
-						cookieValue = URLDecoder.decode(cookie.getValue(), "UTF-8");
-						logger.info("cookie: " + cookieValue);
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		String[] cookieVals = cookieValue.split(",");
-		boolean isCookieExist = false;
-		// 쿠키 중복 체크
-		for(String cookieVal: cookieVals) {
-			if(cookieVal.equals(Integer.toString(beerNo))) {
-				isCookieExist = true;
-				break;
-			}
-		}
-		if(!isCookieExist) {
-			cookieValue = cookieValue + ',' + beerNo;
-		}
+		String cookieValue = beerService.setCookieList(cookies, beerNo);
 		Cookie cookie;
 		try {
 			cookie = new Cookie("beerViewed", URLEncoder.encode(cookieValue, "UTF-8"));
@@ -102,28 +89,10 @@ public class BeerController {
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String searchForm(HttpServletRequest request, Model model) {
 		logger.info("search page load");
+		
+		
 		Cookie[] cookies = request.getCookies();
-		List<BeerVo> list = new ArrayList<BeerVo>();
-		if (cookies != null) {
-			for(Cookie cookie : cookies) {
-				if("beerViewed".equals(cookie.getName())) {
-					String cookieValue;
-					try {
-						cookieValue = URLDecoder.decode(cookie.getValue(), "UTF-8");
-						String[] cookieVals = cookieValue.split(",");
-						for(String cookieVal : cookieVals) {
-							if(cookieVal.length() != 0) {
-								BeerVo vo = beerService.getBeerInfo(Integer.valueOf(cookieVal));
-								list.add(vo);
-							}
-						}
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+		List<BeerVo> list = beerService.getCookieList(cookies);
 		model.addAttribute("beerlist", list);
 		return "search";		
 	}
@@ -164,18 +133,12 @@ public class BeerController {
 		logger.info("idx: "+ idx);
 		
 		map.put("idx", idx);
-		List<String> list = beerService.getCountryList(map);
-//		test.addAll(Arrays.asList("한국", "독일", "프랑스", "일본", "중국", "벨기에", "미국"));
-		Iterator<String> iter = list.iterator();
-		while(iter.hasNext()) {
-			String country = iter.next();
-			if(!country.contains(keyword)) {
-				iter.remove();
-			}
-		}
+		List<Map<String, Object>> list = beerService.getCountryList(map);
+
 		return gson.toJson(list);
 	}
-		
+
+	// 필터 맥주 검색
 	@RequestMapping(value="/loadlist")
 	@ResponseBody
 	public String selectByCountry(HttpServletRequest request, Model model) {
@@ -194,19 +157,28 @@ public class BeerController {
 			idx = Integer.parseInt(request.getParameter("idx"));
 		}
 		map.put("idx", idx);
-//		if(ctrylist != null) {
-//			for(String str:ctrylist) {
-//				logger.info(str);
-//			}
-//		}
+
 		List<BeerVo> list = beerService.getBeerList(map);
-//		if(list != null) {
-//			logger.info("select result!!!!!");
-//			for(BeerVo vo: list) {
-//				logger.info(vo.toString());
-//			}
-//		}
+
 		logger.info(gson.toJson(list));
 		return gson.toJson(list);
+	}
+	
+	// 키워드 맥주 검색
+	@RequestMapping(value="/searchkeyword", method=RequestMethod.POST)
+	public String search(HttpServletRequest hprequest, @RequestParam(value="keyword") String keyword, Model model) {
+		logger.info("search start: " + keyword);
+		if(keyword.length() == 0) {
+			Cookie[] cookies = hprequest.getCookies();
+			List<BeerVo> list = beerService.getCookieList(cookies);
+			model.addAttribute("beerlist", list);
+			return "searchresult";
+		}
+		// 일라스틱서치 호출
+		List<BeerVo> resultList = beerService.search(keyword);
+		
+		logger.info("search result: " + resultList.toString());
+		model.addAttribute("beerlist", resultList);
+		return "searchresult";
 	}
 }

@@ -3,15 +3,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="beer">
 	<!-- 나라 목록 받아오기 -->
-	<select id="selectCountry" resultType="String" parameterType="map">
+	<select id="selectCountry" resultType="map" parameterType="map">
 	
-	SELECT country FROM (
+	SELECT * FROM (
     	SELECT ROWNUM AS idx, a.* FROM (
 	        SELECT DISTINCT country
 	        FROM beer
 	        WHERE country Like ('%'|| #{keyword} ||'%')
 	        ORDER BY country) a
-    	<![CDATA[WHERE ROWNUM <= #{idx} + 10)
+    	<![CDATA[WHERE ROWNUM <= #{idx} + 20)
 	WHERE idx > #{idx}
 	]]>
 	</select>
@@ -54,4 +54,12 @@
 		<![CDATA[WHERE ROWNUM <= #{idx} + 30)
 	WHERE idx > #{idx}]]>
 	</select>
+	<!-- 맥주 rating UPDATE -->
+	<update id="updateRating" parameterType="map">
+	<![CDATA[
+	UPDATE beer
+	SET rating = #{rating}
+	WHERE beerNo = #{beerNo}
+	]]>
+	</update>
 </mapper>

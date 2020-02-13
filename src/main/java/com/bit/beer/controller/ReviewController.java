@@ -1,6 +1,7 @@
 package com.bit.beer.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,8 @@ import com.google.gson.Gson;
 public class ReviewController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
-
+	
+	
 	@Autowired
 	private ReviewService reviewService;
 	
@@ -30,16 +32,25 @@ public class ReviewController {
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String reviewAction(@ModelAttribute ReviewVo reviewVo) {
 		logger.info("reviewAction: " + reviewVo.toString());
-		String reviewCnt = reviewVo.getReviewContent();
+		
+		// reviewNo 세팅 후 DB에 저장
+		String reviewNo = UUID.randomUUID().toString();
+		reviewVo.setReviewNo(reviewNo);
 		reviewService.insertReview(reviewVo);
+		
 		// 해시태그 분리 후 DB에 저장
-		reviewVo = reviewService.getReviewByContent(reviewCnt);	// DB에서 reviewNo 받아오기
+		String reviewCnt = reviewVo.getReviewContent();
 		List<String> tagList = reviewService.ExtractHashtag(reviewCnt);
 		logger.info("태그추출: " + tagList.toString());
 		if(tagList != null) {
 			reviewService.insertHashtag(reviewVo, tagList);
 		}
-		return "redirect:/beer/"+reviewVo.getBeerNo();
+		
+		// 레이팅 정보 업데이트
+		logger.info("beerNo: " + reviewVo.getBeerNo());
+		int beerNo = reviewVo.getBeerNo();
+		reviewService.updateRating(beerNo);
+		return "redirect:/beer/" + beerNo;
 	}
 	
 	@RequestMapping(value = "/searchtag", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/text; charset=utf8")

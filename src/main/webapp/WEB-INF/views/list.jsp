@@ -26,7 +26,7 @@
 	}
 	#modal .modal_content {
 		width:100%;
-		height:400px;
+		height:300px;
 		background:#fff;
 	}
 	#modal .modal_layer {
@@ -38,22 +38,39 @@
 		background:rgba(0, 0, 0, 0.5);
 		z-index:-1;
 	}
-	#list_content{
+	#list_content {
 		position:absolute;
 		top:50px;
 	}
-	input[name="country"] + label {
+	input[type="checkbox"] + label {
 		display:inline-block;
-		border: 1px solid #fcba03;
-		border-radius: 20px;
-		margin: 2px;
-		padding: 2px 5px;	
+		border:1px solid #fcba03;
+		border-radius:20px;
+		margin:2px;
+		padding:2px 5px;	
 	}
-	input[name="country"]:checked + label{
+	input[type="checkbox"]:checked + label {
 		background-color:#fcba03;
 	}
-	input[name="country"] {
-		display: none;
+	input[type="checkbox"] {
+		display:none;
+	}
+	#countrylist {
+		overflow:auto;
+		height:150px;
+	}
+	ul{
+		list-style:none;
+		padding:10px;
+	}
+	li{
+		background-color:#f7f4da;
+	}
+	.beerpic {
+		width:80px;
+		height:100px;
+		float: left;
+		border: 1px solid #303030;
 	}
 </style>
 </head>
@@ -99,18 +116,28 @@
 	</div>
 	</div>
 	<div id="list_content">
-		<table id="beerlist" class="table table-sm">
+		<ul id="beerlist" class="beerlist">
 		<c:forEach items="${ beerlist }" var="beerVo">
-			<tr>
-				<td class="beeridx" data-idx="${ beerVo.idx }"></td>
-				<td><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></td>
-				<td>by ${ beerVo.company }</td>
-			</tr>
+			<li>
+				<div class='beerpic'>그림</div>
+				<dl class='lst_dsc'>
+				<dd>${ beerVo.company }</dd>
+				<dd class='beeridx' data-idx="${ beerVo.idx }"></td>
+				<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+				<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
+				<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+				</dl>
+			</li>
 		</c:forEach>
-		</table>
+		</ul>
 	</div>
 </body>
 <script>
+var ctrylist = [];
+var chktypelist = [];
+var minabv = 0;
+var maxabv = 20;
+var lastidx = 0;
 //검색 필터 보여주기
 function modal_OnOff(v){
 	if(v == "4"){
@@ -141,95 +168,94 @@ function div_OnOff(v){
   }
 }
 
-var ctrylist = [];
-var chktypelist = [];
-var minabv = 0;
-var maxabv = 20;
-var lastidx = 0;
-$(document).ready(function() {
-	//국가 검색시 결과 가져오기
-	$("#menu1").on("click", function(event){
-		$.ajax({
-		    url : "<c:url value="/searchcountry"/>",
-		    dataType : "json",
-		    type : "post",
-		    data : {keyword: ""},
-		    success : function(result){
-		    	renderButton(result);
-		    }
-		});
-	})
-	$("#option1").on("change", function(event){
-		$.ajax({
-		    url : "<c:url value="/searchcountry"/>",
-		    dataType : "json",
-		    type : "post",
-		    data : {keyword: ""},
-		    success : function(result){
-		    	renderButton(result);
-		    }
-		});
-	})
-	$("#keywordinput").keyup(function(event){
-		var keyword = document.getElementById("keywordinput").value.trim();
-		$.ajax({
-		    url : "<c:url value="/searchcountry"/>",
-		    dataType : "json",
-		    type : "post",
-		    data : {keyword: keyword},
-		    success : function(result){
-		    	renderButton(result);
-		    }
-		});
-	})
-	// 체크시
-	$("#chkform").on("change", function(event){
-		$("input[name='country']").each(function(i){
-			if(ctrylist.includes($(this).val())){
-				var idx = ctrylist.indexOf($(this).val());
-				ctrylist.splice(idx, 1);
-			}
-		});
-		$("input[name='country']:checked").each(function(i){
-			   ctrylist.push($(this).val());
-		});
-		$("input[name='beertype']").each(function(i){
-			if(chktypelist.includes($(this).val())){
-				var idx = chktypelist.indexOf($(this).val());
-				chktypelist.splice(idx, 1);
-			}
-		});
-		$("input[name='beertype']:checked").each(function(i){
-			   chktypelist.push($(this).val());
-		});
-		console.log(ctrylist);
-		console.log(chktypelist);
-		$.ajax({
-		    url : "<c:url value="/loadlist"/>",
-		    type : "post",
-		    dataType : "json",
-		    traditional : true,
-		    async:false,
-		    data : {
-		    	typelist: chktypelist,
-		    	ctrylist: ctrylist,
-		    	minabv: minabv,
-		    	maxabv: maxabv,
-		    	idx: 0
-		    	},
-		    success : function(result){
-		    	var html = "";
-				$.each(result, function(index, value){
-					html += renderList(value);
-				});
-		    	$("#beerlist").html(html);
-		    },
-		    error: function(request, status, error) {
-				console.error("Error:", error);
-			}
-		});
-	})
+//국가 검색시 결과 가져오기
+$("#menu1").on("click", function(event){
+	$.ajax({
+	    url : "<c:url value="/searchcountry"/>",
+	    dataType : "json",
+	    type : "post",
+	    data : {keyword: ""},
+	    success : function(result){
+	    	var str = renderButton(result);
+	    	$("#countrylist").html(str);
+	    }
+	});
 })
+$("#option1").on("change", function(event){
+	$.ajax({
+	    url : "<c:url value="/searchcountry"/>",
+	    dataType : "json",
+	    type : "post",
+	    data : {keyword: ""},
+	    success : function(result){
+	    	var str = renderButton(result);
+	    	$("#countrylist").html(str);
+	    }
+	});
+})
+$("#keywordinput").keyup(function(event){
+	var keyword = document.getElementById("keywordinput").value.trim();
+	$.ajax({
+	    url : "<c:url value="/searchcountry"/>",
+	    dataType : "json",
+	    type : "post",
+	    data : {keyword: keyword},
+	    success : function(result){
+	    	var str = renderButton(result);
+	    	$("#countrylist").html(str);
+	    }
+	});
+})
+// 체크시
+$("#chkform").on("change", function(event){
+	$("input[name='country']").each(function(i){
+		if(ctrylist.includes($(this).val())){
+			console.log("pop!", $(this).val());
+			var idx = ctrylist.indexOf($(this).val());
+			ctrylist.splice(idx, 1);
+		}
+	});
+	$("input[name='country']:checked").each(function(i){
+		console.log("push!", $(this).val());
+		ctrylist.push($(this).val());
+	});
+	$("input[name='beertype']").each(function(i){
+		if(chktypelist.includes($(this).val())){
+			var idx = chktypelist.indexOf($(this).val());
+			chktypelist.splice(idx, 1);
+		}
+	});
+	$("input[name='beertype']:checked").each(function(i){
+		   chktypelist.push($(this).val());
+	});
+	console.log("crtylist: ", ctrylist);
+	console.log("chktypelist: ", chktypelist);
+	$.ajax({
+	    url : "<c:url value="/loadlist"/>",
+	    type : "post",
+	    dataType : "json",
+	    traditional : true,
+	    async:false,
+	    data : {
+	    	typelist: chktypelist,
+	    	ctrylist: ctrylist,
+	    	minabv: minabv,
+	    	maxabv: maxabv,
+	    	idx: 0
+	    	},
+	    success : function(result){
+	    	var html = "";
+			$.each(result, function(index, value){
+				html += renderList(value);
+			});
+	    	$("#beerlist").html(html);
+	    },
+	    error: function(request, status, error) {
+			console.error("Error:", error);
+		}
+	});
+})
+
 
 // 도수 range slider
 $("#slider-range").slider({
@@ -273,6 +299,28 @@ $("#slider-range").slider({
 });
 
 // 무한 스크롤
+$("#countrylist").scroll(function(){
+	var innerHeight = $(this).innerHeight(); 
+	var scroll=$(this).scrollTop() + $(this).innerHeight(); 
+	var height=$(this)[0].scrollHeight;
+	var keyword = document.getElementById("keywordinput").value.trim();
+	if (scroll >= height){
+		var idx = $(".ctryidx:last").attr("value");
+		console.log("crtyidx: " + idx);
+		$.ajax({
+		    url : "<c:url value="/searchcountry"/>",
+		    dataType : "json",
+		    type : "post",
+		    data : {
+		    	keyword: keyword,
+		    	idx: idx},
+		    success : function(result){
+		    	var str = renderButton(result);
+		    	$("#countrylist").append(str);
+		    }
+		});
+	}
+})
 $(window).scroll(function(){
 	if ($(window).scrollTop() == $(document).height() - $(window).height()){
 		lastidx = $(".beeridx:last").attr("data-idx");
@@ -303,27 +351,36 @@ $(window).scroll(function(){
 		});
 	}
 })
+
 // 태그 뿌려주기 
 function renderList(vo){
-	var html = "<tr><td class='beeridx' data-idx='" + vo.idx 
-	+ "'></td><td><a href='<c:url value='/beer/" + vo.beerNo + "'/>'>" +
-	vo.beerName + "</a></td><td>by " + vo.company + "</td></tr>"
+	var html = "<li><div class='beerpic'>그림</div><dl class='lst_dsc'><dd>" + vo.company + 
+	"</dd><dd class='beeridx' data-idx='" + vo.idx + 
+	"'></td><dt class='beername'><a href='<c:url value='/beer/" + vo.beerNo + 
+	"'/>'>" + vo.beerName + "</a></dt><dd class='beerinfo'>" + vo.type + 
+	" from " + vo.country + "</dd><dd class='beerrating'>" + vo.ratingBA + 
+	"</dd></dl></li>";
+	//var html = "<tr><td class='beeridx' data-idx='" + vo.idx 
+	//+ "'></td><td><a href='<c:url value='/beer/" + vo.beerNo + "'/>'>" +
+	//vo.beerName + "</a></td><td>by " + vo.company + "</td></tr>"
 	return html;
 }
 function renderButton(obj){
 	var str = "";
 	$.each(obj, function(index, value){
-		if(ctrylist.includes(value)){
-			str += "<input name='country' class='countrycheck' type='checkbox' value='"
-			+ value + "' id='" + value + "' checked><label for='" +
-			value + "'>" + value + "</label>";
+		if(ctrylist.includes(value.COUNTRY)){
+			str += "<input type='hidden' class='ctryidx' name='countryidx' value='" + value.IDX +
+			"'><input name='country' class='countrycheck' type='checkbox' value='"
+			+ value.COUNTRY + "' id='" + value.COUNTRY + "' checked><label for='" +
+			value.COUNTRY + "'>" + value.COUNTRY + "</label>";
 		} else{
-    		str += "<input name='country' class='countrycheck' type='checkbox' value='"
-    		+ value + "' id='" + value + "'><label for='" +
-    		value + "'>" + value + "</label>";
+			str += "<input type='hidden' class='ctryidx' name='countryidx' value='" + value.IDX +
+			"'><input name='country' class='countrycheck' type='checkbox' value='"
+    		+ value.COUNTRY + "' id='" + value.COUNTRY + "'><label for='" +
+    		value.COUNTRY + "'>" + value.COUNTRY + "</label>";
 		}
 	});
-	$("#countrylist").html(str);
+	return str;
 }
 </script>
 </html>

@@ -3,7 +3,7 @@ package com.bit.beer.repository;
 import java.util.Date;
 
 public class ReviewVo {
-	private int reviewNo;
+	private String reviewNo;
 	private String uuid;
 	private String nickname;
 	private int beerNo;
@@ -13,10 +13,10 @@ public class ReviewVo {
 	private Date regDate;
 	private int likeCnt;
 	
-	public int getReviewNo() {
+	public String getReviewNo() {
 		return reviewNo;
 	}
-	public void setReviewNo(int reviewNo) {
+	public void setReviewNo(String reviewNo) {
 		this.reviewNo = reviewNo;
 	}
 	public String getUuid() {

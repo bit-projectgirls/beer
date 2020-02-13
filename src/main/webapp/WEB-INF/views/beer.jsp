@@ -28,6 +28,7 @@
   <div>
 	Beeradvocate
 	<h3>${ beerVo.ratingBA }</h3><br/>
+	<h3>${ beerVo.rating }</h3><br/>
   </div>
   <div id="rating">
   	리뷰 남기기

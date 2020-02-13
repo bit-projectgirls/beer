@@ -26,14 +26,20 @@
 
 	<h5>최근 검색 기록</h5>
 	<div id="searchresult">
-		<table class="table table-sm">
+		<ul id="beerlist" class="beerlist">
 		<c:forEach items="${ beerlist }" var="beerVo">
-			<tr>
-				<td><a href="<c:url value="/beer/${ beerVo.beerNo }"/>"><strong>${ beerVo.beerName }</strong></a></td>
-				<td>by ${ beerVo.company }</td>
-			</tr>
+			<li>
+				<div class='beerpic'>그림</div>
+				<dl class='lst_dsc'>
+				<dd>by ${ beerVo.company }</dd>
+				<dd class='beeridx' data-idx="${ beerVo.idx }"></td>
+				<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+				<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
+				<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+				</dl>
+			</li>
 		</c:forEach>
-</table>
+		</ul>
 	</div>
 </div>
 </body>
@@ -42,19 +48,16 @@ $(document).ready(function() {
 	console.log(document.cookie);
 	$("#keywordinput").keyup(function(event){
 		var keyword = document.getElementById("keywordinput").value.trim();
-		if(keyword.length == 0){
-			// 쿠키 사용 검색기록 출력
-		}else{
-			$.ajax({
-			    url : "<c:url value="/searchkeyword"/>",
-			    dataType : "html",
-			    type : "post",
-			    data : {keyword: keyword},
-			    success : function(result){
-			        $("#searchresult").html(result);
-			    }
-			});
-		}
+
+		$.ajax({
+		    url : "<c:url value="/searchkeyword"/>",
+		    dataType : "html",
+		    type : "post",
+		    data : {keyword: keyword},
+		    success : function(result){
+		        $("#searchresult").html(result);
+		    }
+		});
 	})
 });
 </script>

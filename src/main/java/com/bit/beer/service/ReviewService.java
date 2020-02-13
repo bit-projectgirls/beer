@@ -1,7 +1,9 @@
 package com.bit.beer.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,13 +47,28 @@ public class ReviewService {
 		return 1 == insertedCount;
 	}
 	
-	public ReviewVo getReviewByContent(String reviewCnt) {
-		ReviewVo vo = reviewDao.selectReviewByContent(reviewCnt);
-		return vo;
-	}
-	
 	public List<HashtagVo> getHashtagByKeyword(String keyword) {
 		List<HashtagVo> list = reviewDao.selectTagByKeyword(keyword);
 		return list;
+	}
+	
+	// rating update
+	public boolean updateRating(int beerNo) {
+		List<ReviewVo> list = reviewDao.selectReviewByBeerNo(beerNo);
+		double sum = 0;
+		double cnt = 0;
+		double rating = 0;
+		if(list != null) {
+			for(ReviewVo vo: list) {
+				sum += vo.getRating();
+				cnt++;
+			}
+			rating = Math.round((sum / cnt) * 100) / 100.0;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("beerNo", beerNo);
+		map.put("rating", rating);
+		int updatedCount = reviewDao.updateRating(map);
+		return 1 == updatedCount;
 	}
 }

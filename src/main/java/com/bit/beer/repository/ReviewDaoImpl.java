@@ -1,6 +1,7 @@
 package com.bit.beer.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +36,22 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public ReviewVo selectReviewByContent(String reviewCnt) {
-		ReviewVo vo = sqlSession.selectOne("review.selectByReviewContent", reviewCnt);
-		
-		return vo;
-	}
-
-	@Override
 	public List<HashtagVo> selectTagByKeyword(String keyword) {
 		List<HashtagVo> list = sqlSession.selectList("review.selectTagByKeyword", keyword);
 
 		return list;
+	}
+	
+	@Override
+	public List<ReviewVo> selectReviewByBeerNo(int beerNo) {
+		List<ReviewVo> list = sqlSession.selectList("review.selectByBeerNo", beerNo);
+		return list;
+	}
+
+	@Override
+	public int updateRating(Map<String, Object> map) {
+		int updatedCount = sqlSession.update("beer.updateRating", map);
+		return updatedCount;
 	}
 
 }

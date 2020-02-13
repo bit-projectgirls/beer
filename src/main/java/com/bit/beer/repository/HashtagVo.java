@@ -3,7 +3,7 @@ package com.bit.beer.repository;
 public class HashtagVo {
 	private int tagNo;
 	private String tagName;
-	private int reviewNo;
+	private String reviewNo;
 	private int beerNo;
 	
 	public int getTagNo() {
@@ -18,10 +18,10 @@ public class HashtagVo {
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
 	}
-	public int getReviewNo() {
+	public String getReviewNo() {
 		return reviewNo;
 	}
-	public void setReviewNo(int reviewNo) {
+	public void setReviewNo(String reviewNo) {
 		this.reviewNo = reviewNo;
 	}
 	public int getBeerNo() {

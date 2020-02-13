@@ -38,11 +38,11 @@ CREATE TABLE hashtag (
     tagNo NUMBER PRIMARY KEY,
     tagName VARCHAR2(100) NOT NULL,
     beerNo NUMBER NOT NULL, -- foriegn key
-    reviewNo NUMBER NOT NULL
+    reviewNo VARCHAR2(200) NOT NULL
 );
 
 CREATE TABLE review (
-    reviewNo    NUMBER PRIMARY KEY,
+    reviewNo    VARCHAR2(200) PRIMARY KEY,
     uuid        VARCHAR2(200), -- foreign key
     beerNo      NUMBER, -- foreign key
     reviewContent   VARCHAR2(4000),
@@ -83,7 +83,18 @@ SELECT * FROM users;
 SELECT * FROM hashtag;
 SELECT * FROM review;
 SELECT * FROM beer;
+SELECT * FROM beer WHERE beerno = 465777;
 SELECT reviewNo, users.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname
 FROM review, users
-WHERE review.uuid = users.uuid AND beerNo = 127486; 
+WHERE review.uuid = users.uuid; 
 SELECT * FROM beer WHERE rownum <= 10;
+SELECT country FROM(
+    SELECT ROWNUM AS idx, a.* FROM(
+        SELECT DISTINCT country
+        FROM beer
+        WHERE country Like ('%'|| '' ||'%')
+        ORDER BY country) a
+    WHERE ROWNUM <= 40)
+WHERE idx > 0;
+UPDATE beer  SET rating = 0  WHERE beerNo = 5;
+commit;

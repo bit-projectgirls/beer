@@ -9,6 +9,7 @@ public class BeerVo {
 	private String country;
 	private String company;
 	private double abv;
+	private double rating;
 	private double ratingBA;
 	private String note;
 	
@@ -60,6 +61,12 @@ public class BeerVo {
 	public void setAbv(double abv) {
 		this.abv = abv;
 	}
+	public double getRating() {
+		return rating;
+	}
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
 	public double getRatingBA() {
 		return ratingBA;
 	}
@@ -76,8 +83,8 @@ public class BeerVo {
 	@Override
 	public String toString() {
 		return "BeerVo [idx=" + idx + ", beerNo=" + beerNo + ", beerName=" + beerName + ", beerPic=" + beerPic
-				+ ", type=" + type + ", country=" + country + ", company=" + company + ", abv=" + abv + ", ratingBA="
-				+ ratingBA + ", note=" + note + "]";
+				+ ", type=" + type + ", country=" + country + ", company=" + company + ", abv=" + abv + ", rating="
+				+ rating + ", ratingBA=" + ratingBA + ", note=" + note + "]";
 	}
 	
 }

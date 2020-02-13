@@ -14,8 +14,8 @@ public class BeerDaoImpl implements BeerDao {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<String> selectCountry(Map<String, Object> keyword) {
-		List<String> list = sqlSession.selectList("beer.selectCountry", keyword);
+	public List<Map<String, Object>> selectCountry(Map<String, Object> keyword) {
+		List<Map<String, Object>> list = sqlSession.selectList("beer.selectCountry", keyword);
 		return list;
 	}
 	
@@ -37,9 +37,5 @@ public class BeerDaoImpl implements BeerDao {
 		return result;
 	}
 
-	@Override
-	public List<ReviewVo> selectReviewByBeerNo(int beerNo) {
-		List<ReviewVo> list = sqlSession.selectList("review.selectByBeerNo", beerNo);
-		return list;
-	}
+	
 }

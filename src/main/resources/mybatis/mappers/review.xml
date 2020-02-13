@@ -7,7 +7,7 @@
 	<![CDATA[
 	INSERT INTO review
 	(reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt)
-	VALUES(seq_review_no.nextVal, #{uuid}, #{beerNo}, #{reviewContent}, #{reviewPic}, #{rating}, sysdate, 0)
+	VALUES(#{reviewNo}, #{uuid}, #{beerNo}, #{reviewContent}, #{reviewPic}, #{rating}, sysdate, 0)
 	]]>
 	</insert>
     <!-- 해시태그 INSERT SQL -->
@@ -18,14 +18,6 @@
 	VALUES(seq_tag_no.nextVal, #{tagName}, #{reviewNo}, #{beerNo})
 	]]>
 	</insert>
-	<!-- 리뷰 SELECT BY reviewContent -->
-	<select id="selectByReviewContent" resultType="ReviewVo" parameterType="string">
-	<![CDATA[
-	SELECT reviewNo, uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt
-	FROM review
-	WHERE reviewContent = #{reviewCnt}
-	]]>
-	</select>
 	<!-- 리뷰 SELECT BY beerNo -->
 	<select id="selectByBeerNo" resultType="ReviewVo" parameterType="int">
 	<![CDATA[
