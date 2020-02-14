@@ -2,13 +2,11 @@ package com.bit.beer.service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.SearchRequest;
@@ -24,8 +22,6 @@ import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bit.beer.repository.BeerDaoImpl;
 import com.bit.beer.repository.BeerVo;
@@ -60,9 +56,19 @@ public class BeerService {
 		return list;
 	}
 	
+	public List<BeerVo> getBeerList(String keyword){
+		List<BeerVo> list = beerDao.selectBeerByTag(keyword);
+		return list;
+	} 
+	
 	public List<ReviewVo> getReviewList(int beerNo){
 		List<ReviewVo> list = reviewDao.selectReviewByBeerNo(beerNo);
 		return list;
+	}
+	
+	public Boolean insertBeerLike(Map<String, Object> map) {
+		int insertedCount = beerDao.insertBeerLike(map);
+		return 1 == insertedCount;
 	}
 	
 	// 최근 검색한 맥주 리스트

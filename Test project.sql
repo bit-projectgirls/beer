@@ -68,6 +68,11 @@ CREATE SEQUENCE seq_review_no
     START WITH 1
     INCREMENT BY 1
     NOCACHE;
+
+CREATE SEQUENCE seq_bLike_no
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE;
     
 -- 테이블 삭제
 DROP TABLE users;
@@ -82,19 +87,20 @@ DROP SEQUENCE seq_tag_no;
 SELECT * FROM users;
 SELECT * FROM hashtag;
 SELECT * FROM review;
-SELECT * FROM beer;
-SELECT * FROM beer WHERE beerno = 465777;
-SELECT reviewNo, users.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname
-FROM review, users
-WHERE review.uuid = users.uuid; 
-SELECT * FROM beer WHERE rownum <= 10;
-SELECT country FROM(
-    SELECT ROWNUM AS idx, a.* FROM(
-        SELECT DISTINCT country
-        FROM beer
-        WHERE country Like ('%'|| '' ||'%')
-        ORDER BY country) a
-    WHERE ROWNUM <= 40)
-WHERE idx > 0;
-UPDATE beer  SET rating = 0  WHERE beerNo = 5;
+SELECT * FROM beer ORDER BY beerno;
+DELETE FROM beer_sample
+WHERE beerno IN (
+    SELECT beerno FROM (
+        SELECT beerno, ROWNUM rn FROM beer_sample ORDER BY beerno)
+    WHERE rn > 500);
 commit;
+SELECT * FROM beer_sample;
+SELECT DISTINCT b.beerNo, beerName, beerPic, company, country, type, abv, rating, ratingBA, note
+FROM beer b, hashtag h
+WHERE b.beerNo = h.beerNo AND tagname Like '해시태그';
+SELECT count(*)
+FROM beer_like
+WHERE beerNo = 5;
+INSERT INTO beer_like
+(bLikeNo, uuid, beerNo, regDate)
+VALUES(seq_bLike_no.nextVal, 1, 5, sysdate);

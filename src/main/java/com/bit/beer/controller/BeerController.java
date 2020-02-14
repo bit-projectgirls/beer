@@ -2,30 +2,16 @@ package com.bit.beer.controller;
 
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpHost;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.FieldSortBuilder;
-import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.beer.repository.BeerVo;
 import com.bit.beer.repository.ReviewVo;
+import com.bit.beer.repository.UserVo;
 import com.bit.beer.service.BeerService;
 import com.google.gson.Gson;
 
@@ -83,6 +70,17 @@ public class BeerController {
 			e.printStackTrace();
 		}
 		return "beer";
+	}
+	
+	// 좋아요 기능
+	@RequestMapping(value="/blike")
+	public String beerLikeAction(@RequestParam(value="beerNo") int beerNo, HttpSession session) {
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		String uuid = authUser.getUuid();
+		
+		// 이미 좋아요했는지 확인
+		boolean checkLike;
+		return null;
 	}
 	
 	// 검색 페이지
@@ -138,7 +136,7 @@ public class BeerController {
 		return gson.toJson(list);
 	}
 
-	// 필터 맥주 검색
+	// 필터로 맥주 검색
 	@RequestMapping(value="/loadlist")
 	@ResponseBody
 	public String selectByCountry(HttpServletRequest request, Model model) {
@@ -164,7 +162,7 @@ public class BeerController {
 		return gson.toJson(list);
 	}
 	
-	// 키워드 맥주 검색
+	// 키워드로 맥주 검색
 	@RequestMapping(value="/searchkeyword", method=RequestMethod.POST)
 	public String search(HttpServletRequest hprequest, @RequestParam(value="keyword") String keyword, Model model) {
 		logger.info("search start: " + keyword);
@@ -179,6 +177,15 @@ public class BeerController {
 		
 		logger.info("search result: " + resultList.toString());
 		model.addAttribute("beerlist", resultList);
+		return "searchresult";
+	}
+	
+	// 해시태그로 맥주 검색
+	@RequestMapping(value="/searchbytag")
+	public String search(@RequestParam(value="keyword") String keyword, Model model) {
+		logger.info("search by tag:" + keyword);
+		List<BeerVo> list = beerService.getBeerList(keyword);
+		model.addAttribute("beerlist", list);
 		return "searchresult";
 	}
 }

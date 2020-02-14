@@ -65,25 +65,6 @@
 	var tributeMultipleTriggers = new Tribute({
         collection: [
           {
-            // The function that gets call on select that retuns the content to insert
-            selectTemplate: function(item) {
-              if (this.range.isContentEditable(this.current.element)) {
-                return (
-                  '<a href="http://zurb.com" title="' +
-                  item.original.email +
-                  '">@' +
-                  item.original.value +
-                  "</a>"
-                );
-              }
-
-              return "@" + item.original.value;
-            },
-
-            // the array of objects
-            values: []
-          },
-          {
             // The symbol that starts the lookup
             trigger: "#",
 
@@ -92,8 +73,7 @@
               if (typeof item === "undefined") return "언디파인드";
               if (this.range.isContentEditable(this.current.element)) {
                 return (
-                  '#' +
-                  item.original.tagName 
+                	"#" + item.original.tagName
                 );
               }
 			console.log(item.original.tagName);

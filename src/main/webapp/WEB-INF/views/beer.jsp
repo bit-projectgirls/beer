@@ -3,57 +3,80 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- jQuery -->
-	<script src="<c:url value="/resources/jquery/jquery-3.4.1.min.js"/>"></script>
-    <!-- star rating -->
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet"/>
-	<link href="<c:url value="/resources/star-rating.css"/>" media="all" rel="stylesheet" type="text/css" />
-	<script src="<c:url value="/resources/star-rating.js"/>" type="text/javascript"></script>
-	<link href="<c:url value="/resources/krajee-fa/theme.css"/>" media="all" rel="stylesheet" type="text/css" />
-	<script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
-	<!-- font awesome -->
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  </head>
-  <body>
-  <a href="<c:url value="/list"/>">뒤로</a>
-  <div>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Bootstrap -->
+<link rel="stylesheet" href="<c:url value="/resources/bootstrap/css/bootstrap.css"/>"/>
+<!-- jQuery -->
+<script src="<c:url value="/resources/jquery/jquery-3.4.1.min.js"/>"></script>
+<!-- star rating -->
+<link href="<c:url value="/resources/star-rating.css"/>" media="all" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/resources/star-rating.js"/>" type="text/javascript"></script>
+<link href="<c:url value="/resources/krajee-fa/theme.css"/>" media="all" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
+<!-- font awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+<style>
+	html, body {
+	    position: relative;
+	    height: 100%;
+	}
+	body {
+	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	    font-size: 14px;
+	    color:#000;
+	    margin:0;
+	    padding:0;
+	}
+	#menubar {
+	background:#fff;
+	z-index:99;
+  	position:fixed;
+  	bottom: 0;
+  	width: 100%;
+	}
+</style>
+</head>
+<body>
+	<a href="<c:url value="/list"/>">뒤로</a>
+	<div>
 	${ beerVo.company }<br/>
 	<h3>${ beerVo.beerName }</h3><br/>
 	${ beerVo.type } from ${ beerVo.country }<br/>
-  </div>
-  <div>
-	Beeradvocate
-	<h3>${ beerVo.ratingBA }</h3><br/>
-	<h3>${ beerVo.rating }</h3><br/>
-  </div>
-  <div id="rating">
-  	리뷰 남기기
-    <form id="ratingform" method="post" action="<c:url value="/reviewform"/>">
-    <input id="beerNo" type="hidden" name="beerNo" value="${ beerVo.beerNo }">
+	</div>
+	<div>
+	<h3>Beeradvocate:${ beerVo.ratingBA }</h3><br/>
+	<h3>우리별점:${ beerVo.rating }</h3><br/>
+	</div>
+	<div id="rating">
+	리뷰 남기기
+	<form id="ratingform" method="post" action="<c:url value="/reviewform"/>">
+	<input id="beerNo" type="hidden" name="beerNo" value="${ beerVo.beerNo }">
 	<input id="starRating" type="text" value="${ rating }" class="kv-fa rating" data-size="xl" showClear="false">
 	</form>
-  </div>
-  <div>
-  	리뷰<br/>
-  	<c:if test="${ empty reviewlist }">
-  		아직 작성된 리뷰가 없어요.
-  	</c:if>
-  	<c:if test="${ not empty reviewlist }">
-	    <table class="table table-sm">
+	</div>
+	<div>
+	 	리뷰<br/>
+	 	<c:if test="${ empty reviewlist }">
+			아직 작성된 리뷰가 없어요.
+		</c:if>
+		<c:if test="${ not empty reviewlist }">
+		<table class="table table-sm">
 		<c:forEach items="${ reviewlist }" var="reviewVo">
-			<tr>
-				<td>${ reviewVo.reviewContent }</td>
-				<td><input name="ratingReview" value="${ reviewVo.rating }" class="kv-fa rating"></td>
-				<td>by ${ reviewVo.nickname }</td>
-			</tr>
+		<tr>
+			<td>${ reviewVo.reviewContent }</td>
+			<td><input name="ratingReview" value="${ reviewVo.rating }" class="kv-fa rating"></td>
+			<td>by ${ reviewVo.nickname }</td>
+		</tr>
 		</c:forEach>
-	    </table>
-    </c:if>
-  </div>
+		</table>
+		</c:if>
+	</div>
+	<footer class="navbar" id="menubar">
+		<c:import url="/WEB-INF/views/footer.jsp"/>
+	</footer>
 </body>
 <script>
 	//star rating

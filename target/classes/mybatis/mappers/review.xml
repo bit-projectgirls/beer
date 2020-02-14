@@ -29,7 +29,7 @@
 	<!-- 태그 SELECT BY keyword -->
 	<select id="selectTagByKeyword" resultType="HashtagVo" parameterType="string">
 	<![CDATA[
-	SELECT tagNo, tagName, reviewNo, beerNo
+	SELECT DISTINCT tagName
 	FROM hashtag
 	WHERE UPPER(tagName) Like UPPER('%' || #{keyword} || '%')
 	]]>

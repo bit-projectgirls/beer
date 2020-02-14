@@ -8,5 +8,7 @@ public interface BeerDao {
 	public List<String> selectType();
 	public BeerVo selectBeerByNo(int beerNo);
 	public List<BeerVo> selectBeer(Map<String, Object> list);
-	
+	public List<BeerVo> selectBeerByTag(String keyword);
+	public int updateRating(Map<String, Object> map);
+	public int insertBeerLike(Map<String, Object> map);
 }

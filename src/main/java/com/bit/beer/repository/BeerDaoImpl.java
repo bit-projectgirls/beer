@@ -33,9 +33,26 @@ public class BeerDaoImpl implements BeerDao {
 
 	@Override
 	public List<BeerVo> selectBeer(Map<String, Object> map) {
-		List<BeerVo> result = sqlSession.selectList("beer.selectBeer", map);
-		return result;
+		List<BeerVo> list = sqlSession.selectList("beer.selectBeer", map);
+		return list;
 	}
 
+	@Override
+	public List<BeerVo> selectBeerByTag(String keyword) {
+		List<BeerVo> list = sqlSession.selectList("beer.selectBeerByTag", keyword);
+		return list;
+	}
+	
+	@Override
+	public int updateRating(Map<String, Object> map) {
+		int updatedCount = sqlSession.update("beer.updateRating", map);
+		return updatedCount;
+	}
+
+	@Override
+	public int insertBeerLike(Map<String, Object> map) {
+		int insertedCount = sqlSession.update("beer.insertLike", map);
+		return insertedCount;
+	}
 	
 }

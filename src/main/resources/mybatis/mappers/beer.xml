@@ -4,7 +4,6 @@
 <mapper namespace="beer">
 	<!-- 나라 목록 받아오기 -->
 	<select id="selectCountry" resultType="map" parameterType="map">
-	
 	SELECT * FROM (
     	SELECT ROWNUM AS idx, a.* FROM (
 	        SELECT DISTINCT country
@@ -54,6 +53,12 @@
 		<![CDATA[WHERE ROWNUM <= #{idx} + 30)
 	WHERE idx > #{idx}]]>
 	</select>
+	<!-- 맥주 SELECT by hashtag -->
+	<select id="selectBeerByTag" resultType="BeerVo" parameterType="String">
+    SELECT DISTINCT b.beerNo, beerName, beerPic, company, country, type, abv, rating, ratingBA, note
+    FROM beer b, hashtag h
+    WHERE b.beerNo = h.beerNo AND tagname Like #{keyword}
+	</select>
 	<!-- 맥주 rating UPDATE -->
 	<update id="updateRating" parameterType="map">
 	<![CDATA[
@@ -62,4 +67,26 @@
 	WHERE beerNo = #{beerNo}
 	]]>
 	</update>
+	<!-- 좋아요 INSERT -->
+	<insert id="insertLike" parameterType="map">
+	<![CDATA[
+	INSERT INTO beer_like
+	(bLikeNo, uuid, beerNo, regDate)
+	VALUES(seq_bLike_no.nextVal, #{uuid}, #{beerNo}, sysdate)
+	]]>
+	</insert>
+	<!-- 맥주 좋아요수 UPDATE -->
+	<update id="updateLike" parameterType="map">
+	<![CDATA[
+	UPDATE beer
+	SET likeCnt = likeCnt + 1
+	WHERE beerNo = #{beerNo}
+	]]>
+	</update>
+	<!-- 맥주 좋아요수 SELECT -->
+	<select id="selectLikeCnt" resultType="int" parameterType="int">
+    SELECT count(*)
+    FROM beer_like
+    WHERE beerNo = #{beerNo}
+	</select>
 </mapper>

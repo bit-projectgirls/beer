@@ -17,6 +17,17 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<c:url value="/resources/jquery.ui.touch-punch.min.js"/>"></script>
 <style>
+	html, body {
+	    position: relative;
+	    height: 100%;
+	}
+	body {
+	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	    font-size: 14px;
+	    color:#000;
+	    margin:0;
+	    padding:0;
+	}
 	#modal {
 		display:none;
 		position:relative;
@@ -71,6 +82,13 @@
 		height:100px;
 		float: left;
 		border: 1px solid #303030;
+	}
+	.navbar {
+	background:#fff;
+	z-index:99;
+  	position:fixed;
+  	bottom: 0;
+  	width: 100%;
 	}
 </style>
 </head>
@@ -131,6 +149,9 @@
 		</c:forEach>
 		</ul>
 	</div>
+	<footer class="navbar">
+		<c:import url="/WEB-INF/views/footer.jsp"/>
+	</footer>
 </body>
 <script>
 var ctrylist = [];

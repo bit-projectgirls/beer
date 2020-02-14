@@ -48,10 +48,6 @@ public class ReviewDaoImpl implements ReviewDao {
 		return list;
 	}
 
-	@Override
-	public int updateRating(Map<String, Object> map) {
-		int updatedCount = sqlSession.update("beer.updateRating", map);
-		return updatedCount;
-	}
+
 
 }

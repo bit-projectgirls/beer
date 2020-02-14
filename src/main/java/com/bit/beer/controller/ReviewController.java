@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +39,7 @@ public class ReviewController {
 		
 		// 해시태그 분리 후 DB에 저장
 		String reviewCnt = reviewVo.getReviewContent();
-		List<String> tagList = reviewService.ExtractHashtag(reviewCnt);
+		List<String> tagList = reviewService.extractHashtag(reviewCnt);
 		logger.info("태그추출: " + tagList.toString());
 		if(tagList != null) {
 			reviewService.insertHashtag(reviewVo, tagList);

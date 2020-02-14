@@ -15,42 +15,50 @@
 <script src="<c:url value="/resources/jquery/jquery-3.4.1.min.js"/>"></script>
 <!-- Swiper JS -->
 <script src="<c:url value="/resources/swiper.min.js"/>"></script>
-<!-- Swiper Demo styles -->
+<!-- font awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <style>
-  html, body {
-    position: relative;
-    height: 100%;
-  }
-  body {
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    color:#000;
-    margin: 0;
-    padding: 0;
-  }
-  .swiper-container {
-    width: 100%;
-    height: 30%;
-  }
-  .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-
-    /* Center slide text vertically */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-  }
+	html, body {
+	    position: relative;
+	    height: 100%;
+	}
+	body {
+	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	    font-size: 14px;
+	    color:#000;
+	    margin:0;
+	    padding:0;
+	}
+	.swiper-container {
+	    width: 100%;
+	    height: 30%;
+	}
+	.swiper-slide {
+	    text-align: center;
+	    font-size: 18px;
+	    background: #fff;
+	
+	    /* Center slide text vertically */
+	    display: -webkit-box;
+	    display: -ms-flexbox;
+	    display: -webkit-flex;
+	    display: flex;
+	    -webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	    -webkit-justify-content: center;
+	    justify-content: center;
+	    -webkit-box-align: center;
+	    -ms-flex-align: center;
+	    -webkit-align-items: center;
+	    align-items: center;
+	}
+	.navbar {
+		background:#fff;
+		z-index:99;
+	  	position:fixed;
+	  	bottom: 0;
+	  	width: 100%;
+	}
 </style>
 </head>
 
@@ -69,15 +77,6 @@
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <div class="swiper-slide"><a href="<c:url value="/beer/1"/>">맥주1</a></div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
-      <div class="swiper-slide">Slide 10</div>
     </div>
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
@@ -87,35 +86,21 @@
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <div class="swiper-slide"><a href="<c:url value="/beer/1"/>">맥주1</a></div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
-      <div class="swiper-slide">Slide 10</div>
     </div>
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
   </div>
 
-<ul>
-	<li><a href="">홈</a></li>
-	<li><a href="<c:url value="/list"/>">리스트</a></li>
-	<li><a href="">촬영</a></li>
-	<li><a href="<c:url value="/map"/>">바틀샵</a></li>
-	<li><a href="<c:url value="/mypage"/>">마이페이지</a></li>
-</ul>
-
- <!-- Initialize Swiper -->
-  <script>
-    var swiper = new Swiper('.swiper-container', {
-      pagination: {
-        el: '.swiper-pagination',
-      },
-    });
-  </script>
+	<footer class="navbar">
+		<c:import url="/WEB-INF/views/footer.jsp"/>
+	</footer>
 </body>
+<!-- Initialize Swiper -->
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    pagination: {
+      el: '.swiper-pagination',
+    },
+  });
+</script>
 </html>
