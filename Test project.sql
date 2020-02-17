@@ -88,6 +88,8 @@ SELECT * FROM users;
 SELECT * FROM hashtag;
 SELECT * FROM review;
 SELECT * FROM beer ORDER BY beerno;
+SELECT * FROM beer_like;
+
 DELETE FROM beer_sample
 WHERE beerno IN (
     SELECT beerno FROM (
@@ -95,12 +97,20 @@ WHERE beerno IN (
     WHERE rn > 500);
 commit;
 SELECT * FROM beer_sample;
+
 SELECT DISTINCT b.beerNo, beerName, beerPic, company, country, type, abv, rating, ratingBA, note
 FROM beer b, hashtag h
 WHERE b.beerNo = h.beerNo AND tagname Like '해시태그';
+
 SELECT count(*)
 FROM beer_like
 WHERE beerNo = 5;
+
 INSERT INTO beer_like
 (bLikeNo, uuid, beerNo, regDate)
-VALUES(seq_bLike_no.nextVal, 1, 5, sysdate);
+VALUES(seq_bLike_no.nextVal, 1, 6, sysdate);
+commit;
+
+SELECT b.beerNo, beerName, beerPic, company, country, type, abv, rating, ratingBA, note
+FROM beer b JOIN review r ON b.beerNo = r.beerNo
+ORDER BY regdate DESC;

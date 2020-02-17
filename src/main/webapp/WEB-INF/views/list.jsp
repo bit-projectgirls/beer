@@ -16,6 +16,8 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<c:url value="/resources/jquery.ui.touch-punch.min.js"/>"></script>
+<!-- font awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <style>
 	html, body {
 	    position: relative;
@@ -115,7 +117,7 @@
 			<div id="con2" style="display:none">
 				종류별 검색 필터
 				<div id="typelist">
-				<c:forEach items="${ typelist }" var="beertype">
+				<c:forEach items="${ typeList }" var="beertype">
 					<input id="${ beertype }" name="beertype" type="checkbox" value="${ beertype }">
 					<label for="${ beertype }">${ beertype }</label>
 				</c:forEach>
@@ -135,15 +137,33 @@
 	</div>
 	<div id="list_content">
 		<ul id="beerlist" class="beerlist">
-		<c:forEach items="${ beerlist }" var="beerVo">
+		<c:forEach items="${ beerList }" var="beerVo">
 			<li>
 				<div class='beerpic'>그림</div>
 				<dl class='lst_dsc'>
-				<dd>${ beerVo.company }</dd>
-				<dd class='beeridx' data-idx="${ beerVo.idx }"></td>
-				<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
-				<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
-				<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+					<dd>${ beerVo.company }</dd>
+					<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
+					<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+					<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
+					<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+					<c:if test='${ not empty authUser }'>
+					<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
+						<c:set var='chkLike' value='false' />
+						<c:forEach items='${ bLikeList }' var='likeVo'>
+							<c:if test='${ likeVo.beerNo eq beerVo.beerNo }'>
+								<c:set var='chkLike' value='true' />
+							</c:if>
+						</c:forEach>
+						<c:choose>
+						<c:when test='${ chkLike == true }'>
+						<i class='fas fa-heart'></i>
+						</c:when>
+						<c:otherwise>
+						<i class='far fa-heart'></i>
+						</c:otherwise>
+						</c:choose>
+					</dd>
+					</c:if>
 				</dl>
 			</li>
 		</c:forEach>
@@ -159,6 +179,12 @@ var chktypelist = [];
 var minabv = 0;
 var maxabv = 20;
 var lastidx = 0;
+var bLikeList = new Array();
+<c:forEach items="${bLikeList}" var="likeVo">
+bLikeList.push("${likeVo.beerNo}");
+</c:forEach>
+var authUser = "<c:out value="${authUser}"/>";
+console.log(bLikeList);
 //검색 필터 보여주기
 function modal_OnOff(v){
 	if(v == "4"){
@@ -258,8 +284,8 @@ $("#chkform").on("change", function(event){
 	    traditional : true,
 	    async:false,
 	    data : {
-	    	typelist: chktypelist,
-	    	ctrylist: ctrylist,
+	    	typeList: chktypelist,
+	    	ctryList: ctrylist,
 	    	minabv: minabv,
 	    	maxabv: maxabv,
 	    	idx: 0
@@ -268,6 +294,18 @@ $("#chkform").on("change", function(event){
 	    	var html = "";
 			$.each(result, function(index, value){
 				html += renderList(value);
+				if(authUser.length != 0){
+					console.log(bLikeList.includes(String(value.beerNo)));
+					if(bLikeList.includes(String(value.beerNo))){
+						html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+						")'><i class='fas fa-heart'></i></dd></dl></li>";
+					} else{
+						html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+						")'><i class='far fa-heart'></i></dd></dl></li>";
+					}
+				} else {
+					html += "</dl></li>"
+				}
 			});
 	    	$("#beerlist").html(html);
 	    },
@@ -299,8 +337,8 @@ $("#slider-range").slider({
 		    traditional : true,
 		    async:false,
 		    data : {
-		    	typelist: chktypelist,
-		    	ctrylist: ctrylist,
+		    	typeList: chktypelist,
+		    	ctryList: ctrylist,
 		    	minabv: minabv,
 		    	maxabv: maxabv,
 		    	idx: 0
@@ -309,6 +347,18 @@ $("#slider-range").slider({
 		    	var html = "";
 				$.each(result, function(index, value){
 					html += renderList(value);
+					if(authUser.length != 0){
+						console.log(bLikeList.includes(String(value.beerNo)));
+						if(bLikeList.includes(String(value.beerNo))){
+							html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+							")'><i class='fas fa-heart'></i></dd></dl></li>";
+						} else{
+							html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+							")'><i class='far fa-heart'></i></dd></dl></li>";
+						}
+					} else {
+						html += "</dl></li>"
+					}
 				});
 		    	$("#beerlist").html(html);
 		    },
@@ -353,8 +403,8 @@ $(window).scroll(function(){
 		    traditional : true,
 		    async:false,
 			data: {
-				typelist: chktypelist,
-		    	ctrylist: ctrylist,
+				typeList: chktypelist,
+		    	ctryList: ctrylist,
 		    	minabv: minabv,
 		    	maxabv: maxabv,
 		    	idx: lastidx
@@ -363,6 +413,18 @@ $(window).scroll(function(){
 		    	var html = "";
 				$.each(JSON.parse(result), function(index, value){
 					html += renderList(value);
+					if(authUser.length != 0){
+						console.log(bLikeList.includes(String(value.beerNo)));
+						if(bLikeList.includes(String(value.beerNo))){
+							html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+							")'><i class='fas fa-heart'></i></dd></dl></li>";
+						} else{
+							html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+							")'><i class='far fa-heart'></i></dd></dl></li>";
+						}
+					} else {
+						html += "</dl></li>"
+					}
 				});
 		    	$("#beerlist").append(html);
 		    },
@@ -380,10 +442,8 @@ function renderList(vo){
 	"'></td><dt class='beername'><a href='<c:url value='/beer/" + vo.beerNo + 
 	"'/>'>" + vo.beerName + "</a></dt><dd class='beerinfo'>" + vo.type + 
 	" from " + vo.country + "</dd><dd class='beerrating'>" + vo.ratingBA + 
-	"</dd></dl></li>";
-	//var html = "<tr><td class='beeridx' data-idx='" + vo.idx 
-	//+ "'></td><td><a href='<c:url value='/beer/" + vo.beerNo + "'/>'>" +
-	//vo.beerName + "</a></td><td>by " + vo.company + "</td></tr>"
+	"</dd>";
+
 	return html;
 }
 function renderButton(obj){
@@ -402,6 +462,26 @@ function renderButton(obj){
 		}
 	});
 	return str;
+}
+
+// 좋아요 기능
+function bLike(beerNo){
+	console.log(beerNo);
+	$.ajax({
+		url:"<c:url value="/blike"/>",
+		dataType : "json",
+	    type : "post",
+	    data : {beerNo: beerNo},
+	    success : function(result){
+	    	if(result.chkLike){
+	    		var html = "<i class='fas fa-heart'></i>";
+	    		$("#like"+result.beerNo).html(html);
+	    	} else {
+	    		var html = "<i class='far fa-heart'></i>";
+	    		$("#like"+result.beerNo).html(html);
+	    	}
+	    }
+	})
 }
 </script>
 </html>

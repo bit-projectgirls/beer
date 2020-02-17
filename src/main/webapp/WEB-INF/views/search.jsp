@@ -11,6 +11,34 @@
 <link rel="stylesheet" href="<c:url value="/resources/bootstrap/css/bootstrap.css"/>"/>
 <!-- jQuery -->
 <script src="<c:url value="/resources/jquery/jquery-3.4.1.min.js"/>"></script>
+<!-- font awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+<style>
+	html, body {
+	    position: relative;
+	    height: 100%;
+	}
+	body {
+	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	    font-size: 14px;
+	    color:#000;
+	    margin:0;
+	    padding:0;
+	}
+	ul{
+		list-style:none;
+		padding:10px;
+	}
+	li{
+		background-color:#f7f4da;
+	}
+	.beerpic {
+		width:80px;
+		height:100px;
+		float: left;
+		border: 1px solid #303030;
+	}
+</style>
 </head>
 <body>
 <div id="maincontent">

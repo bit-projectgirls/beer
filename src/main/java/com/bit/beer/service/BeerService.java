@@ -3,6 +3,7 @@ package com.bit.beer.service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,16 +60,52 @@ public class BeerService {
 	public List<BeerVo> getBeerList(String keyword){
 		List<BeerVo> list = beerDao.selectBeerByTag(keyword);
 		return list;
-	} 
+	}
+	
+	public List<BeerVo> getTopList(){
+		List<BeerVo> list = beerDao.selectTop();
+		return list;
+	}
+	
+	public List<BeerVo> getTopBAList(){
+		List<BeerVo> list = beerDao.selectTopBA();
+		return list;
+	}
 	
 	public List<ReviewVo> getReviewList(int beerNo){
 		List<ReviewVo> list = reviewDao.selectReviewByBeerNo(beerNo);
 		return list;
 	}
 	
-	public Boolean insertBeerLike(Map<String, Object> map) {
+	public Boolean insertBeerLike(String uuid, int beerNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("uuid", uuid);
+		map.put("beerNo", beerNo);
 		int insertedCount = beerDao.insertBeerLike(map);
 		return 1 == insertedCount;
+	}
+	
+	public Boolean deleteBeerLike(String uuid, int beerNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("uuid", uuid);
+		map.put("beerNo", beerNo);
+		int deletedCount = beerDao.deleteBeerLike(map);
+		return 1 == deletedCount;
+	}
+	
+	// Like 여부 체크
+	public boolean checkBLike(String uuid, int beerNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("uuid", uuid);
+		map.put("beerNo", beerNo);
+		int count = beerDao.selectBLikeCheck(map);
+		return 0 < count;
+	}
+	
+	// 좋아요 맥주 목록 받아오기
+	public List<BeerVo> getBeerLikeList(String uuid){
+		List<BeerVo> list = beerDao.selectBLikeList(uuid);
+		return list;
 	}
 	
 	// 최근 검색한 맥주 리스트

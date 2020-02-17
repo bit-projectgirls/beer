@@ -44,9 +44,8 @@ public class BeerController {
 	public String beerInfoPage(
 			@RequestParam(value="rating", required=false, defaultValue = "0.0") String rating,
 			@PathVariable("beerNo") int beerNo, Model model,
-			HttpServletRequest request, HttpServletResponse response) {
-		logger.info("beer page load: " + beerNo);
-		
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		logger.info("beer page load: " + beerNo + rating);
 		// 맥주 정보 받아오기
 		BeerVo vo = beerService.getBeerInfo(beerNo);
 		model.addAttribute("rating", rating);
@@ -56,7 +55,21 @@ public class BeerController {
 		List<ReviewVo> reviewList = beerService.getReviewList(beerNo);
 		model.addAttribute("reviewlist", reviewList);
 		
-		// 쿠키 생성
+		// 좋아요 여부 체크
+		boolean chkLike = false;
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser != null) {
+			List<BeerVo> bLikeList = beerService.getBeerLikeList(authUser.getUuid());
+			for(BeerVo bLike: bLikeList) {
+				if(bLike.getBeerNo() == beerNo) {
+					chkLike = true;
+					break;
+				}
+			}
+		}
+		model.addAttribute("chkLike", chkLike);
+		
+		// 쿠키에 맥주 추가
 		Cookie[] cookies = request.getCookies();
 		String cookieValue = beerService.setCookieList(cookies, beerNo);
 		Cookie cookie;
@@ -74,24 +87,47 @@ public class BeerController {
 	
 	// 좋아요 기능
 	@RequestMapping(value="/blike")
+	@ResponseBody
 	public String beerLikeAction(@RequestParam(value="beerNo") int beerNo, HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		String uuid = authUser.getUuid();
-		
+		logger.info("BLike-uuid: " + uuid + ", beerNo: " + beerNo);
 		// 이미 좋아요했는지 확인
-		boolean checkLike;
-		return null;
+		boolean chkLike = beerService.checkBLike(uuid, beerNo);
+		if(chkLike) {
+			// 이미 눌렀을 경우에는 좋아요 취소
+			beerService.deleteBeerLike(uuid, beerNo);
+			chkLike = false;
+		} else {
+			// 안 눌렀을 경우에는 좋아요 추가
+			beerService.insertBeerLike(uuid, beerNo);
+			chkLike = true;
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("beerNo", beerNo);
+		result.put("chkLike", chkLike);
+		return gson.toJson(result);
+	}
+	
+	// 마이페이지 좋아요 맥주리스트 페이지
+	@RequestMapping(value="/myblike")
+	public String myBeerLike(HttpSession session,Model model) {
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		String uuid = authUser.getUuid();
+		
+		List<BeerVo> list = beerService.getBeerLikeList(uuid);
+		model.addAttribute("beerList", list);
+		return "searchresult";
 	}
 	
 	// 검색 페이지
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String searchForm(HttpServletRequest request, Model model) {
 		logger.info("search page load");
-		
-		
+
 		Cookie[] cookies = request.getCookies();
 		List<BeerVo> list = beerService.getCookieList(cookies);
-		model.addAttribute("beerlist", list);
+		model.addAttribute("beerList", list);
 		return "search";		
 	}
 	
@@ -108,16 +144,23 @@ public class BeerController {
 	
 	// 맥주 리스트 페이지
 	@RequestMapping(value="/list")
-	public String list(Model model) {
+	public String list(Model model, HttpSession session) {
 		logger.info("list page load");
 		// 맥주 리스트 받아오기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("idx", 0);
 		List<BeerVo> list = beerService.getBeerList(map);
-		model.addAttribute("beerlist", list);
+		model.addAttribute("beerList", list);
 		// Typelist 전송
 		List<String> typelist = beerService.getTypeList();
-		model.addAttribute("typelist", typelist);
+		model.addAttribute("typeList", typelist);
+		// 세션 유저의 좋아요 목록 전송
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser != null) {
+			List<BeerVo> bLikeList = beerService.getBeerLikeList(authUser.getUuid());
+			model.addAttribute("bLikeList", bLikeList);
+			logger.info("bLikeList: " + bLikeList);
+		}
 		return "list";
 	}
 
@@ -137,15 +180,15 @@ public class BeerController {
 	}
 
 	// 필터로 맥주 검색
-	@RequestMapping(value="/loadlist")
+	@RequestMapping(value="/loadlist", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String selectByCountry(HttpServletRequest request, Model model) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		String[] ctrylist = request.getParameterValues("ctrylist");
-		map.put("ctrylist", ctrylist);
-		String[] typelist = request.getParameterValues("typelist");
-		map.put("typelist", typelist);
+		String[] ctryList = request.getParameterValues("ctryList");
+		map.put("ctryList", ctryList);
+		String[] typeList = request.getParameterValues("typeList");
+		map.put("typeList", typeList);
 		double minabv = Double.parseDouble(request.getParameterValues("minabv")[0]);
 		double maxabv = Double.parseDouble(request.getParameterValues("maxabv")[0]);
 		map.put("minabv", minabv);
@@ -155,7 +198,7 @@ public class BeerController {
 			idx = Integer.parseInt(request.getParameter("idx"));
 		}
 		map.put("idx", idx);
-
+		logger.info("ctryList:" + gson.toJson(ctryList));
 		List<BeerVo> list = beerService.getBeerList(map);
 
 		logger.info(gson.toJson(list));
@@ -169,7 +212,7 @@ public class BeerController {
 		if(keyword.length() == 0) {
 			Cookie[] cookies = hprequest.getCookies();
 			List<BeerVo> list = beerService.getCookieList(cookies);
-			model.addAttribute("beerlist", list);
+			model.addAttribute("beerList", list);
 			return "searchresult";
 		}
 		// 일라스틱서치 호출
@@ -185,7 +228,7 @@ public class BeerController {
 	public String search(@RequestParam(value="keyword") String keyword, Model model) {
 		logger.info("search by tag:" + keyword);
 		List<BeerVo> list = beerService.getBeerList(keyword);
-		model.addAttribute("beerlist", list);
+		model.addAttribute("beerList", list);
 		return "searchresult";
 	}
 }

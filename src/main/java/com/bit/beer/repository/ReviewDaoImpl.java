@@ -48,6 +48,12 @@ public class ReviewDaoImpl implements ReviewDao {
 		return list;
 	}
 
+	@Override
+	public List<ReviewVo> selectReviewByUuid(String uuid) {
+		List<ReviewVo> list = sqlSession.selectList("review.selectByUuid", uuid);
+		return list;
+	}
+
 
 
 }

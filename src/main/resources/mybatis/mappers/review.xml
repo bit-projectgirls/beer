@@ -34,4 +34,13 @@
 	WHERE UPPER(tagName) Like UPPER('%' || #{keyword} || '%')
 	]]>
 	</select>
+	<!-- 작성 리뷰 목록 받아오기 -->
+	<select id="selectByUuid" resultType="ReviewVo" parameterType="String">
+	<![CDATA[
+	SELECT * 
+	FROM review
+	WHERE uuid = #{uuid}
+	ORDER BY regdate DESC
+	]]>
+	</select>
 </mapper>

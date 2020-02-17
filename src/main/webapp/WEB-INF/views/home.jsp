@@ -63,33 +63,91 @@
 </head>
 
 <body>
-<h3>맥주검색</h3>
-<a href="<c:url value="/search"/>">
+	<h3>맥주검색</h3>
+	<a href="<c:url value="/search"/>">
 	<div class="input-group">
 		<input type="text" name="keyword" class="form-control" id="keywordinput">
 		<div class="input-group-append">
 			<button id="btnSearch" name="btnSearch" type="button" class="btn btn-info">검색</button>
 		</div>
 	</div>
-</a>
-<h5>추천 맥주 리스트</h5>
-<!-- Swiper -->
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide"><a href="<c:url value="/beer/1"/>">맥주1</a></div>
-    </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-  </div>
-<h5>TOP 10 리스트</h5>
-<!-- Swiper -->
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide"><a href="<c:url value="/beer/1"/>">맥주1</a></div>
-    </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-  </div>
+	</a>
+	<h5>우리 TOP 10 리스트</h5>
+	<!-- Swiper -->
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<c:forEach items="${ beerList }" var="beerVo">
+			<div class="swiper-slide">
+				<div class='beerpic'>그림</div>
+				<dl class='lst_dsc'>
+					<dd>${ beerVo.company }</dd>
+					<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
+					<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+					<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
+					<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+					<c:if test='${ not empty authUser }'>
+					<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
+						<c:set var='chkLike' value='false' />
+						<c:forEach items='${ bLikeList }' var='likeVo'>
+							<c:if test='${ likeVo.beerNo eq beerVo.beerNo }'>
+								<c:set var='chkLike' value='true' />
+							</c:if>
+						</c:forEach>
+						<c:choose>
+						<c:when test='${ chkLike == true }'>
+						<i class='fas fa-heart'></i>
+						</c:when>
+						<c:otherwise>
+						<i class='far fa-heart'></i>
+						</c:otherwise>
+						</c:choose>
+					</dd>
+					</c:if>
+				</dl>
+			</div>
+			</c:forEach>
+		</div>
+		<!-- Add Pagination -->
+		<div class="swiper-pagination"></div>
+	</div>
+	<h5>Beeradvocate TOP 10 리스트</h5>
+	<!-- Swiper -->
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<c:forEach items="${ beerListBA }" var="beerVo">
+			<div class="swiper-slide">
+				<div class='beerpic'>그림</div>
+				<dl class='lst_dsc'>
+					<dd>${ beerVo.company }</dd>
+					<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
+					<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+					<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
+					<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+					<c:if test='${ not empty authUser }'>
+					<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
+						<c:set var='chkLike' value='false' />
+						<c:forEach items='${ bLikeList }' var='likeVo'>
+							<c:if test='${ likeVo.beerNo eq beerVo.beerNo }'>
+								<c:set var='chkLike' value='true' />
+							</c:if>
+						</c:forEach>
+						<c:choose>
+						<c:when test='${ chkLike == true }'>
+						<i class='fas fa-heart'></i>
+						</c:when>
+						<c:otherwise>
+						<i class='far fa-heart'></i>
+						</c:otherwise>
+						</c:choose>
+					</dd>
+					</c:if>
+				</dl>
+			</div>
+			</c:forEach>
+		</div>
+		<!-- Add Pagination -->
+		<div class="swiper-pagination"></div>
+	</div>
 
 	<footer class="navbar">
 		<c:import url="/WEB-INF/views/footer.jsp"/>

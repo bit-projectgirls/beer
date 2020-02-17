@@ -19,8 +19,8 @@
 	<link href="<c:url value="/resources/krajee-fa/theme.css"/>" media="all" rel="stylesheet" type="text/css" />
 	<script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
 	<!-- font awesome -->
-	 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <style>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+	<style>
 		.tribute-demo-input {
         outline: none;
         border: 1px solid #eee;
@@ -33,7 +33,7 @@
     </style>
   </head>
   <body>
-  <a href="<c:url value="/beer/${ beerVo.beerNo }"/>">뒤로</a>
+  <a href="<c:url value="/beer/${ beerVo.beerNo }?rating=${ rating }"/>">뒤로</a>
   <h3>맥주 정보</h3>
   <div>
   ${ beerVo.beerName }</br>
@@ -56,8 +56,8 @@
 	//star rating
 	$('.kv-fa').rating({
             theme: 'krajee-fa',
-            filledStar: '<i class="fa fa-star"></i>',
-            emptyStar: '<i class="fa fa-star-o"></i>',
+            filledStar: '<i class="fas fa-star"></i>',
+            emptyStar: '<i class="far fa-star"></i>',
             showClear: false,
             showCaption: false
     });

@@ -23,29 +23,29 @@
 	]]>
 	</select>
 	<!-- 맥주 SELECT by beerNo -->
-	<select id="selectBeerByNo" resultType="BeerVo" parameterType="int">
+	<select id="selectByBeerNo" resultType="BeerVo" parameterType="int">
     SELECT *
     FROM beer
     WHERE beerNo = #{beerNo}
 	</select>
 	<!-- 맥주 SELECT by Filter -->
-	<select id="selectBeer" resultType="BeerVo" parameterType="map">
+	<select id="selectByFilter" resultType="BeerVo" parameterType="map">
 	SELECT * FROM (
 		SELECT ROWNUM AS idx, b.* FROM (
 			SELECT * FROM beer 
 			WHERE beername IS NOT NULL
-			<if test="ctrylist != null">
+			<if test="ctryList != null">
 				AND country in
-				<foreach item="country" index="index" collection="ctrylist" open="(" separator="," close=")">
+				<foreach item="country" index="index" collection="ctryList" open="(" separator="," close=")">
 				    #{country}
 				</foreach>
 			</if>
 			<if test="minabv != null and maxabv != null">
 			    <![CDATA[ AND abv >= #{minabv} AND abv <= #{maxabv} ]]>
 			</if>
-			<if test="typelist != null">
+			<if test="typeList != null">
 				AND type in
-				<foreach item="type" index="index" collection="typelist" open="(" separator="," close=")">
+				<foreach item="type" index="index" collection="typeList" open="(" separator="," close=")">
 				    #{type}
 				</foreach>
 			</if>
@@ -54,10 +54,30 @@
 	WHERE idx > #{idx}]]>
 	</select>
 	<!-- 맥주 SELECT by hashtag -->
-	<select id="selectBeerByTag" resultType="BeerVo" parameterType="String">
+	<select id="selectByTag" resultType="BeerVo" parameterType="String">
     SELECT DISTINCT b.beerNo, beerName, beerPic, company, country, type, abv, rating, ratingBA, note
     FROM beer b, hashtag h
     WHERE b.beerNo = h.beerNo AND tagname Like #{keyword}
+	</select>
+	<!-- 맥주 SELECT TOP 10 -->
+	<select id="selectTop" resultType="BeerVo">
+	<![CDATA[
+    SELECT *
+    FROM (
+    	SELECT b.beerNo, beerName, beerPic, company, country, type, abv, b.rating, ratingBA, note, (SELECT count(*) FROM REVIEW r WHERE b.beerNo = r.beerNo) rcnt
+		FROM beer b LEFT OUTER JOIN review r ON b.beerNo = r.beerNo
+		ORDER BY rcnt DESC)
+    WHERE ROWNUM <= 10
+    ]]>
+	</select>
+	<!-- 맥주 SELECT TOP 10 BA -->
+	<select id="selectTopBA" resultType="BeerVo">
+	<![CDATA[
+    SELECT *
+    FROM (SELECT * FROM beer
+    ORDER BY ratingcnt)
+    WHERE ROWNUM <= 10
+    ]]>
 	</select>
 	<!-- 맥주 rating UPDATE -->
 	<update id="updateRating" parameterType="map">
@@ -68,25 +88,37 @@
 	]]>
 	</update>
 	<!-- 좋아요 INSERT -->
-	<insert id="insertLike" parameterType="map">
+	<insert id="insertBLike" parameterType="map">
 	<![CDATA[
 	INSERT INTO beer_like
 	(bLikeNo, uuid, beerNo, regDate)
 	VALUES(seq_bLike_no.nextVal, #{uuid}, #{beerNo}, sysdate)
 	]]>
 	</insert>
-	<!-- 맥주 좋아요수 UPDATE -->
-	<update id="updateLike" parameterType="map">
-	<![CDATA[
-	UPDATE beer
-	SET likeCnt = likeCnt + 1
-	WHERE beerNo = #{beerNo}
-	]]>
-	</update>
+	<!-- 좋아요 DELETE -->
+	<delete id="deleteBLike">
+	DELETE FROM beer_like
+	WHERE beerNo = #{beerNo} AND uuid = #{uuid}    
+	</delete>
+	<!-- 좋아요 여부 체크 -->
+	<select id="selectBLikeCheck" resultType="int" parameterType="map">
+    SELECT count(*)
+    FROM beer_like
+    WHERE beerNo = #{beerNo} AND uuid = #{uuid}
+	</select>
 	<!-- 맥주 좋아요수 SELECT -->
-	<select id="selectLikeCnt" resultType="int" parameterType="int">
+	<select id="selectBLikeCnt" resultType="int" parameterType="int">
     SELECT count(*)
     FROM beer_like
     WHERE beerNo = #{beerNo}
+	</select>
+	<!-- 좋아요 맥주 목록 받아오기 -->
+	<select id="selectBLikeByUuid" resultType="BeerVo" parameterType="String">
+	<![CDATA[
+	SELECT b.beerNo, beerName, beerPic, company, country, type, abv, rating, ratingBA, note
+	FROM beer b JOIN beer_like bl ON b.beerNo = bl.beerNo
+	WHERE bl.uuid = #{uuid}
+	ORDER BY regdate DESC
+	]]>
 	</select>
 </mapper>

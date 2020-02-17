@@ -8,4 +8,5 @@ public interface ReviewDao {
 	public int insertReview(ReviewVo vo);
 	public List<HashtagVo> selectTagByKeyword(String keyword);
 	public List<ReviewVo> selectReviewByBeerNo(int beerNo);
+	public List<ReviewVo> selectReviewByUuid(String uuid);
 }

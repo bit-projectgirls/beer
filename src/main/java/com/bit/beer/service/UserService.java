@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -15,6 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.beer.repository.BeerDaoImpl;
+import com.bit.beer.repository.BeerVo;
+import com.bit.beer.repository.ReviewDaoImpl;
+import com.bit.beer.repository.ReviewVo;
 import com.bit.beer.repository.UserDaoImpl;
 import com.bit.beer.repository.UserVo;
 import com.google.gson.JsonElement;
@@ -25,6 +30,10 @@ import com.google.gson.JsonParser;
 public class UserService {
 	@Autowired
 	private UserDaoImpl userDao;
+	@Autowired
+	private BeerDaoImpl beerDao;
+	@Autowired
+	private ReviewDaoImpl reviewDao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -173,5 +182,11 @@ public class UserService {
 		logger.info("checkId: " + kakaoId);
 		UserVo vo = userDao.selectUser(kakaoId);
 		return vo;
+	}
+	
+	// 작성한 리뷰 목록 받아오기
+	public List<ReviewVo> getReviewList(String uuid){
+		List<ReviewVo> list = reviewDao.selectReviewByUuid(uuid);
+		return list; 
 	}
 }

@@ -12,6 +12,7 @@ public class BeerVo {
 	private double rating;
 	private double ratingBA;
 	private String note;
+	private boolean chkBLike;
 	
 	public int getIdx() {
 		return idx;
@@ -79,12 +80,12 @@ public class BeerVo {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	@Override
-	public String toString() {
-		return "BeerVo [idx=" + idx + ", beerNo=" + beerNo + ", beerName=" + beerName + ", beerPic=" + beerPic
-				+ ", type=" + type + ", country=" + country + ", company=" + company + ", abv=" + abv + ", rating="
-				+ rating + ", ratingBA=" + ratingBA + ", note=" + note + "]";
+	public boolean ischkBLike() {
+		return chkBLike;
 	}
+	public void setchkBLike(boolean chkBLike) {
+		this.chkBLike = chkBLike;
+	}
+	
 	
 }

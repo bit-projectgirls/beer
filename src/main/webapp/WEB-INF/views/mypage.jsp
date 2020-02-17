@@ -29,26 +29,40 @@
 	    padding:0;
 	}
 	.navbar {
-	background:#fff;
-	z-index:99;
-  	position:fixed;
-  	bottom: 0;
-  	width: 100%;
+		background:#fff;
+		z-index:99;
+	  	position:fixed;
+	  	bottom: 0;
+	  	width: 100%;
+	}
+	#mypageMenu {
+		padding-bottom:68px;
+		text-align: center;
+	}
+	img {
+		width: 100px;
+		height: 100px;
+		object-fit: cover;
+		object-position: top;
+		border-radius: 50%;
 	}
 </style>
 </head>
 <body>
 	<a href="<c:url value="/"/>">뒤로</a>
-	<div>
+	<div id="mypageMenu">
 	<c:choose>
-	    <c:when test="${ empty authUser }">
-	    	<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://localhost:8080/beer/login&response_type=code">카카오로 로그인</a>
-	    </c:when>
-	    <c:otherwise>
-		    <img src="${ authUser.userPic }">
-		    <p>${ authUser.nickname }</p>
-		    <a href="<c:url value="/logout"/>">로그아웃</a>
-	    </c:otherwise>
+		<c:when test="${ empty authUser }">
+		<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://localhost:8080/beer/login&response_type=code">카카오로 로그인</a>
+		</c:when>
+		<c:otherwise>
+		<img src="${ authUser.userPic }">
+		<p>${ authUser.nickname }</p>
+		<a href="<c:url value="/myblike"/>">좋아요 누른 맥주 리스트 관리</a><br>
+		<a href="<c:url value="/reviewlist"/>">작성한 리뷰 관리</a><br>
+		<a href="<c:url value="/profilemod"/>">개인정보 수정</a><br>
+		<a href="<c:url value="/logout"/>">로그아웃</a>
+		</c:otherwise>
 	</c:choose>
 	</div>
 	<footer class="navbar">

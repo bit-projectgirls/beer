@@ -52,6 +52,7 @@ public class ReviewController {
 		return "redirect:/beer/" + beerNo;
 	}
 	
+	// 해시태그 목록 보여주기
 	@RequestMapping(value = "/searchtag", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String getMap(@RequestParam(value="keyword") String keyword) {
@@ -63,4 +64,6 @@ public class ReviewController {
 		logger.info(gson.toJson(list));
 		return gson.toJson(list);
 	}
+	
+	// 내가 작성한 리뷰 목록
 }

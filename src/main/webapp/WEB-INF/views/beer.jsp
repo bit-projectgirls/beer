@@ -50,6 +50,18 @@
 	<h3>Beeradvocate:${ beerVo.ratingBA }</h3><br/>
 	<h3>우리별점:${ beerVo.rating }</h3><br/>
 	</div>
+	<div id="likeArea">
+		<c:if test="${ not empty authUser }">
+		<c:choose>
+			<c:when test="${ chkLike == true }">
+			<i class="fas fa-heart fa-2x"></i>
+			</c:when>
+			<c:otherwise>
+			<i class="far fa-heart fa-2x"></i>
+			</c:otherwise>
+		</c:choose>
+		</c:if>
+	</div>
 	<div id="rating">
 	리뷰 남기기
 	<form id="ratingform" method="post" action="<c:url value="/reviewform"/>">
@@ -86,13 +98,13 @@
 		step: 0.5,
 		showCaption: false,
 		theme: 'krajee-fa',
-        filledStar: '<i class="fa fa-star"></i>',
-        emptyStar: '<i class="fa fa-star-o"></i>',
+        filledStar: '<i class="fas fa-star"></i>',
+        emptyStar: '<i class="far fa-star"></i>',
         });
 	$('.kv-fa').rating({
             theme: 'krajee-fa',
-            filledStar: '<i class="fa fa-star"></i>',
-            emptyStar: '<i class="fa fa-star-o"></i>',
+            filledStar: '<i class="fas fa-star"></i>',
+            emptyStar: '<i class="far fa-star"></i>',
             showClear: false,
             showCaption: false
     });
@@ -107,5 +119,24 @@
     	inputRating.setAttribute("value", rating);
     	formObj.appendChild(inputRating);
     	formObj.submit();
+	});
+	// 좋아요 기능
+	$("#likeArea").on("click", function(event){
+		var beerNo = document.getElementById("beerNo").value;
+		$.ajax({
+			url:"<c:url value="/blike"/>",
+			dataType : "json",
+		    type : "post",
+		    data : {beerNo: beerNo},
+		    success : function(result){
+		    	if(result.chkLike){
+		    		var html = "<i class='fas fa-heart fa-2x'></i>";
+		    		$("#likeArea").html(html);
+		    	} else {
+		    		var html = "<i class='far fa-heart fa-2x'></i>";
+		    		$("#likeArea").html(html);
+		    	}
+		    }
+		})
 	});
 </script>

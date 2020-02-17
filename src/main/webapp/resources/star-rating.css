@@ -60,7 +60,7 @@
 }
 
 .rating-container .empty-stars {
-    color: #aaa;
+    color: #fde16d;
 }
 
 .rating-container .filled-stars {
@@ -103,7 +103,7 @@
  * Clear
  */
 .rating-container .clear-rating {
-    color: #aaa;
+    color: #fde16d;
     cursor: not-allowed;
     display: inline-block;
     vertical-align: middle;

@@ -56,7 +56,7 @@ public class ReviewService {
 		List<HashtagVo> list = reviewDao.selectTagByKeyword(keyword);
 		return list;
 	}
-	
+
 	// rating update
 	public boolean updateRating(int beerNo) {
 		List<ReviewVo> list = reviewDao.selectReviewByBeerNo(beerNo);
