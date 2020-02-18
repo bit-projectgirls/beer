@@ -33,7 +33,6 @@ import com.google.gson.Gson;
 @Controller
 public class BeerController {
 	private static final Logger logger = LoggerFactory.getLogger(BeerController.class);
-	
 	private Gson gson = new Gson();
 
 	@Autowired
@@ -111,13 +110,14 @@ public class BeerController {
 	
 	// 마이페이지 좋아요 맥주리스트 페이지
 	@RequestMapping(value="/myblike")
+	@ResponseBody
 	public String myBeerLike(HttpSession session,Model model) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		String uuid = authUser.getUuid();
 		
 		List<BeerVo> list = beerService.getBeerLikeList(uuid);
 		model.addAttribute("beerList", list);
-		return "searchresult";
+		return gson.toJson(list);
 	}
 	
 	// 검색 페이지
@@ -130,7 +130,6 @@ public class BeerController {
 		model.addAttribute("beerList", list);
 		return "search";		
 	}
-	
 	
 	// 리뷰 작성 페이지
 	@RequestMapping(value="/reviewform")

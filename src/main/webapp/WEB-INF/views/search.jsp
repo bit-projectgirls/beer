@@ -43,12 +43,10 @@
 <body>
 <div id="maincontent">
 	<form name="searchform" action="" method="POST" onsubmit="return false;">
-		<div class="input-group">
-			<input type="text" name="keyword" class="form-control" id="keywordinput">
-			<div class="input-group-append">
-				<button id="btnSearch" name="btnSearch" type="button" class="btn btn-info">검색</button>
-			</div>
 		<a href="<c:url value="/"/>">뒤로</a>
+		<div>
+			<input type="text" name="keyword" id="keywordinput">
+			<i class="fas fa-search"></i>
 		</div>
 	</form>
 
@@ -73,6 +71,7 @@
 </body>
 <script>
 $(document).ready(function() {
+	$("#keywordinput").focus();
 	console.log(document.cookie);
 	$("#keywordinput").keyup(function(event){
 		var keyword = document.getElementById("keywordinput").value.trim();

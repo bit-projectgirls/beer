@@ -47,4 +47,5 @@ public class HomeController {
 		logger.info("map page load");
 		return "map";
 	}
+	
 }

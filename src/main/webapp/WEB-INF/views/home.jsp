@@ -65,12 +65,10 @@
 <body>
 	<h3>맥주검색</h3>
 	<a href="<c:url value="/search"/>">
-	<div class="input-group">
-		<input type="text" name="keyword" class="form-control" id="keywordinput">
-		<div class="input-group-append">
-			<button id="btnSearch" name="btnSearch" type="button" class="btn btn-info">검색</button>
+		<div>
+			<input type="text" name="keyword" id="keywordinput">
+			<i class="fas fa-search"></i>
 		</div>
-	</div>
 	</a>
 	<h5>우리 TOP 10 리스트</h5>
 	<!-- Swiper -->

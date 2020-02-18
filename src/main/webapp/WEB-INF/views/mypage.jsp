@@ -59,7 +59,7 @@
 		<img src="${ authUser.userPic }">
 		<p>${ authUser.nickname }</p>
 		<a href="<c:url value="/myblike"/>">좋아요 누른 맥주 리스트 관리</a><br>
-		<a href="<c:url value="/reviewlist"/>">작성한 리뷰 관리</a><br>
+		<a href="<c:url value="/myreview"/>">작성한 리뷰 관리</a><br>
 		<a href="<c:url value="/profilemod"/>">개인정보 수정</a><br>
 		<a href="<c:url value="/logout"/>">로그아웃</a>
 		</c:otherwise>

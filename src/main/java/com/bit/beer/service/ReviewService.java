@@ -52,6 +52,12 @@ public class ReviewService {
 		return 1 == insertedCount;
 	}
 	
+	// 내가 작성한 리뷰 리스트
+	public List<ReviewVo> getReviewList(String uuid){
+		List<ReviewVo> list = reviewDao.selectReviewByUuid(uuid);
+		return list;
+	}
+	
 	public List<HashtagVo> getHashtagByKeyword(String keyword) {
 		List<HashtagVo> list = reviewDao.selectTagByKeyword(keyword);
 		return list;

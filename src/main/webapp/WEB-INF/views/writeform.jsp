@@ -53,6 +53,9 @@
   </form>
 </body>
 <script>
+	$(document).ready(function(){
+		$("#testMultiple").focus();
+	});
 	//star rating
 	$('.kv-fa').rating({
             theme: 'krajee-fa',
