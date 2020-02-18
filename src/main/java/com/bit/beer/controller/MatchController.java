@@ -24,13 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
-@RequestMapping("/sample")
 public class MatchController {
 
    
    
    @PostMapping("/imageUpload") // IOException - 파일이 없을 때 발생할 에러.
-   public String submitReport1(@RequestParam("picture") MultipartFile picture) throws IOException { 
+   public String submitReport1(@RequestParam("filedata") MultipartFile picture) throws IOException { 
       System.out.println("Start:" + new Date());
       // 플라스크한테 파일 보낼꺼야~(MULTIPART_FORM_DATA);
       HttpHeaders headers = new HttpHeaders();
