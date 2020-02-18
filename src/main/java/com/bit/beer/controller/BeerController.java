@@ -52,21 +52,24 @@ public class BeerController {
 		
 		// 리뷰 리스트 받아오기
 		List<ReviewVo> reviewList = beerService.getReviewList(beerNo);
-		model.addAttribute("reviewlist", reviewList);
+		model.addAttribute("reviewList", reviewList);
 		
-		// 좋아요 여부 체크
+		// 좋아요, 리뷰작성 여부 체크
 		boolean chkLike = false;
+		boolean chkReview = false;
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser != null) {
-			List<BeerVo> bLikeList = beerService.getBeerLikeList(authUser.getUuid());
-			for(BeerVo bLike: bLikeList) {
-				if(bLike.getBeerNo() == beerNo) {
-					chkLike = true;
-					break;
-				}
+			String uuid = authUser.getUuid();
+			chkLike = beerService.checkBLike(uuid, beerNo);
+			ReviewVo reviewVo = beerService.writtenReview(uuid, beerNo);
+			if(reviewVo != null) {
+				chkReview = true;
+				model.addAttribute("writtenReview", reviewVo);
 			}
 		}
 		model.addAttribute("chkLike", chkLike);
+		model.addAttribute("chkReview", chkReview);
+		
 		
 		// 쿠키에 맥주 추가
 		Cookie[] cookies = request.getCookies();
@@ -110,14 +113,13 @@ public class BeerController {
 	
 	// 마이페이지 좋아요 맥주리스트 페이지
 	@RequestMapping(value="/myblike")
-	@ResponseBody
 	public String myBeerLike(HttpSession session,Model model) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		String uuid = authUser.getUuid();
 		
 		List<BeerVo> list = beerService.getBeerLikeList(uuid);
 		model.addAttribute("beerList", list);
-		return gson.toJson(list);
+		return "mybeer";
 	}
 	
 	// 검색 페이지

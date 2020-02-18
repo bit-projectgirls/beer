@@ -7,11 +7,9 @@
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-<title>API Demo - Kakao JavaScript SDK</title>
+<title>My Beer List</title>
 <!-- Bootstrap -->
 <link rel="stylesheet" href="<c:url value="/resources/bootstrap/css/bootstrap.css"/>"/>
-<!-- kakao api -->
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <!-- jQuery -->
 <script src="<c:url value="/resources/jquery/jquery-3.4.1.min.js"/>"></script>
 <!-- font awesome -->
@@ -35,37 +33,37 @@
 	  	bottom: 0;
 	  	width: 100%;
 	}
-	#mypageMenu {
-		padding-bottom:68px;
-		text-align: center;
-	}
-	img {
-		width: 100px;
-		height: 100px;
-		object-fit: cover;
-		object-position: top;
-		border-radius: 50%;
+	.beerpic {
+		width:80px;
+		height:100px;
+		float: left;
+		border: 1px solid #303030;
 	}
 </style>
 </head>
 <body>
-	<a href="<c:url value="/"/>">뒤로</a>
-	<div id="mypageMenu">
-	<c:choose>
-		<c:when test="${ empty authUser }">
-		<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://localhost:8080/beer/login&response_type=code">카카오로 로그인</a>
-		</c:when>
-		<c:otherwise>
-		<div>
-		<img src="${ authUser.userPic }">
-		<p>${ authUser.nickname }<i class="fas fa-pen" id="modifyName"></i></p>
-		</div>
-		<a href="<c:url value="/myblike"/>">좋아요 누른 맥주 리스트 관리</a><br>
-		<a href="<c:url value="/myreview"/>">작성한 리뷰 관리</a><br>
-		<a href="<c:url value="/profilemod"/>">개인정보 수정</a><br>
-		<a href="<c:url value="/logout"/>">로그아웃</a>
-		</c:otherwise>
-	</c:choose>
+	<a href="<c:url value="/mypage"/>">뒤로</a>
+	<div id="mybeerlist">
+	<ul id="beerlist" class="beerlist">
+	<c:if test="${ empty beerList }">
+	좋아요 리스트가 없어요.
+	</c:if>
+	<c:forEach items="${ beerList }" var="beerVo">
+		<li>
+			<div class='beerpic'>그림</div>
+			<dl class='lst_dsc'>
+				<dd>${ beerVo.company }</dd>
+				<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
+				<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+				<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
+				<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+				<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
+					<i class='fas fa-heart'></i>
+				</dd>
+			</dl>
+		</li>
+	</c:forEach>
+	</ul>
 	</div>
 	<footer class="navbar">
 		<c:import url="/WEB-INF/views/footer.jsp"/>

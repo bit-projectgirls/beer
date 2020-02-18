@@ -63,27 +63,42 @@
 		</c:if>
 	</div>
 	<div id="rating">
-	리뷰 남기기
-	<form id="ratingform" method="post" action="<c:url value="/reviewform"/>">
-	<input id="beerNo" type="hidden" name="beerNo" value="${ beerVo.beerNo }">
-	<input id="starRating" type="text" value="${ rating }" class="kv-fa rating" data-size="xl" showClear="false">
-	</form>
+		<c:if test="${ empty authUser }">
+		<a href="<c:url value="/mypage"/>">로그인 시 리뷰를 남길 수 있어요!</a>
+		</c:if>
+		<c:if test="${ not empty authUser }">
+		<c:choose>
+			<c:when test="${ chkReview == true }">
+			내가 작성한 리뷰
+			<dl class="writtenReview">
+				<dd>${ writtenReview.reviewContent }</dd>
+				<dd><input name="ratingReview" value="${ writtenReview.rating }"class="kv-fa rating">${ writtenReview.rating }</dd>
+				<dd>by ${ writtenReview.nickname }</dd>
+			</dl>
+			</c:when>
+			<c:otherwise>
+			리뷰 남기기
+			<form id="ratingform" method="post" action="<c:url value="/reviewform"/>">
+			<input id="beerNo" type="hidden" name="beerNo" value="${ beerVo.beerNo }">
+			<input id="starRating" type="text" value="${ rating }" class="kv-fa rating" data-size="xl" showClear="false">
+			</form>
+			</c:otherwise>
+		</c:choose>
+		</c:if>
 	</div>
 	<div>
 	 	리뷰<br/>
-	 	<c:if test="${ empty reviewlist }">
+	 	<c:if test="${ empty reviewList }">
 			아직 작성된 리뷰가 없어요.
 		</c:if>
-		<c:if test="${ not empty reviewlist }">
-		<table class="table table-sm">
-		<c:forEach items="${ reviewlist }" var="reviewVo">
-		<tr>
-			<td>${ reviewVo.reviewContent }</td>
-			<td><input name="ratingReview" value="${ reviewVo.rating }" class="kv-fa rating"></td>
-			<td>by ${ reviewVo.nickname }</td>
-		</tr>
+		<c:if test="${ not empty reviewList }">
+		<c:forEach items="${ reviewList }" var="reviewVo">
+		<dl>
+			<dd>${ reviewVo.reviewContent }</dd>
+			<dd><input name="ratingReview" value="${ reviewVo.rating }" class="kv-fa rating">${ reviewVo.rating }</dd>
+			<dd>by ${ reviewVo.nickname }</dd>
+		</dl>
 		</c:forEach>
-		</table>
 		</c:if>
 	</div>
 	<footer class="navbar" id="menubar">
@@ -92,7 +107,7 @@
 </body>
 <script>
 	//star rating
-	$('#ratingReview').rating({
+	$("input[name='ratingReview']").rating({
 		displayOnly: true,
 		size: 'xs',
 		step: 0.5,

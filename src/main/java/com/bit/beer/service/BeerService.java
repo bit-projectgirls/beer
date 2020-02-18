@@ -102,6 +102,15 @@ public class BeerService {
 		return 0 < count;
 	}
 	
+	// Review 작성 여부 체크
+	public ReviewVo writtenReview(String uuid, int beerNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("uuid", uuid);
+		map.put("beerNo", beerNo);
+		ReviewVo vo = reviewDao.writtenReview(map);
+		return vo;
+	}
+	
 	// 좋아요 맥주 목록 받아오기
 	public List<BeerVo> getBeerLikeList(String uuid){
 		List<BeerVo> list = beerDao.selectBLikeList(uuid);

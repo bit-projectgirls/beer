@@ -9,4 +9,5 @@ public interface ReviewDao {
 	public List<HashtagVo> selectTagByKeyword(String keyword);
 	public List<ReviewVo> selectReviewByBeerNo(int beerNo);
 	public List<ReviewVo> selectReviewByUuid(String uuid);
+	public ReviewVo writtenReview(Map<String, Object> map);
 }

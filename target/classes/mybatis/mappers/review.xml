@@ -34,13 +34,25 @@
 	WHERE UPPER(tagName) Like UPPER('%' || #{keyword} || '%')
 	]]>
 	</select>
-	<!-- 작성 리뷰 목록 받아오기 -->
+	<!-- 리뷰 SELECT BY Uuid -->
 	<select id="selectByUuid" resultType="ReviewVo" parameterType="String">
 	<![CDATA[
 	SELECT * 
 	FROM review
 	WHERE uuid = #{uuid}
 	ORDER BY regdate DESC
+	]]>
+	</select>
+	<!-- 리뷰 SELECT by uuid & beerNo -->
+	<select id="selectWrittenReview" resultType="ReviewVo" parameterType="map">
+	<![CDATA[
+	SELECT * 
+	FROM (
+		SELECT reviewNo, review.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname
+		FROM review, users
+		WHERE review.uuid = users.uuid
+	)
+	WHERE uuid = #{uuid} AND beerNo = #{beerNo}
 	]]>
 	</select>
 </mapper>

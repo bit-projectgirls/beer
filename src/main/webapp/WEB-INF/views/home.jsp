@@ -25,7 +25,7 @@
 	body {
 	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 	    font-size: 14px;
-	    color:#000;
+	    background: #343d46;
 	    margin:0;
 	    padding:0;
 	}
@@ -59,17 +59,52 @@
 	  	bottom: 0;
 	  	width: 100%;
 	}
+	.beerpic {
+		width:80px;
+		height:100px;
+		float:left;
+		border:1px solid #303030;
+	}
+	.searchbox{
+		margin:10px auto;
+		width:300px;
+		height:50px;
+		vertical-align: middle;
+		white-space: nowrap;
+		position: relative;
+	}
+	.searchbox input#search{
+		width: 300px;
+		height: 50px;
+		background: #fff;
+		border: none;
+		font-size: 10pt;
+		float: left;
+		color: #63717f;
+		padding-left: 45px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 25px;
+	}
+	.searchbox .icon{
+		position: absolute;
+		top: 80%;
+		margin-right: 17px;
+		margin-bottom: 17px;
+		z-index: 1;
+		color: #4f5b66;
+	}
 </style>
 </head>
 
 <body>
-	<h3>맥주검색</h3>
-	<a href="<c:url value="/search"/>">
-		<div>
-			<input type="text" name="keyword" id="keywordinput">
-			<i class="fas fa-search"></i>
-		</div>
-	</a>
+	<h3>Beer Searcher</h3>
+	<div class="searchbox">
+		<a href="<c:url value="/search"/>">
+			<input type="search" name="keyword" id="search">
+			<span class="icon"><i class="fas fa-search 2x"></i></span>
+		</a>
+	</div>
 	<h5>우리 TOP 10 리스트</h5>
 	<!-- Swiper -->
 	<div class="swiper-container">

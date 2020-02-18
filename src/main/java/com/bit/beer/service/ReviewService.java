@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.bit.beer.controller.ReviewController;
 import com.bit.beer.repository.BeerDaoImpl;
+import com.bit.beer.repository.BeerVo;
 import com.bit.beer.repository.HashtagVo;
 import com.bit.beer.repository.ReviewDaoImpl;
 import com.bit.beer.repository.ReviewVo;
@@ -56,6 +57,16 @@ public class ReviewService {
 	public List<ReviewVo> getReviewList(String uuid){
 		List<ReviewVo> list = reviewDao.selectReviewByUuid(uuid);
 		return list;
+	}
+	public List<BeerVo> getReviewBeerInfo(List<ReviewVo> list){
+		List<BeerVo> result = new ArrayList<>();
+		if(list != null) {
+			for(ReviewVo vo: list) {
+				BeerVo beerVo = beerDao.selectBeerByNo(vo.getBeerNo());
+				result.add(beerVo);
+			}
+		}
+		return result;
 	}
 	
 	public List<HashtagVo> getHashtagByKeyword(String keyword) {

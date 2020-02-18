@@ -54,6 +54,10 @@ public class ReviewDaoImpl implements ReviewDao {
 		return list;
 	}
 
-
+	@Override
+	public ReviewVo writtenReview(Map<String, Object> map) {
+		ReviewVo vo = sqlSession.selectOne("review.selectWrittenReview", map);
+		return vo;
+	}
 
 }

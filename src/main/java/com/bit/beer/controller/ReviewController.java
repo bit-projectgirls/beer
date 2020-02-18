@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.beer.repository.BeerVo;
 import com.bit.beer.repository.HashtagVo;
 import com.bit.beer.repository.ReviewVo;
 import com.bit.beer.repository.UserVo;
@@ -71,13 +72,14 @@ public class ReviewController {
 	
 	// 내가 작성한 리뷰 목록
 	@RequestMapping(value="/myreview")
-	@ResponseBody
 	public String getMyreview(Model model, HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		String uuid = authUser.getUuid();
 		
-		List<ReviewVo> list = reviewService.getReviewList(uuid);
-		model.addAttribute("reviewList", list);
-		return gson.toJson(list);
+		List<ReviewVo> reviewList = reviewService.getReviewList(uuid);
+		List<BeerVo> beerList = reviewService.getReviewBeerInfo(reviewList);
+		model.addAttribute("beerList", beerList);
+		model.addAttribute("reviewList", reviewList);
+		return "myreview";
 	}
 }
