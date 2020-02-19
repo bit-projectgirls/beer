@@ -57,8 +57,16 @@
 		</c:when>
 		<c:otherwise>
 		<div>
-		<img src="${ authUser.userPic }">
-		<p>${ authUser.nickname }<i class="fas fa-pen" id="modifyName"></i></p>
+			<img id="userPic" src="${ authUser.userPic }">
+			<i class="fas fa-images" id="modPicbtn"></i>
+			<form method="post" enctype="multipart/form-data" action="" id="fileForm" style=" display: none">
+				<input type="file" accept="image/*" capture="camera" id="uploadFile" name="uploadFile" style="display: none">
+			</form>
+			<p>${ authUser.nickname }
+			<a href="<c:url value="/modifyname"/>">
+				<i class="fas fa-pen" id="modifyName"></i>
+			</a>
+			</p>
 		</div>
 		<a href="<c:url value="/myblike"/>">좋아요 누른 맥주 리스트 관리</a><br>
 		<a href="<c:url value="/myreview"/>">작성한 리뷰 관리</a><br>
@@ -67,11 +75,42 @@
 		</c:otherwise>
 	</c:choose>
 	</div>
+
+	
 	<footer class="navbar">
 		<c:import url="/WEB-INF/views/footer.jsp"/>
 	</footer>
 </body>
 <script type='text/javascript'>
+	$("#modPicbtn").on("click", function(e) {
+		$("#uploadFile").click();
+	});
+	$("#uploadFile").change(function(){
+		//var file = document.getElementById('userPic').files;
+		//var nickname = document.getElementById('nickname').value;
+		// Get form
+		var form = $('#fileForm')[0];
 
+		// Create an FormData object 
+		 var data = new FormData(form);
+
+		$.ajax({
+		    url : "<c:url value="/userpicupload"/>",
+		    type : "post",
+		    enctype: 'multipart/form-data',
+		    processData: false,
+            contentType: false,
+            cache: false,
+		    data : data,
+		    success : function(result){
+		    	console.log(result);
+		    	$("#userPic").attr("src", result);
+		    },
+		    error: function(request, status, error) {
+				console.error("Error:", error);
+			}
+		});
+	});
+	
 </script>
 </html>

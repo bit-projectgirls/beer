@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bit.beer.controller.ReviewController;
 import com.bit.beer.repository.BeerDaoImpl;
 import com.bit.beer.repository.BeerVo;
 import com.bit.beer.repository.HashtagVo;
@@ -74,6 +73,10 @@ public class ReviewService {
 		return list;
 	}
 
+	public List<HashtagVo> getHashtagByBeerNo(int beerNo) {
+		List<HashtagVo> list = reviewDao.selectTagByBeerNo(beerNo);
+		return list;
+	}
 	// rating update
 	public boolean updateRating(int beerNo) {
 		List<ReviewVo> list = reviewDao.selectReviewByBeerNo(beerNo);

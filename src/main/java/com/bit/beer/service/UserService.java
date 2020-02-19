@@ -2,24 +2,24 @@ package com.bit.beer.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.bit.beer.repository.BeerDaoImpl;
-import com.bit.beer.repository.BeerVo;
-import com.bit.beer.repository.ReviewDaoImpl;
-import com.bit.beer.repository.ReviewVo;
 import com.bit.beer.repository.UserDaoImpl;
 import com.bit.beer.repository.UserVo;
 import com.google.gson.JsonElement;
@@ -30,10 +30,6 @@ import com.google.gson.JsonParser;
 public class UserService {
 	@Autowired
 	private UserDaoImpl userDao;
-	@Autowired
-	private BeerDaoImpl beerDao;
-	@Autowired
-	private ReviewDaoImpl reviewDao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -184,9 +180,38 @@ public class UserService {
 		return vo;
 	}
 	
-	// 작성한 리뷰 목록 받아오기
-	public List<ReviewVo> getReviewList(String uuid){
-		List<ReviewVo> list = reviewDao.selectReviewByUuid(uuid);
-		return list; 
+	// 개인 정보 변경
+	public boolean modifyProfile(UserVo vo) {
+		int updatedCount = userDao.update(vo);
+		return 1 == updatedCount;
+	}
+	
+	public String store(MultipartFile mFile, HttpServletRequest request) {
+		// 실제 클라이언트에서의 파일 이름 -> Rename 필요
+		String savedFilename = "";
+		String save_path="/upload/";
+		String fileName = mFile.getOriginalFilename().toLowerCase();
+		
+		
+		// 파일명 생성(시스템 날짜를 기준으로 생성)
+		
+		Calendar cal = Calendar.getInstance();
+		savedFilename = save_path + String.valueOf(cal.getTimeInMillis()) + fileName;
+		try {
+			writeFile(mFile, savedFilename);
+		} catch(Exception e) {
+			String message= "File 업로드 실패![파일명:"+ savedFilename +"]";
+			// 익셉션의 전환 : 커스텀 익셉션 만들어 처리할 것을 권장
+		}
+		return "/beer" + savedFilename;
+	}
+	
+	// 실제 저장을 위한 메서드
+	private void writeFile(MultipartFile mFile, String saveFilename) throws IOException {
+		byte[] fileData = mFile.getBytes();
+		// 저장을 위해 FileOutputStream을 생성
+		FileOutputStream fos = new FileOutputStream(saveFilename);
+		fos.write(fileData);
+		fos.close();
 	}
 }

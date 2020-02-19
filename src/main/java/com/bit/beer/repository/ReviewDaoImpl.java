@@ -43,6 +43,13 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	
 	@Override
+	public List<HashtagVo> selectTagByBeerNo(int beerNo) {
+		List<HashtagVo> list = sqlSession.selectList("review.selectTagByBeerNo", beerNo);
+
+		return list;
+	}
+
+	@Override
 	public List<ReviewVo> selectReviewByBeerNo(int beerNo) {
 		List<ReviewVo> list = sqlSession.selectList("review.selectByBeerNo", beerNo);
 		return list;

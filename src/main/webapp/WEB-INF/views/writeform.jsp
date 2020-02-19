@@ -41,7 +41,7 @@
   </div>
   <form id="reviewForm" method="post" action="<c:url value="/write"/>">
     <input name="uuid" type="hidden" value="${ authUser.uuid }">
-    <input name="beerNo" type="hidden" value="${ beerVo.beerNo }">
+    <input id="beerNo" name="beerNo" type="hidden" value="${ beerVo.beerNo }">
     <input name="reviewPic" type="hidden" value="default">
 	<input id="rating" type="text" value="${ rating }" class="kv-fa rating" data-size="xl" showClear="false">
 	<h5>리뷰작성하기</h5>
@@ -98,6 +98,8 @@
 		
     function remoteSearch(text, cb) {
     	  var URL = '<c:url value="/searchtag"/>';
+    	  var beerNo = document.getElementById("beerNo").value;
+    	  console.log(beerNo);
     	  xhr = new XMLHttpRequest();
     	  xhr.onreadystatechange = function() {
     	    if (xhr.readyState === 4) {
@@ -110,7 +112,7 @@
     	      }
     	    }
     	  };
-    	  xhr.open("GET", URL + "?keyword=" + text, true);
+    	  xhr.open("GET", URL + "?keyword=" + text +"&beerNo=" + beerNo, true);
     	  xhr.send();
     }
     //submit 시 리뷰 내용 보내기

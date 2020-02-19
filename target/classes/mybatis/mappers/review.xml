@@ -34,6 +34,18 @@
 	WHERE UPPER(tagName) Like UPPER('%' || #{keyword} || '%')
 	]]>
 	</select>
+	<!-- 태그 SELECT BY beerNo -->
+	<select id="selectTagByBeerNo" resultType="HashtagVo" parameterType="int">
+	<![CDATA[
+	SELECT * FROM (
+		SELECT tagName, count(*) cnt FROM (
+			SELECT * FROM hashtag WHERE beerNo = #{beerNo})
+		GROUP BY tagName
+		ORDER BY cnt DESC
+		)
+	WHERE ROWNUM <= 10
+	]]>
+	</select>
 	<!-- 리뷰 SELECT BY Uuid -->
 	<select id="selectByUuid" resultType="ReviewVo" parameterType="String">
 	<![CDATA[

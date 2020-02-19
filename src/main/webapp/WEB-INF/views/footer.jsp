@@ -169,7 +169,7 @@
          data.append('filedata', event.blob);
          console.log(event.blob);
          $.ajax({
-            url:"<c:url value="/sample/imageUpload"/>",
+            url:"<c:url value="/imageUpload"/>",
             data: data,
             cache: false,
             contentType: false,

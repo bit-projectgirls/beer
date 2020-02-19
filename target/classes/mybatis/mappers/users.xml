@@ -18,4 +18,13 @@
 	WHERE kakaoId=#{kakaoId}	
 	]]>
 	</select>
+	<!-- 개인정보 변경 UPDATE -->
+	<update id="update" parameterType="UserVo">
+	UPDATE users
+	SET nickname = #{nickname}
+	<if test="userPic != null">
+	    , userPic = #{userPic}
+	</if>
+	WHERE uuid = #{uuid}
+	</update>
 </mapper>

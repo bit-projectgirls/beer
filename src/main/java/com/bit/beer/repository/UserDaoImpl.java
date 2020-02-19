@@ -26,4 +26,11 @@ public class UserDaoImpl implements UserDao {
 		UserVo vo = sqlSession.selectOne("user.selectBykakaoId", kakaoId);
 		return vo;
 	}
+
+	@Override
+	public int update(UserVo vo) {
+		int updatedCount = 0;
+		updatedCount = sqlSession.update("user.update", vo);
+		return updatedCount;
+	}
 }

@@ -1,5 +1,6 @@
 package com.bit.beer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,11 +61,15 @@ public class ReviewController {
 	// 해시태그 목록 보여주기
 	@RequestMapping(value="/searchtag", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String getHashtag(@RequestParam(value="keyword") String keyword) {
+	public String getHashtag(@RequestParam(value="keyword") String keyword, @RequestParam(value="beerNo", required=false) int beerNo) {
 		logger.info("search tag start: " + keyword);
-
+		List<HashtagVo> list = new ArrayList<HashtagVo>();
 		// TODO : keyword가 없을때는 추천 태그 띄워주기
-		List<HashtagVo> list = reviewService.getHashtagByKeyword(keyword);
+		if(keyword.length() == 0) {
+			list = reviewService.getHashtagByBeerNo(beerNo);
+		} else {
+			list = reviewService.getHashtagByKeyword(keyword);
+		}
 		
 		logger.info(gson.toJson(list));
 		return gson.toJson(list);
