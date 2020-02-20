@@ -15,6 +15,11 @@
 <script src="<c:url value="/resources/jquery/jquery-3.4.1.min.js"/>"></script>
 <!-- Swiper JS -->
 <script src="<c:url value="/resources/swiper.min.js"/>"></script>
+<!-- star rating -->
+<link href="<c:url value="/resources/star-rating.css"/>" media="all" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/resources/star-rating.js"/>" type="text/javascript"></script>
+<link href="<c:url value="/resources/krajee-fa/theme.css"/>" media="all" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <style>
@@ -31,13 +36,12 @@
 	}
 	.swiper-container {
 	    width: 100%;
-	    height: 30%;
+	    height: 200px;
 	}
 	.swiper-slide {
 	    font-size: 18px;
 	    background: #fff;
-	    
-	
+
 	    /* Center slide text vertically */
 	    display: -webkit-box;
 	    display: -ms-flexbox;
@@ -58,12 +62,6 @@
 	  	position:fixed;
 	  	bottom: 0;
 	  	width: 100%;
-	}
-	.beerpic {
-		width:80px;
-		height:100px;
-		float:left;
-		border:1px solid #303030;
 	}
 	.searchbox {
 		margin:10px auto;
@@ -91,16 +89,59 @@
 		z-index: 1;
 		color: #4f5b66;
 	}
-	
 	.beercard {
-		width:90%;
+		width:300px;
 		height: 150px;
 		margin-bottom: 30px;
 		border-radius: 20px;
-		background: #fde16d;
+		background: #ffe6db;
 	}
-	.beername
-	
+	.beerpic {
+		width:60px;
+		height:120px;
+		float:left;
+		border:1px solid #303030;
+		margin: 15px;
+	}
+	.lst_dsc {
+		height: 150px;
+		padding: 15px;
+		margin: 0;
+	}
+	.company, .beerinfo, .beerrating {
+		font-size: 0.8em;
+		margin: 0;
+		overflow: hidden; 
+		text-overflow: ellipsis;
+		white-space: nowrap; 
+		width: 190px;
+	}
+	.beername {
+		margin: 0;
+		overflow: hidden; 
+		text-overflow: ellipsis;
+		white-space: nowrap; 
+		width: 190px;
+	}
+	.rating-container .empty-stars {
+		color: #000;
+	}
+	.rating-container .filled-stars {
+		color: #000;
+	}
+	.beeridx {
+		display: none;
+	}
+	.likeArea {
+		float : right;
+		margin: 10px 0 0 0;
+	}
+	.rating-container, .ratingcap {
+		float: left;
+	}
+	.rating-xs  {
+    	font-size: 0.8em;
+	}
 </style>
 </head>
 
@@ -121,11 +162,11 @@
 				<div class="beercard">
 					<div class='beerpic'>그림</div>
 					<dl class='lst_dsc'>
-						<dd>${ beerVo.company }</dd>
+						<dd class='company'>${ beerVo.company }</dd>
 						<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
 						<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
 						<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
-						<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+						<dd class='beerrating'><div class='ratingcap'>${ beerVo.ratingBA }</div><input name='ratingBA' value='${ beerVo.ratingBA }' class='kv-fa rating'></dd>
 						<c:if test='${ not empty authUser }'>
 						<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
 							<c:set var='chkLike' value='false' />
@@ -161,11 +202,11 @@
 				<div class="beercard">
 					<div class='beerpic'>그림</div>
 					<dl class='lst_dsc'>
-						<dd>${ beerVo.company }</dd>
+						<dd class='company'>${ beerVo.company }</dd>
 						<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
 						<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
 						<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
-						<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+						<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 						<c:if test='${ not empty authUser }'>
 						<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
 							<c:set var='chkLike' value='false' />
@@ -199,10 +240,19 @@
 </body>
 <!-- Initialize Swiper -->
 <script>
-  var swiper = new Swiper('.swiper-container', {
-    pagination: {
-      el: '.swiper-pagination',
-    },
-  });
+	var swiper = new Swiper('.swiper-container', {
+		pagination: {
+		el: '.swiper-pagination',
+		}
+	});
+	$("input[name='ratingBA']").rating({
+		displayOnly: true,
+		size: 'xs',
+		step: 0.5,
+		showCaption: false,
+		theme: 'krajee-fa',
+      filledStar: '<i class="fas fa-star"></i>',
+      emptyStar: '<i class="far fa-star"></i>',
+	});
 </script>
 </html>

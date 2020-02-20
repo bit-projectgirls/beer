@@ -106,6 +106,15 @@
 	</footer>
 </body>
 <script>
+	$("input[name='ratingBA']").rating({
+		displayOnly: true,
+		size: 'xs',
+		step: 0.5,
+		showCaption: false,
+		theme: 'krajee-fa',
+	  filledStar: '<i class="fas fa-star"></i>',
+	  emptyStar: '<i class="far fa-star"></i>',
+	});
 	//star rating
 	$("input[name='ratingReview']").rating({
 		displayOnly: true,

@@ -53,14 +53,14 @@
 	<div id="mypageMenu">
 	<c:choose>
 		<c:when test="${ empty authUser }">
-		<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://localhost:8080/beer/login&response_type=code">카카오로 로그인</a>
+		<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://192.168.1.26:8080/beer/login&response_type=code">카카오로 로그인</a>
 		</c:when>
 		<c:otherwise>
 		<div>
 			<img id="userPic" src="${ authUser.userPic }">
 			<i class="fas fa-images" id="modPicbtn"></i>
 			<form method="post" enctype="multipart/form-data" action="" id="fileForm" style=" display: none">
-				<input type="file" accept="image/*" capture="camera" id="uploadFile" name="uploadFile" style="display: none">
+				<input type="file" accept="image/*;capture=camera" id="uploadFile" name="uploadFile" style="display: none">
 			</form>
 			<p>${ authUser.nickname }
 			<a href="<c:url value="/modifyname"/>">

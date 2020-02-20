@@ -3,14 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <c:forEach items="${ beerList }" var="beerVo">
-	<li>
+	<li class='beercard'>
 		<div class='beerpic'>그림</div>
 		<dl class='lst_dsc'>
-			<dd>${ beerVo.company }</dd>
+			<dd class='company'>${ beerVo.company }</dd>
 			<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
 			<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
 			<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
-			<dd class='beerrating'>${ beerVo.ratingBA }</dd>
+				<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 			<c:if test='${ not empty authUser }'>
 			<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
 				<c:set var='chkLike' value='false' />

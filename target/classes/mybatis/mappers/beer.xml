@@ -64,7 +64,7 @@
 	<![CDATA[
     SELECT *
     FROM (
-    	SELECT b.beerNo, beerName, beerPic, company, country, type, abv, b.rating, ratingBA, note, (SELECT count(*) FROM REVIEW r WHERE b.beerNo = r.beerNo) rcnt
+    	SELECT DISTINCT b.beerNo, beerName, beerPic, company, country, type, abv, b.rating, ratingBA, note, (SELECT count(*) FROM REVIEW r WHERE b.beerNo = r.beerNo) rcnt
 		FROM beer b LEFT OUTER JOIN review r ON b.beerNo = r.beerNo
 		ORDER BY rcnt DESC)
     WHERE ROWNUM <= 10

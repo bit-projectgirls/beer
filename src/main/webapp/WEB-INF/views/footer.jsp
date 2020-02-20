@@ -24,7 +24,7 @@
 </a>
 
 <form method="post" enctype="multipart/form-data" action="" id="fileForm" style=" display: none">
-   <input type="file" accept="image/*" capture="camera" id="picture" name="picture" style="display: none">
+   <input type="file" accept="image/*;capture=camera" id="picture" name="picture" style="display: none"/>
 </form>
 
 <script>
@@ -178,6 +178,7 @@
             success: function(result){
                console.log(result);
                // TODO: result로 맥주리스트 보여주기
+               $('body').html(result);
             },
             //TODO: 로딩이미지 보여주기
             error : function(err){
