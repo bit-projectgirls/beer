@@ -18,28 +18,81 @@
 <script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
 <style>
 	html, body {
 	    position: relative;
 	    height: 100%;
 	}
 	body {
-	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-	    font-size: 14px;
-	    color:#000;
+		font-family: 'Nanum Gothic', sans-serif;
+		background-color: #323940;
 	    margin:0;
 	    padding:0;
 	}
-	ul{
+	.header {
+		z-index: 1;
+		position: fixed;
+		top:0;
+		width: 100%;
+		height: 60px;	
+		color: #323940;
+		background-color: #fde16d;
+		margin: 0;
+		padding: 0;
+	}
+	.header a{
+		position:relative;
+		color: #323940;
+		float: left;
+		bottom: 56px;
+		left: 20px;
+	}
+	#recenttitle {
+		color: #fff;
+		padding-left: 20px;
+	}
+	.searchbox {
+		margin:10px auto;
+		width:300px;
+		height:50px;
+		vertical-align: middle;
+		white-space: nowrap;
+		position: relative;
+	}
+	.searchbox input#search {
+		width: 300px;
+		height: 40px;
+		background: #fff;
+		border: none;
+		font-size: 10pt;
+		float: left;
+		color: #323940;
+		padding-left: 45px;
+		padding-right: 10px;
+		border-radius: 20px;
+	}
+	.searchbox .icon{
+		position: absolute;
+		top: 11px;
+		left: 20px;
+		z-index: 1;
+		color: #323940;
+	}
+	#searchresult{
+	margin-top:70px;
+	}
+	ul {
 		list-style:none;
 		padding:0px;
 	}
 	.beercard {
-		width:300px;
+		width: 300px;
 		height: 150px;
 		margin: 10px auto;
 		border-radius: 20px;
-		background: #ffe6db;
+		background: #fff;
 	}
 	.beerpic {
 		width:60px;
@@ -53,87 +106,72 @@
 		padding: 15px;
 		margin: 0;
 	}
-	.company, .beerinfo, .beerrating {
-		font-size: 1.0em;
+	.company, .beerinfo {
+		color: #323940;
+		font-size: 0.8em;
 		margin: 0;
 		overflow: hidden; 
 		text-overflow: ellipsis;
-		white-space: nowrap; 
+		white-space: nowrap;
 		width: 190px;
+	}
+	.beerrating {
+		font-size: 1.1em;
 	}
 	.beername {
 		font-size: 1.5em;
+		line-height: 1.1em;
 		margin: 0;
-		overflow: hidden; 
-		text-overflow: ellipsis;
-		white-space: nowrap; 
 		width: 190px;
+		height: 55px;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.beername a {
+		color: #000;
 	}
 	.rating-container .empty-stars {
-		color: #000;
+		color: #fcba03;
 	}
 	.rating-container .filled-stars {
-		color: #000;
+		color: #fcba03;
 	}
 	.beeridx {
 		display: none;
 	}
 	.likeArea {
+		font-size: 1.1em;
+		color: #ff7575;
 		float : right;
-		margin: 10px 0 0 0;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		bottom: 5px;
+		right: 2px;
 	}
 	.rating-container, .ratingcap {
 		float: left;
 	}
 	.rating-xs  {
-    	font-size: 1.0em;
-	}
-	.searchbox {
-		margin:10px auto;
-		width:300px;
-		height:50px;
-		vertical-align: middle;
-		white-space: nowrap;
-		position: relative;
-	}
-	.searchbox input#search {
-		width: 300px;
-		height: 40px;
-		background: #fde16d;
-		border: none;
-		font-size: 10pt;
-		float: left;
-		color: #63717f;
-		padding-left: 45px;
-		border-radius: 20px;
-	}
-	.searchbox .icon{
-		position: absolute;
-		top: 5%;
-		left: 20px;
-		z-index: 1;
-		color: #4f5b66;
-	}
-	#searchresult{
-	top:30%;
-	margin-top:10px;
+    	font-size: 0.5em;
 	}
 </style>
 </head>
 <body>
-<div class="titleheader">
-	<a href="<c:url value="/"/>">뒤로</a>
-</div>
+<div class="header">
 
 <div class="searchbox">
 	<form name="searchform" action="" method="POST" onsubmit="return false;">
-		<a href="<c:url value="/search"/>">
-			<input type="search" name="keyword" id="search">
-			<span class="icon"><i class="fas fa-search fa-lg"></i></span>
-		</a>
+		<input type="search" name="keyword" id="search">
+		<span class="icon"><i class="fas fa-search fa-lg"></i></span>
 	</form>
 </div>
+	<a href="<c:url value="/"/>"><i class="fas fa-chevron-left fa-2x"></i></a>
+</div>
 <div id="searchresult">
+	<h5 id="recenttitle">최근 검색 기록</h5>
 	<ul id="beerlist" class="beerlist">
 	<c:forEach items="${ beerList }" var="beerVo">
 		<li class='beercard'>
@@ -141,7 +179,7 @@
 			<dl class='lst_dsc'>
 				<dd class='company'>${ beerVo.company }</dd>
 				<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
-				<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+				<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>" target='_blank'>${ beerVo.beerName }</a></dt>
 				<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
 					<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 				<c:if test='${ not empty authUser }'>
@@ -175,7 +213,11 @@ $(document).ready(function() {
 	console.log(document.cookie);
 	$("#search").keyup(function(event){
 		var keyword = document.getElementById("search").value.trim();
-
+		if(keyword.length == 0){
+			$("#recenttitle").css('display', 'block');
+		} else {
+			$("#recenttitle").css('display', 'none');
+		}
 		$.ajax({
 		    url : "<c:url value="/searchkeyword"/>",
 		    dataType : "html",
@@ -186,6 +228,26 @@ $(document).ready(function() {
 		    }
 		});
 	})
+	//좋아요 기능
+	function bLike(beerNo){
+		console.log(beerNo);
+		$.ajax({
+			url:"<c:url value="/blike"/>",
+			dataType : "json",
+		    type : "post",
+		    data : {beerNo: beerNo},
+		    success : function(result){
+		    	if(result.chkLike){
+		    		var html = "<i class='fas fa-heart'></i>";
+		    		$("#like"+result.beerNo).html(html);
+		    	} else {
+		    		var html = "<i class='far fa-heart'></i>";
+		    		$("#like"+result.beerNo).html(html);
+		    		$("#li"+result.beerNo).css('display', 'none');
+		    	}
+		    }
+		})
+	}
 });
 $("input[name='ratingBA']").rating({
 	displayOnly: true,

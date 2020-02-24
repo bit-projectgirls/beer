@@ -8,7 +8,7 @@
 		<dl class='lst_dsc'>
 			<dd class='company'>${ beerVo.company }</dd>
 			<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
-			<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+			<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>" target='_blank'>${ beerVo.beerName }</a></dt>
 			<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
 				<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 			<c:if test='${ not empty authUser }'>
@@ -32,3 +32,35 @@
 		</dl>
 	</li>
 </c:forEach>
+<script>
+//좋아요 기능
+function bLike(beerNo){
+	console.log(beerNo);
+	$.ajax({
+		url:"<c:url value="/blike"/>",
+		dataType : "json",
+	    type : "post",
+	    data : {beerNo: beerNo},
+	    success : function(result){
+	    	if(result.chkLike){
+	    		var html = "<i class='fas fa-heart'></i>";
+	    		$("#like"+result.beerNo).html(html);
+	    	} else {
+	    		var html = "<i class='far fa-heart'></i>";
+	    		$("#like"+result.beerNo).html(html);
+	    		$("#li"+result.beerNo).css('display', 'none');
+	    	}
+	    }
+	})
+}
+
+$("input[name='ratingBA']").rating({
+	displayOnly: true,
+	size: 'xs',
+	step: 0.5,
+	showCaption: false,
+	theme: 'krajee-fa',
+     filledStar: '<i class="fas fa-star"></i>',
+     emptyStar: '<i class="far fa-star"></i>',
+});
+</script>

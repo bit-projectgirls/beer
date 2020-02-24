@@ -23,19 +23,24 @@
 <script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
 <style>
 	html, body {
 	    position: relative;
 	    height: 100%;
 	}
 	body {
-	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-	    font-size: 14px;
-	    color:#000;
+	    font-family: 'Nanum Gothic', sans-serif;
+		background-color: #323940;
 	    margin:0;
 	    padding:0;
 	}
+	.wrap {
+		padding-bottom: 80px;
+	}
 	#modal {
+		font-size: 0.8em;
 		display:none;
 		position:relative;
 		width:100%;
@@ -44,8 +49,10 @@
 	}
 	#modal .modal_content {
 		width:100%;
-		padding-top:80px;
+		padding-top:70px;
 		background:#fff;
+		border-bottom-right-radius: 20px;
+		border-bottom-left-radius: 20px;
 	}
 	#modal .modal_layer {
 		position:fixed;
@@ -56,25 +63,35 @@
 		background:rgba(0, 0, 0, 0.5);
 		z-index:-1;
 	}
+	#con1, #con2, #con3 {
+		padding: 10px;
+	}
 	#list_content {
-		top:60px;
+		top: 70px;
 		width: 300px;
 		position: absolute;
 		left: 50%;
 		margin-left: -150px;
 	}
 	#filtermenu {
-		width:300px;
+		background-color: #fff;
+		width:100%;
+		height: 70px;
+		padding-top:5px;
 		position: absolute;
 		z-index:99;
 		left: 50%;
-		margin-left: -150px;
+		margin-left: -50%;
 		text-align:center;
 	}
+	#filtermenu label span {
+		font-size: 0.8em;
+	}
 	input[type="radio"] + label {
+		color: #323940;
 		width: 60px;
 		height: 60px;
-		margin: 10px 10px 20px 10px;
+		margin: 4px 10px 10px 10px;
 		padding: 5px 0 0 0;
 		display:inline-block;
 	}
@@ -88,19 +105,98 @@
 		display:inline-block;
 		border:1px solid #fcba03;
 		border-radius:20px;
-		margin:2px;
-		padding:2px 5px;	
+		margin:3px;
+		padding:3px 6px;	
 	}
 	input[type="checkbox"]:checked + label {
 		background-color:#fcba03;
+		color: #fff;
 	}
 	input[type="checkbox"] {
 		display:none;
 	}
+	.searchbox {
+		margin:0 auto 10px auto;
+		width:300px;
+		height:40px;
+		vertical-align: middle;
+		white-space: nowrap;
+		position: relative;
+	}
+	.searchbox input#keywordinput {
+		width: 300px;
+		height: 40px;
+		background-color: #fde16d;
+		border: none;
+		font-size: 10pt;
+		float: left;
+		color: #323940;
+		padding-left: 45px;
+		border-radius: 20px;
+	}
+	.searchbox .icon {
+		position: absolute;
+		top: 12px;
+		left: 20px;
+		z-index: 1;
+		color: #323940;
+	}
 	#countrylist {
 		overflow:auto;
+		max-height: 250px;
 	}
-	ul{
+	#con3 {
+		height: 50px;
+		width: 315px;
+		margin: 0 auto
+	}
+	#minabv, #maxabv {
+		border: 0;
+		margin: 5px;
+		width: 40px;
+		float: left;
+		text-align: center;
+	}
+	#slider-range {
+		margin: 10px 10px 5px 5px;
+		width: 180px;
+		border: 0;
+		background-color: #c7c7c7;
+		float: left;
+		border-radius:5px;
+	}
+	#slider-range .ui-slider-range {
+		background-color: #fde16d;
+		border:0;
+	}
+	#slider-range .ui-slider-handle {
+		background-color: #fde16d;
+		border: 5px solid #fff;
+		border-radius:10px;
+		box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.2)
+	}
+	.modal_bottom {
+		height: 40px;
+		border-bottom-right-radius: 20px;
+		border-bottom-left-radius: 20px;
+		background-color: #fde16d;
+	}
+	#clearbtn {
+		margin: 6px 11px;
+		padding: 3px 7px;
+		border: 0;
+		background-color: #fff;
+		border-radius: 20px
+	}
+	#closebtn {
+		margin: 6px 11px;
+		padding: 3px 7px;
+		border: 0;
+		float: right;
+		background-color: #fff;
+		border-radius: 20px
+	}
+	ul {
 		list-style:none;
 		padding:0px;
 	}
@@ -109,54 +205,72 @@
 		height: 150px;
 		margin: 10px auto;
 		border-radius: 20px;
-		background: #ffe6db;
+		background: #fff;
 	}
 	.beerpic {
 		width:60px;
 		height:120px;
 		float:left;
-		border:1px solid #303030;
 		margin: 15px;
+	}
+	.beerpic img{
+		height: 120px;
 	}
 	.lst_dsc {
 		height: 150px;
 		padding: 15px;
 		margin: 0;
 	}
-	.company, .beerinfo, .beerrating {
-		font-size: 1.0em;
+	.company, .beerinfo {
+		color: #323940;
+		font-size: 0.8em;
 		margin: 0;
 		overflow: hidden; 
 		text-overflow: ellipsis;
-		white-space: nowrap; 
+		white-space: nowrap;
 		width: 190px;
+	}
+	.beerrating {
+		font-size: 1.1em;
 	}
 	.beername {
 		font-size: 1.5em;
+		line-height: 1.1em;
 		margin: 0;
-		overflow: hidden; 
-		text-overflow: ellipsis;
-		white-space: nowrap; 
 		width: 190px;
+		height: 55px;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.beername a {
+		color: #000;
 	}
 	.rating-container .empty-stars {
-		color: #000;
+		color: #fcba03;
 	}
 	.rating-container .filled-stars {
-		color: #000;
+		color: #fcba03;
 	}
 	.beeridx {
 		display: none;
 	}
 	.likeArea {
+		font-size: 1.1em;
+		color: #ff7575;
 		float : right;
-		margin: 10px 0 0 0;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		bottom: 5px;
+		right: 2px;
 	}
 	.rating-container, .ratingcap {
 		float: left;
 	}
 	.rating-xs  {
-    	font-size: 0.9em;
+    	font-size: 0.5em;
 	}
 	.navbar {
 	background:#fff;
@@ -168,6 +282,7 @@
 </style>
 </head>
 <body>
+	<div class="wrap">
 	<div id="filtermenu">
 		<input type="radio" name="options" id="option1" value="1" onclick="div_OnOff(this.value);">
 		<label for="option1" id="label1" class="btn" onclick="modal_OnOff(1);"><i class="fas fa-globe fa-lg"></i><br/><span>국가</span></label>
@@ -178,14 +293,15 @@
 	</div>
 	<div id="modal">
 	<div class="modal_content">
-		<form id="chkform">
+		<form name="chkform" id="chkform">
 			<div id="con1" style="display:none">
-				국가별 검색 필터
-				<input type="text" name="keyword" class="form-control" id="keywordinput">
+				<div class="searchbox">
+					<input type="text" name="keyword" id="keywordinput" placeholder="국가를 검색해보세요">
+					<span class="icon"><i class="fas fa-search fa-lg"></i></span>
+				</div>
 				<div id="countrylist"></div>
 			</div>
 			<div id="con2" style="display:none">
-				종류별 검색 필터
 				<div id="typelist">
 				<c:forEach items="${ typeList }" var="beertype">
 					<input id="${ beertype }" name="beertype" type="checkbox" value="${ beertype }">
@@ -194,14 +310,15 @@
 				</div>
 			</div>
 			<div id="con3" style="display:none">
-				도수별 검색필터
-				<input type="text" id="minabv" name="minabv">
+				<input type="text" id="minabv" name="minabv" value="0.0%" readonly>
 				<div id="slider-range"></div>
-				<input type="text" id="maxabv" name="maxabv">
+				<input type="text" id="maxabv" name="maxabv" value="20.0%" readonly>
 			</div>
-			<input type="reset">
 		</form>
-		<button onclick="modal_OnOff(4)">닫기</button>
+		<div class="modal_bottom">
+			<button id="clearbtn">선택 초기화</button>
+			<button id="closebtn" onclick="modal_OnOff(4)">닫기</button>
+		</div>
 		<div class="modal_layer"></div>
 	</div>
 	</div>
@@ -209,13 +326,13 @@
 		<ul id="beerlist" class="beerlist">
 		<c:forEach items="${ beerList }" var="beerVo">
 			<li class='beercard'>
-				<div class='beerpic'>그림</div>
+				<div class='beerpic'><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
 				<dl class='lst_dsc'>
 					<dd class='company'>${ beerVo.company }</dd>
 					<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
-					<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+					<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>" target='_blank'>${ beerVo.beerName }</a></dt>
 					<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
-						<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
+					<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 					<c:if test='${ not empty authUser }'>
 					<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
 						<c:set var='chkLike' value='false' />
@@ -239,6 +356,7 @@
 		</c:forEach>
 		</ul>
 	</div>
+	</div>
 	<footer class="navbar">
 		<c:import url="/WEB-INF/views/footer.jsp"/>
 	</footer>
@@ -248,23 +366,87 @@ var ctrylist = [];
 var chktypelist = [];
 var minabv = 0;
 var maxabv = 20;
-var lastidx = 0;
+var idx = 0;
 var bLikeList = new Array();
 <c:forEach items="${bLikeList}" var="likeVo">
 bLikeList.push("${likeVo.beerNo}");
 </c:forEach>
 var authUser = "<c:out value="${authUser}"/>";
+PrimarySlider();
 console.log(bLikeList);
+
+function ajax_call(){
+	idx = 0;
+	$.ajax({
+	    url : "<c:url value="/loadlist"/>",
+	    type : "post",
+	    dataType : "json",
+	    traditional : true,
+	    async:false,
+	    data : {
+	    	typeList: chktypelist,
+	    	ctryList: ctrylist,
+	    	minabv: minabv,
+	    	maxabv: maxabv,
+	    	idx: idx
+	    	},
+	    success : function(result){
+	    	var html = "";
+			$.each(result, function(index, value){
+				html += renderList(value);
+				if(authUser.length != 0){
+					console.log(bLikeList.includes(String(value.beerNo)));
+					if(bLikeList.includes(String(value.beerNo))){
+						html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+						")'><i class='fas fa-heart'></i></dd></dl></li>";
+					} else{
+						html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
+						")'><i class='far fa-heart'></i></dd></dl></li>";
+					}
+				} else {
+					html += "</dl></li>"
+				}
+			});
+	    	$("#beerlist").html(html);
+	    	$("input[name='ratingBA']").rating({
+	    		displayOnly: true,
+	    		size: 'xs',
+	    		step: 0.5,
+	    		showCaption: false,
+	    		theme: 'krajee-fa',
+	    	  filledStar: '<i class="fas fa-star"></i>',
+	    	  emptyStar: '<i class="far fa-star"></i>',
+	    	});
+	    },
+	    error: function(request, status, error) {
+			console.error("Error:", error);
+		}
+	});
+}
+
+// 초기화 버튼
+$("#clearbtn").on("click", function(){
+	ctrylist = [];
+	$("form")[0].reset();
+	$( "#slider-range" ).slider("destroy");
+	$("input[name='country']:checked").prop("checked", false);
+	PrimarySlider();
+	minabv = 0;
+	maxabv = 20;
+	ajax_call();
+});
 //검색 필터 보여주기
 function modal_OnOff(v){
 	if(v == "4"){
 		$("#modal").slideUp(300);
 		$(".modal_layer").fadeOut(300);
+		$('body').css("overflow", "auto");
 		$("input[name='options']").prop("checked", false);
 	} else{
 		//$("#modal").css('display', 'block');
 		$("#modal").slideDown(300);
 		$(".modal_layer").fadeIn(300);
+		$('body').css("overflow", "hidden");
 		div_OnOff(v);
 		$("#option"+v).prop("checked", true);
 	}
@@ -335,55 +517,12 @@ $("#chkform").on("change", function(event){
 	});
 	console.log("crtylist: ", ctrylist);
 	console.log("chktypelist: ", chktypelist);
-	$.ajax({
-	    url : "<c:url value="/loadlist"/>",
-	    type : "post",
-	    dataType : "json",
-	    traditional : true,
-	    async:false,
-	    data : {
-	    	typeList: chktypelist,
-	    	ctryList: ctrylist,
-	    	minabv: minabv,
-	    	maxabv: maxabv,
-	    	idx: 0
-	    	},
-	    success : function(result){
-	    	var html = "";
-			$.each(result, function(index, value){
-				html += renderList(value);
-				if(authUser.length != 0){
-					console.log(bLikeList.includes(String(value.beerNo)));
-					if(bLikeList.includes(String(value.beerNo))){
-						html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
-						")'><i class='fas fa-heart'></i></dd></dl></li>";
-					} else{
-						html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
-						")'><i class='far fa-heart'></i></dd></dl></li>";
-					}
-				} else {
-					html += "</dl></li>"
-				}
-			});
-	    	$("#beerlist").html(html);
-	    	$("input[name='ratingBA']").rating({
-	    		displayOnly: true,
-	    		size: 'xs',
-	    		step: 0.5,
-	    		showCaption: false,
-	    		theme: 'krajee-fa',
-	    	  filledStar: '<i class="fas fa-star"></i>',
-	    	  emptyStar: '<i class="far fa-star"></i>',
-	    	});
-	    },
-	    error: function(request, status, error) {
-			console.error("Error:", error);
-		}
-	});
+	ajax_call();
 })
 
 
 // 도수 range slider
+function PrimarySlider(){
 $("#slider-range").slider({
 	range: true,
 	min: 0,
@@ -393,58 +532,14 @@ $("#slider-range").slider({
 	slide: function( event, ui ) {
 		minabv = new Number(ui.values[0]);
 		maxabv = new Number(ui.values[1]);
-		$("#minabv").val(minabv.toFixed(1));
-		$("#maxabv").val(maxabv.toFixed(1));
+		$("#minabv").val(minabv.toFixed(1) + "%");
+		$("#maxabv").val(maxabv.toFixed(1) + "%");
 	},
 	change: function(event, ui){
-		$.ajax({
-		    url : "<c:url value="/loadlist"/>",
-		    type : "post",
-		    dataType : "json",
-		    traditional : true,
-		    async:false,
-		    data : {
-		    	typeList: chktypelist,
-		    	ctryList: ctrylist,
-		    	minabv: minabv,
-		    	maxabv: maxabv,
-		    	idx: 0
-		    	},
-		    success : function(result){
-		    	var html = "";
-				$.each(result, function(index, value){
-					html += renderList(value);
-					if(authUser.length != 0){
-						console.log(bLikeList.includes(String(value.beerNo)));
-						if(bLikeList.includes(String(value.beerNo))){
-							html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
-							")'><i class='fas fa-heart'></i></dd></dl></li>";
-						} else{
-							html += "<dd id='like" + value.beerNo + "' class='likeArea' onclick='bLike(" + value.beerNo +
-							")'><i class='far fa-heart'></i></dd></dl></li>";
-						}
-					} else {
-						html += "</dl></li>"
-					}
-				});
-		    	$("#beerlist").html(html);
-		    	$("input[name='ratingBA']").rating({
-		    		displayOnly: true,
-		    		size: 'xs',
-		    		step: 0.5,
-		    		showCaption: false,
-		    		theme: 'krajee-fa',
-		    	  filledStar: '<i class="fas fa-star"></i>',
-		    	  emptyStar: '<i class="far fa-star"></i>',
-		    	});
-		    },
-		    error: function(request, status, error) {
-				console.error("Error:", error);
-			}
-		});
+		ajax_call();
 	}
 });
-
+}
 // 무한 스크롤
 $("#countrylist").scroll(function(){
 	var innerHeight = $(this).innerHeight(); 
@@ -470,8 +565,8 @@ $("#countrylist").scroll(function(){
 })
 $(window).scroll(function(){
 	if ($(window).scrollTop() == $(document).height() - $(window).height()){
-		lastidx = $(".beeridx:last").attr("data-idx");
-		console.log("lastidx: " + lastidx);
+		idx = $(".beeridx:last").attr("data-idx");
+		console.log("lastidx: " + idx);
 		$.ajax({
 			url : "<c:url value="/loadlist"/>",
 			type : "post",
@@ -483,7 +578,7 @@ $(window).scroll(function(){
 		    	ctryList: ctrylist,
 		    	minabv: minabv,
 		    	maxabv: maxabv,
-		    	idx: lastidx
+		    	idx: idx
 		    	},
 	    	success : function(result){
 		    	var html = "";
@@ -525,7 +620,7 @@ function renderList(vo){
 	var html = "<li class='beercard'><div class='beerpic'>그림</div><dl class='lst_dsc'><dd class='company'>" + vo.company + 
 	"</dd><dd class='beeridx' data-idx='" + vo.idx + 
 	"'></td><dt class='beername'><a href='<c:url value='/beer/" + vo.beerNo + 
-	"'/>'>" + vo.beerName + "</a></dt><dd class='beerinfo'>" + vo.type + 
+	"'/>' target='_blank'>" + vo.beerName + "</a></dt><dd class='beerinfo'>" + vo.type + 
 	" from " + vo.country + "</dd><dd class='beerrating'><div class='ratingcap'>" + vo.ratingBA + 
 	"</div><input name='ratingBA' value='" +  vo.ratingBA + "' class='kv-fa rating'></dd>";
 

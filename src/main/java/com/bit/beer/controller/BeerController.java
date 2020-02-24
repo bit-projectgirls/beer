@@ -199,7 +199,7 @@ public class BeerController {
 			idx = Integer.parseInt(request.getParameter("idx"));
 		}
 		map.put("idx", idx);
-		logger.info("ctryList:" + gson.toJson(ctryList));
+		logger.info("ctryList:" + gson.toJson(ctryList) +"\ntypeList:" + gson.toJson(typeList) + "\nabv:" + minabv + "~" + maxabv);
 		List<BeerVo> list = beerService.getBeerList(map);
 
 		logger.info(gson.toJson(list));

@@ -1,6 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<style type="text/css" >
+.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    color: #fff;
+    background: rgba(0,0,0,0.2); /*not in ie */
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */  
+}
+	.wrap-loading div{ /*로딩 이미지*/
+        position: fixed;
+        top:50%;
+        left:50%;
+        margin-left: -21px;
+        margin-top: -21px;
+    }
+	.display-none{ /*감추기*/
+		display:none;
+	}
+</style>
 
 <a href="<c:url value="/"/>" class="btn btn-sm">
    <i class="fas fa-home fa-lg"></i><br/>
@@ -26,6 +48,9 @@
 <form method="post" enctype="multipart/form-data" action="" id="fileForm" style=" display: none">
    <input type="file" accept="image/*;capture=camera" id="picture" name="picture" style="display: none"/>
 </form>
+<div class="wrap-loading display-none">
+	<div><i class="fas fa-spinner fa-spin fa-3x"></i></div>
+</div>   
 
 <script>
    // 파일 선택창에서 파일을 선택 했을 때
@@ -179,6 +204,12 @@
                console.log(result);
                // TODO: result로 맥주리스트 보여주기
                $('body').html(result);
+            },
+            beforeSend:function(){
+                $('.wrap-loading').removeClass('display-none');
+            }
+            ,complete:function(){
+                $('.wrap-loading').addClass('display-none');     
             },
             //TODO: 로딩이미지 보여주기
             error : function(err){

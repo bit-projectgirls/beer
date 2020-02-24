@@ -21,7 +21,7 @@
 	<!-- 리뷰 SELECT BY beerNo -->
 	<select id="selectByBeerNo" resultType="ReviewVo" parameterType="int">
 	<![CDATA[
-	SELECT reviewNo, review.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname
+	SELECT reviewNo, review.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, userPic, nickname
 	FROM review, users
 	WHERE review.uuid = users.uuid AND beerNo = #{beerNo}
 	]]>
@@ -60,7 +60,7 @@
 	<![CDATA[
 	SELECT * 
 	FROM (
-		SELECT reviewNo, review.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname
+		SELECT reviewNo, review.uuid, beerNo, reviewContent, reviewPic, rating, regDate, likeCnt, nickname, userPic
 		FROM review, users
 		WHERE review.uuid = users.uuid
 	)

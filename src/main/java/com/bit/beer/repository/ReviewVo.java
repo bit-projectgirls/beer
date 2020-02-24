@@ -6,6 +6,7 @@ public class ReviewVo {
 	private String reviewNo;
 	private String uuid;
 	private String nickname;
+	private String userPic;
 	private int beerNo;
 	private String reviewContent;
 	private String reviewPic;
@@ -13,6 +14,12 @@ public class ReviewVo {
 	private Date regDate;
 	private int likeCnt;
 	
+	public String getUserPic() {
+		return userPic;
+	}
+	public void setUserPic(String userPic) {
+		this.userPic = userPic;
+	}
 	public String getReviewNo() {
 		return reviewNo;
 	}
@@ -69,8 +76,8 @@ public class ReviewVo {
 	}
 	@Override
 	public String toString() {
-		return "ReviewVo [reviewNo=" + reviewNo + ", uuid=" + uuid + ", nickname=" + nickname + ", beerNo=" + beerNo
-				+ ", reviewContent=" + reviewContent + ", reviewPic=" + reviewPic + ", rating=" + rating + ", regDate="
-				+ regDate + ", likeCnt=" + likeCnt + "]";
+		return "ReviewVo [reviewNo=" + reviewNo + ", uuid=" + uuid + ", nickname=" + nickname + ", userPic=" + userPic
+				+ ", beerNo=" + beerNo + ", reviewContent=" + reviewContent + ", reviewPic=" + reviewPic + ", rating="
+				+ rating + ", regDate=" + regDate + ", likeCnt=" + likeCnt + "]";
 	}
 }

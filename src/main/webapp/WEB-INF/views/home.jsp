@@ -22,17 +22,24 @@
 <script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
 <style>
 	html, body {
 	    position: relative;
 	    height: 100%;
 	}
 	body {
-	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-	    font-size: 14px;
-	    background: #fff;
+		font-family: 'Nanum Gothic', sans-serif;
+		background-color: #323940;
 	    margin:0;
 	    padding:0;
+	}
+	.wrap {
+		padding-bottom: 70px;
+	}
+	h5 {
+		margin: 0;
 	}
 	.swiper-container {
 	    width: 100%;
@@ -40,8 +47,6 @@
 	}
 	.swiper-slide {
 	    font-size: 18px;
-	    background: #fff;
-
 	    /* Center slide text vertically */
 	    display: -webkit-box;
 	    display: -ms-flexbox;
@@ -55,6 +60,15 @@
 	    -ms-flex-align: center;
 	    -webkit-align-items: center;
 	    align-items: center;
+	}
+	.swiper-container-horizontal>.swiper-pagination-bullets {
+		bottom: 0px;
+	}
+	.swiper-pagination-bullet-active {
+		background: #fde16d;
+	}
+	.swiper-pagination-bullet {
+		background: #fff;
 	}
 	.navbar {
 		background:#fff;
@@ -87,73 +101,99 @@
 		top: 20%;
 		left: 20px;
 		z-index: 1;
-		color: #4f5b66;
+		color: #323940;
+	}
+	.title {
+		width: 300px;
+		margin: 10px auto 0px;
+		color: #fff;
+		position: relative;
+		top: 20px;
 	}
 	.beercard {
-		width:300px;
+		width: 300px;
 		height: 150px;
-		margin-bottom: 30px;
+		margin: 10px auto;
 		border-radius: 20px;
-		background: #ffe6db;
+		background: #fff;
 	}
 	.beerpic {
 		width:60px;
 		height:120px;
 		float:left;
-		border:1px solid #303030;
 		margin: 15px;
+	}
+	.beerpic img{
+		height: 120px;
 	}
 	.lst_dsc {
 		height: 150px;
 		padding: 15px;
 		margin: 0;
 	}
-	.company, .beerinfo, .beerrating {
+	.company, .beerinfo {
+		color: #323940;
 		font-size: 0.8em;
 		margin: 0;
 		overflow: hidden; 
 		text-overflow: ellipsis;
-		white-space: nowrap; 
+		white-space: nowrap;
 		width: 190px;
+	}
+	.beerrating {
+		font-size: 1.1em;
 	}
 	.beername {
+		font-size: 1.5em;
+		line-height: 1.1em;
 		margin: 0;
-		overflow: hidden; 
-		text-overflow: ellipsis;
-		white-space: nowrap; 
 		width: 190px;
+		height: 55px;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.beername a {
+		color: #000;
 	}
 	.rating-container .empty-stars {
-		color: #000;
+		color: #fcba03;
 	}
 	.rating-container .filled-stars {
-		color: #000;
+		color: #fcba03;
 	}
 	.beeridx {
 		display: none;
 	}
 	.likeArea {
+		font-size: 1.1em;
+		color: #ff7575;
 		float : right;
-		margin: 10px 0 0 0;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		bottom: 5px;
+		right: 2px;
 	}
 	.rating-container, .ratingcap {
 		float: left;
 	}
 	.rating-xs  {
-    	font-size: 0.8em;
+    	font-size: 0.5em;
 	}
 </style>
 </head>
-
 <body>
-	<h3>Beer Searcher</h3>
+	<div class="wrap">
+	<h3 align="center">Beer Searcher</h3>
 	<div class="searchbox">
 		<a href="<c:url value="/search"/>">
 			<input type="search" name="keyword" id="search">
 			<span class="icon"><i class="fas fa-search fa-lg"></i></span>
 		</a>
 	</div>
-	<h5>우리 TOP 10 리스트</h5>
+	<h5 class="title">우리 TOP 10 리스트</h5>
 	<!-- Swiper -->
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
@@ -164,7 +204,7 @@
 					<dl class='lst_dsc'>
 						<dd class='company'>${ beerVo.company }</dd>
 						<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
-						<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+						<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>" target='_blank'>${ beerVo.beerName }</a></dt>
 						<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
 						<dd class='beerrating'><div class='ratingcap'>${ beerVo.ratingBA }</div><input name='ratingBA' value='${ beerVo.ratingBA }' class='kv-fa rating'></dd>
 						<c:if test='${ not empty authUser }'>
@@ -193,7 +233,7 @@
 		<!-- Add Pagination -->
 		<div class="swiper-pagination"></div>
 	</div>
-	<h5>Beeradvocate TOP 10 리스트</h5>
+	<h5 class="title">Beeradvocate TOP 10 리스트</h5>
 	<!-- Swiper -->
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
@@ -204,7 +244,7 @@
 					<dl class='lst_dsc'>
 						<dd class='company'>${ beerVo.company }</dd>
 						<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
-						<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>">${ beerVo.beerName }</a></dt>
+						<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>" target='_blank'>${ beerVo.beerName }</a></dt>
 						<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
 						<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 						<c:if test='${ not empty authUser }'>
@@ -233,7 +273,7 @@
 		<!-- Add Pagination -->
 		<div class="swiper-pagination"></div>
 	</div>
-
+	</div>
 	<footer class="navbar">
 		<c:import url="/WEB-INF/views/footer.jsp"/>
 	</footer>
@@ -245,6 +285,7 @@
 		el: '.swiper-pagination',
 		}
 	});
+	
 	$("input[name='ratingBA']").rating({
 		displayOnly: true,
 		size: 'xs',
@@ -254,5 +295,24 @@
       filledStar: '<i class="fas fa-star"></i>',
       emptyStar: '<i class="far fa-star"></i>',
 	});
+	
+	function bLike(beerNo){
+		console.log(beerNo);
+		$.ajax({
+			url:"<c:url value="/blike"/>",
+			dataType : "json",
+		    type : "post",
+		    data : {beerNo: beerNo},
+		    success : function(result){
+		    	if(result.chkLike){
+		    		var html = "<i class='fas fa-heart'></i>";
+		    		$("#like"+result.beerNo).html(html);
+		    	} else {
+		    		var html = "<i class='far fa-heart'></i>";
+		    		$("#like"+result.beerNo).html(html);
+		    	}
+		    }
+		})
+	}
 </script>
 </html>

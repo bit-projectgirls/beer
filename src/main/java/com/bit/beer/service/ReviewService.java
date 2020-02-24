@@ -45,6 +45,10 @@ public class ReviewService {
 		// 해시태그에 태그 붙혀 저장하기
 		String reviewcnt = reviewVo.getReviewContent();
 		if(reviewcnt.length() != 0) {
+			// reviewCnt 가공
+			reviewcnt = reviewcnt.replace("</div>", "");
+			reviewcnt = reviewcnt.replace("<div>", "<br>");
+			
 			reviewcnt = renderHashtag(reviewcnt);
 			reviewVo.setReviewContent(reviewcnt);
 		}
