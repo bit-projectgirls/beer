@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>메인</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 <!-- Bootstrap -->
 <link rel="stylesheet" href="<c:url value="/resources/bootstrap/css/bootstrap.css"/>"/>
@@ -24,9 +25,6 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
-<!-- JQuery mobile -->
-<script src="<c:url value="/resources/jquery.mobile-1.4.5.js"/>"></script>
-<link href="<c:url value="/resources/jquery.mobile-1.4.5.css"/>" rel="stylesheet">
 <style>
 	html, body {
 	    position: relative;
