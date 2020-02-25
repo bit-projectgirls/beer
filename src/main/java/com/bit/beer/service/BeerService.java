@@ -111,12 +111,6 @@ public class BeerService {
 		return vo;
 	}
 	
-	// 좋아요 맥주 목록 받아오기
-	public List<BeerVo> getBeerLikeList(String uuid){
-		List<BeerVo> list = beerDao.selectBLikeList(uuid);
-		return list;
-	}
-	
 	// 최근 검색한 맥주 리스트
 	public List<BeerVo> getCookieList(Cookie[] cookies){
 		List<BeerVo> list = new ArrayList<BeerVo>();

@@ -24,7 +24,6 @@
 <style>
 	html, body {
 	    position: relative;
-	    height: 100%;
 	}
 	body {
 	    font-family: 'Nanum Gothic', sans-serif;
@@ -75,11 +74,14 @@
 		background: #fff;
 	}
 	.beerpic {
+		text-align: center;
 		width:60px;
 		height:120px;
 		float:left;
-		border:1px solid #303030;
 		margin: 15px;
+	}
+	.beerpic img{
+		height: 120px;
 	}
 	.lst_dsc {
 		height: 150px;
@@ -151,7 +153,7 @@
 	</c:if>
 	<c:forEach items="${ beerList }" var="beerVo">
 			<li id='li${ beerVo.beerNo }' class='beercard'>
-				<div class='beerpic'>그림</div>
+				<div class='beerpic'><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
 				<dl class='lst_dsc'>
 					<dd class='company'>${ beerVo.company }</dd>
 					<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>

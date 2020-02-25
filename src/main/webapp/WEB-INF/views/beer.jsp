@@ -21,6 +21,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
+<!-- readmore -->
+<script src="<c:url value="/resources/readmore.min.js"/>"></script>
 <style>
 	html, body {
 	    position: relative;
@@ -62,10 +64,13 @@
 		width: 100px;
 	}
 	.beerimg {
+		text-align: center;
 		margin: 0 auto;
 		width: 150px;
 		height: 250px;
-		border: 1px solid;
+	}
+	.beerimg img{
+		height: 250px;
 	}
 	.beerInfo {
 		margin: 20px;
@@ -129,13 +134,10 @@
 	}
 	.reviewcnt {
 		margin: 20px 0px;
-		overflow: hidden;
-		line-height: 19px;
-		display: -webkit-box;
-		-webkit-line-clamp: 5;
-		-webkit-box-orient: vertical;
+		line-height: 17px;
+		overflow:hidden;
 	}
-	.reviewcnt a{
+	.reviewcnt a {
 		color: #a8efff;
 	}
 	.reviewRating {
@@ -175,8 +177,7 @@
 		<a href="<c:url value="/list"/>" onclick="javascript:window.close()"><i class="fas fa-chevron-left fa-2x"></i></a>
 	</div>
 	<div class="wrap">
-	<div class="beerimg">
-	</div>	
+	<div class="beerimg"><img src="<c:url value="${ beerVo.beerPic }"/>"></div>	
 	<dl class="beerInfo">
 		<dd class='beerno' id="infoBeerNo" style="display:none;">${ beerVo.beerNo }</dd>
 		<dd class="company">${ beerVo.company }</dd>
@@ -218,7 +219,7 @@
 				<div class="menutitle">내가 작성한 리뷰</div>
 				<dl class="reviewItem">
 					<c:if test="${ not empty writtenReview.reviewContent }">
-					<dd class="reviewcnt">${ writtenReview.reviewContent }</dd>
+					<div class="reviewcnt">${ writtenReview.reviewContent }</div>
 					</c:if>
 					<dd class="reviewRating"><input name="ratingReview" value="${ writtenReview.rating }"class="kv-fa rating"></dd>
 					<dd class="nickname"><img class="userPic" src="${ writtenReview.userPic }"> ${ writtenReview.nickname }</dd>
@@ -244,10 +245,10 @@
 		 	<div class="msg">아직 작성된 리뷰가 없어요!</div>
 			</c:if>
 			<c:if test="${ not empty reviewList }">
-			<c:forEach items="${ reviewList }" var="reviewVo">
+			<c:forEach items="${ reviewList }" var="reviewVo" varStatus="status">
 				<dl class="reviewItem">
 					<c:if test="${ not empty reviewVo.reviewContent }">
-					<dd class="reviewcnt">${ reviewVo.reviewContent }</dd>
+					<div class="reviewcnt">${ reviewVo.reviewContent }</div>
 					</c:if>
 					<dd class="reviewRating"><input name="ratingReview" value="${ reviewVo.rating }" class="kv-fa rating"></dd>
 					<dd class="nickname"><img class="userPic" src="${ reviewVo.userPic }"> ${ reviewVo.nickname }</dd>
@@ -261,6 +262,22 @@
 	</div>
 </body>
 <script>
+	$('.reviewcnt').readmore({
+		speed: 500,
+		collapsedHeight: 100,
+		moreLink: '<i class="fas fa-angle-down fa-sm"></i>',
+		lessLink: '<i class="fas fa-angle-up fa-sm"></i>'
+	})
+	function cntplus(no){
+		$("#cnt"+no).css('display', 'block');
+		$("#plusbtn"+no).css('display', 'none');
+		$("#hidebtn"+no).css('display', 'block')
+	}
+	function cnthide(no){
+		$("#cnt"+no).css('display', '-webkit-box');
+		$("#plusbtn"+no).css('display', 'block');
+		$("#hidebtn"+no).css('display', 'none')
+	}
 	$("input[name='ratingBA']").rating({
 		displayOnly: true,
 		size: 'xs',

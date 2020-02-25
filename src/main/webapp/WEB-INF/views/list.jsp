@@ -186,7 +186,7 @@
 		padding: 3px 7px;
 		border: 0;
 		background-color: #fff;
-		border-radius: 20px
+		border-radius: 20px;
 	}
 	#closebtn {
 		margin: 6px 11px;
@@ -194,7 +194,7 @@
 		border: 0;
 		float: right;
 		background-color: #fff;
-		border-radius: 20px
+		border-radius: 20px;
 	}
 	ul {
 		list-style:none;
@@ -207,7 +207,8 @@
 		border-radius: 20px;
 		background: #fff;
 	}
-	.beerpic {
+	.beerpic {	
+		text-align: center;
 		width:60px;
 		height:120px;
 		float:left;
@@ -326,7 +327,7 @@
 		<ul id="beerlist" class="beerlist">
 		<c:forEach items="${ beerList }" var="beerVo">
 			<li class='beercard'>
-				<div class='beerpic'><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
+				<div class='beerpic'><img src='<c:url value="${ beerVo.beerPic }"/>'></div>
 				<dl class='lst_dsc'>
 					<dd class='company'>${ beerVo.company }</dd>
 					<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
@@ -617,7 +618,7 @@ $(window).scroll(function(){
 
 // 태그 뿌려주기 
 function renderList(vo){
-	var html = "<li class='beercard'><div class='beerpic'>그림</div><dl class='lst_dsc'><dd class='company'>" + vo.company + 
+	var html = "<li class='beercard'><div class='beerpic'><img src='<c:url value='/" + vo.beerPic + "'/>'></div><dl class='lst_dsc'><dd class='company'>" + vo.company + 
 	"</dd><dd class='beeridx' data-idx='" + vo.idx + 
 	"'></td><dt class='beername'><a href='<c:url value='/beer/" + vo.beerNo + 
 	"'/>' target='_blank'>" + vo.beerName + "</a></dt><dd class='beerinfo'>" + vo.type + 

@@ -81,6 +81,22 @@ public class ReviewService {
 		List<HashtagVo> list = reviewDao.selectTagByBeerNo(beerNo);
 		return list;
 	}
+	
+	public boolean deleteReview(ReviewVo reviewVo) {
+		int deletedCount = reviewDao.deleteReview(reviewVo.getReviewNo());
+		String reviewcnt = reviewVo.getReviewContent();
+		if(reviewcnt.length() != 0) {
+			List<String> tagList = extractHashtag(reviewcnt);
+			if(tagList != null) {
+				int deletedTagCount = reviewDao.deleteHashtag(reviewVo.getReviewNo());
+				if(tagList.size() != deletedTagCount) {
+					logger.info("태그 삭제 오류");
+				}
+			}
+		}
+		return 1 == deletedCount;		
+	}
+	
 	// rating update
 	public boolean updateRating(int beerNo) {
 		List<ReviewVo> list = reviewDao.selectReviewByBeerNo(beerNo);

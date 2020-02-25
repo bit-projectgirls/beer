@@ -1,7 +1,9 @@
 package com.bit.beer.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -78,6 +80,21 @@ public class ReviewController {
 	// 내가 작성한 리뷰 목록
 	@RequestMapping(value="/myreview")
 	public String getMyreview(Model model, HttpSession session) {
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		String uuid = authUser.getUuid();
+		
+		List<ReviewVo> reviewList = reviewService.getReviewList(uuid);
+		List<BeerVo> beerList = reviewService.getReviewBeerInfo(reviewList);
+		model.addAttribute("beerList", beerList);
+		model.addAttribute("reviewList", reviewList);
+		return "myreview";
+	}
+	
+	// 작성한 리뷰 삭제
+	@RequestMapping(value="/deletereview")
+	public String deleteMyreview(Model model, HttpSession session, @ModelAttribute ReviewVo reviewVo) {
+		boolean isSuccess = reviewService.deleteReview(reviewVo);
+		logger.info("리뷰삭제:" + isSuccess);
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		String uuid = authUser.getUuid();
 		

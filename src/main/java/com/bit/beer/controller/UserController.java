@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.beer.repository.BeerVo;
 import com.bit.beer.repository.ReviewVo;
 import com.bit.beer.repository.UserVo;
 import com.bit.beer.service.UserService;
@@ -40,6 +42,10 @@ public class UserController {
 			isSuccess = userService.join(access_token);
 		}
 		UserVo authUser = userService.checkId(userInfo.get("kakaoId"));
+		
+		// 세션 유저의 좋아요 목록 전송
+		List<BeerVo> bLikeList = userService.getBeerLikeList(authUser.getUuid());
+		session.setAttribute("bLikeList", bLikeList);
 		session.setAttribute("authUser", authUser);
 		session.setAttribute("access_token", access_token);
 		return "mypage";
@@ -50,6 +56,17 @@ public class UserController {
 	    userService.kakaoLogout((String)session.getAttribute("access_token"));
 	    session.invalidate();
 	    return "mypage";
+	}
+	
+	// 마이페이지 좋아요 맥주리스트 페이지
+	@RequestMapping(value="/myblike")
+	public String myBeerLike(HttpSession session,Model model) {
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		String uuid = authUser.getUuid();
+		
+		List<BeerVo> list = userService.getBeerLikeList(uuid);
+		model.addAttribute("beerList", list);
+		return "mybeer";
 	}
 	
 	@RequestMapping(value="/modifyname")

@@ -67,4 +67,18 @@
 	WHERE uuid = #{uuid} AND beerNo = #{beerNo}
 	]]>
 	</select>
+	<!-- 리뷰 DELETE -->
+	<delete id="deleteReview" parameterType="string">
+	<![CDATA[
+	DELETE FROM review
+	WHERE reviewNo = #{reviewNo}
+	]]>
+	</delete>
+	<!-- 해시태그 DELETE -->
+	<delete id="deleteHashtag" parameterType="string">
+	<![CDATA[
+	DELETE FROM hashtag
+	WHERE reviewNo = #{reviewNo}
+	]]>
+	</delete>
 </mapper>

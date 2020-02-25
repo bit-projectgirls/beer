@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.beer.repository.BeerDaoImpl;
+import com.bit.beer.repository.BeerVo;
 import com.bit.beer.repository.UserDaoImpl;
 import com.bit.beer.repository.UserVo;
 import com.google.gson.JsonElement;
@@ -30,6 +33,8 @@ import com.google.gson.JsonParser;
 public class UserService {
 	@Autowired
 	private UserDaoImpl userDao;
+	@Autowired
+	private BeerDaoImpl beerDao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -52,7 +57,7 @@ public class UserService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=247c6d507dbd703741920ee35f89946e");
-			sb.append("&redirect_uri=http://localhost:8080/beer/login");
+			sb.append("&redirect_uri=http://192.168.1.41:8080/beer/login");
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -213,5 +218,11 @@ public class UserService {
 		FileOutputStream fos = new FileOutputStream(saveFilename);
 		fos.write(fileData);
 		fos.close();
+	}
+	
+	// 좋아요 맥주 목록 받아오기
+	public List<BeerVo> getBeerLikeList(String uuid){
+		List<BeerVo> list = beerDao.selectBLikeList(uuid);
+		return list;
 	}
 }

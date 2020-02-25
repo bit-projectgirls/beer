@@ -4,7 +4,7 @@
 
 <c:forEach items="${ beerList }" var="beerVo">
 	<li class='beercard'>
-		<div class='beerpic'>그림</div>
+		<div class='beerpic'><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
 		<dl class='lst_dsc'>
 			<dd class='company'>${ beerVo.company }</dd>
 			<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>

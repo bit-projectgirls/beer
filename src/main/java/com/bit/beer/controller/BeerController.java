@@ -111,17 +111,6 @@ public class BeerController {
 		return gson.toJson(result);
 	}
 	
-	// 마이페이지 좋아요 맥주리스트 페이지
-	@RequestMapping(value="/myblike")
-	public String myBeerLike(HttpSession session,Model model) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		String uuid = authUser.getUuid();
-		
-		List<BeerVo> list = beerService.getBeerLikeList(uuid);
-		model.addAttribute("beerList", list);
-		return "mybeer";
-	}
-	
 	// 검색 페이지
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String searchForm(HttpServletRequest request, Model model) {
@@ -155,13 +144,7 @@ public class BeerController {
 		// Typelist 전송
 		List<String> typelist = beerService.getTypeList();
 		model.addAttribute("typeList", typelist);
-		// 세션 유저의 좋아요 목록 전송
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser != null) {
-			List<BeerVo> bLikeList = beerService.getBeerLikeList(authUser.getUuid());
-			model.addAttribute("bLikeList", bLikeList);
-			logger.info("bLikeList: " + bLikeList);
-		}
+
 		return "list";
 	}
 
@@ -230,6 +213,7 @@ public class BeerController {
 		logger.info("search by tag:" + keyword);
 		List<BeerVo> list = beerService.getBeerList(keyword);
 		model.addAttribute("beerList", list);
-		return "searchresult";
+		model.addAttribute("keyword", keyword);
+		return "hashtagresult";
 	}
 }

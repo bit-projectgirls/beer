@@ -75,8 +75,9 @@
 	<![CDATA[
     SELECT *
     FROM (SELECT * FROM beer
-    ORDER BY ratingcnt)
+    ORDER BY ratingcnt DESC)
     WHERE ROWNUM <= 10
+    ORDER BY ratingBA
     ]]>
 	</select>
 	<!-- 맥주 rating UPDATE -->

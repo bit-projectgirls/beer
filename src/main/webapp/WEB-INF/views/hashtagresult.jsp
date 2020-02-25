@@ -4,9 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+<title>My Beer List</title>
 <!-- Bootstrap -->
 <link rel="stylesheet" href="<c:url value="/resources/bootstrap/css/bootstrap.css"/>"/>
 <!-- jQuery -->
@@ -23,10 +24,9 @@
 <style>
 	html, body {
 	    position: relative;
-	    height: 100%;
 	}
 	body {
-		font-family: 'Nanum Gothic', sans-serif;
+	    font-family: 'Nanum Gothic', sans-serif;
 		background-color: #323940;
 	    margin:0;
 	    padding:0;
@@ -36,52 +36,30 @@
 		position: fixed;
 		top:0;
 		width: 100%;
-		height: 60px;	
+		height: 50px;	
 		color: #323940;
 		background-color: #fde16d;
 		margin: 0;
-		padding: 0;
+		padding: 10px 20px;
+		text-align: center;
 	}
 	.header a{
-		position:relative;
 		color: #323940;
 		float: left;
-		bottom: 56px;
-		left: 20px;
 	}
-	#recenttitle {
-		color: #fff;
-		padding-left: 20px;
+	.pagetitle {
+		margin: 8px;
+		font-size: 18px;
 	}
-	.searchbox {
-		margin:10px auto;
-		width:300px;
-		height:50px;
-		vertical-align: middle;
-		white-space: nowrap;
-		position: relative;
+	.navbar {
+		background:#fff;
+		z-index:99;
+	  	position:fixed;
+	  	bottom: 0;
+	  	width: 100%;
 	}
-	.searchbox input#search {
-		width: 300px;
-		height: 40px;
-		background: #fff;
-		border: none;
-		font-size: 10pt;
-		float: left;
-		color: #323940;
-		padding-left: 45px;
-		padding-right: 10px;
-		border-radius: 20px;
-	}
-	.searchbox .icon{
-		position: absolute;
-		top: 11px;
-		left: 20px;
-		z-index: 1;
-		color: #323940;
-	}
-	#searchresult{
-	margin-top:70px;
+	#beerlist {
+		margin-top: 60px;	
 	}
 	ul {
 		list-style:none;
@@ -94,15 +72,12 @@
 		border-radius: 20px;
 		background: #fff;
 	}
-	.beerpic {	
-		text-align: center;
+	.beerpic {
 		width:60px;
 		height:120px;
 		float:left;
+		border:1px solid #303030;
 		margin: 15px;
-	}
-	.beerpic img{
-		height: 120px;
 	}
 	.lst_dsc {
 		height: 150px;
@@ -163,103 +138,61 @@
 </style>
 </head>
 <body>
-<div class="header">
-
-<div class="searchbox">
-	<form name="searchform" action="" method="POST" onsubmit="return false;">
-		<input type="search" name="keyword" id="search">
-		<span class="icon"><i class="fas fa-search fa-lg"></i></span>
-	</form>
-</div>
-	<a href="<c:url value="/"/>"><i class="fas fa-chevron-left fa-2x"></i></a>
-</div>
-<div id="searchresult">
-	<h5 id="recenttitle">최근 검색 기록</h5>
+	<div class="header">
+		<a href="javascript:history.back()"><i class="fas fa-chevron-left fa-2x"></i></a>
+		<h4 class="pagetitle"><strong>#${ keyword }</strong></h4>
+	</div>
+	<div id="beerlist">
 	<ul id="beerlist" class="beerlist">
 	<c:forEach items="${ beerList }" var="beerVo">
-		<li class='beercard'>
-			<div class='beerpic'><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
+		<li id='li${ beerVo.beerNo }' class='beercard'>
+			<div class='beerpic'>그림</div>
 			<dl class='lst_dsc'>
 				<dd class='company'>${ beerVo.company }</dd>
 				<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
 				<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>" target='_blank'>${ beerVo.beerName }</a></dt>
 				<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
-					<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
-				<c:if test='${ not empty authUser }'>
+				<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 				<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
-					<c:set var='chkLike' value='false' />
-					<c:forEach items='${ bLikeList }' var='likeVo'>
-						<c:if test='${ likeVo.beerNo eq beerVo.beerNo }'>
-							<c:set var='chkLike' value='true' />
-						</c:if>
-					</c:forEach>
-					<c:choose>
-					<c:when test='${ chkLike == true }'>
 					<i class='fas fa-heart'></i>
-					</c:when>
-					<c:otherwise>
-					<i class='far fa-heart'></i>
-					</c:otherwise>
-					</c:choose>
 				</dd>
-				</c:if>
 			</dl>
 		</li>
 	</c:forEach>
 	</ul>
-</div>
+	</div>
 
 </body>
-<script>
-$(document).ready(function() {
-	$("#search").focus();
-	console.log(document.cookie);
-	$("#search").keyup(function(event){
-		var keyword = document.getElementById("search").value.trim();
-		if(keyword.length == 0){
-			$("#recenttitle").css('display', 'block');
-		} else {
-			$("#recenttitle").css('display', 'none');
-		}
-		$.ajax({
-		    url : "<c:url value="/searchkeyword"/>",
-		    dataType : "html",
-		    type : "post",
-		    data : {keyword: keyword},
-		    success : function(result){
-		        $("#searchresult").html(result);
-		    }
-		});
+<script type='text/javascript'>
+//좋아요 기능
+function bLike(beerNo){
+	console.log(beerNo);
+	$.ajax({
+		url:"<c:url value="/blike"/>",
+		dataType : "json",
+	    type : "post",
+	    data : {beerNo: beerNo},
+	    success : function(result){
+	    	if(result.chkLike){
+	    		var html = "<i class='fas fa-heart'></i>";
+	    		$("#like"+result.beerNo).html(html);
+	    	} else {
+	    		var html = "<i class='far fa-heart'></i>";
+	    		$("#like"+result.beerNo).html(html);
+	    		$("#li"+result.beerNo).css('display', 'none');
+	    	}
+	    }
 	})
-	//좋아요 기능
-	function bLike(beerNo){
-		console.log(beerNo);
-		$.ajax({
-			url:"<c:url value="/blike"/>",
-			dataType : "json",
-		    type : "post",
-		    data : {beerNo: beerNo},
-		    success : function(result){
-		    	if(result.chkLike){
-		    		var html = "<i class='fas fa-heart'></i>";
-		    		$("#like"+result.beerNo).html(html);
-		    	} else {
-		    		var html = "<i class='far fa-heart'></i>";
-		    		$("#like"+result.beerNo).html(html);
-		    		$("#li"+result.beerNo).css('display', 'none');
-		    	}
-		    }
-		})
-	}
-});
+}
+
 $("input[name='ratingBA']").rating({
 	displayOnly: true,
 	size: 'xs',
 	step: 0.5,
 	showCaption: false,
 	theme: 'krajee-fa',
-     filledStar: '<i class="fas fa-star"></i>',
-     emptyStar: '<i class="far fa-star"></i>',
+  filledStar: '<i class="fas fa-star"></i>',
+  emptyStar: '<i class="far fa-star"></i>',
 });
 </script>
 </html>

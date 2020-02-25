@@ -71,14 +71,21 @@
 		margin: 10px auto;
 	}
 	.beerpic {
+		text-align: center;
 		float:left;
 		width: 30px;
 		height: 60px;
-		border: 1px solid #000;
 		margin-right: 10px;
+	}
+	.beerpic img {
+		height: 60px;
 	}
 	.company, .country {
 		font-size: 0.8em;
+		overflow: hidden; 
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 175px;
 	}
 	.beername{
 		font-size: 1.3em;
@@ -115,7 +122,7 @@
 	</div>
 	<div class="wrap">
 		<dl class="beerinfo">
-			<div class="beerpic"></div>
+			<div class="beerpic"><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
 			<dt class="beername">${ beerVo.beerName }</dt>
 			<dd class="company">${ beerVo.company }</dd>
 			<dd class="country">${ beerVo.country }</dd>

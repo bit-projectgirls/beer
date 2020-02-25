@@ -24,6 +24,9 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
+<!-- JQuery mobile -->
+<script src="<c:url value="/resources/jquery.mobile-1.4.5.js"/>"></script>
+<link href="<c:url value="/resources/jquery.mobile-1.4.5.css"/>" rel="stylesheet">
 <style>
 	html, body {
 	    position: relative;
@@ -118,6 +121,7 @@
 		background: #fff;
 	}
 	.beerpic {
+		text-align: center;
 		width:60px;
 		height:120px;
 		float:left;
@@ -133,7 +137,7 @@
 	}
 	.company, .beerinfo {
 		color: #323940;
-		font-size: 0.8em;
+		font-size: 0.7em;
 		margin: 0;
 		overflow: hidden; 
 		text-overflow: ellipsis;
@@ -141,10 +145,10 @@
 		width: 190px;
 	}
 	.beerrating {
-		font-size: 1.1em;
+		font-size: 1.0em;
 	}
 	.beername {
-		font-size: 1.5em;
+		font-size: 1.4em;
 		line-height: 1.1em;
 		margin: 0;
 		width: 190px;
@@ -200,7 +204,7 @@
 			<c:forEach items="${ beerList }" var="beerVo">
 			<div class="swiper-slide">
 				<div class="beercard">
-					<div class='beerpic'>그림</div>
+					<div class='beerpic'><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
 					<dl class='lst_dsc'>
 						<dd class='company'>${ beerVo.company }</dd>
 						<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
@@ -240,7 +244,7 @@
 			<c:forEach items="${ beerListBA }" var="beerVo">
 			<div class="swiper-slide">
 				<div class="beercard">
-					<div class='beerpic'>그림</div>
+					<div class='beerpic'><img src="<c:url value="${ beerVo.beerPic }"/>"></div>
 					<dl class='lst_dsc'>
 						<dd class='company'>${ beerVo.company }</dd>
 						<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>

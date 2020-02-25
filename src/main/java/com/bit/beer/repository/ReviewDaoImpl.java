@@ -67,4 +67,18 @@ public class ReviewDaoImpl implements ReviewDao {
 		return vo;
 	}
 
+	@Override
+	public int deleteReview(String reviewNo) {
+		int deletedCount = 0;
+		deletedCount = sqlSession.delete("review.deleteReview", reviewNo);
+		return deletedCount;
+	}
+
+	@Override
+	public int deleteHashtag(String reviewNo) {
+		int deletedCount = 0;
+		deletedCount = sqlSession.delete("review.deleteHashtag", reviewNo);
+		return deletedCount;
+	}
+
 }

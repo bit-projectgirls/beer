@@ -102,7 +102,7 @@
 	<c:choose>
 		<c:when test="${ empty authUser }">
 		<div class="kakaologin">
-			<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://localhost:8080/beer/login&response_type=code">
+			<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://192.168.1.41:8080/beer/login&response_type=code">
 			<img src="<c:url value="/img/kakao_account_login_btn.png"/>">
 			</a>
 		</div>
