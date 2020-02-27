@@ -31,6 +31,9 @@
 	    margin:0;
 	    padding:0;
 	}
+	a:active, a:visited, a:hover {
+		text-decoration: none;
+	}
 	.header {
 		z-index: 1;
 		position: fixed;

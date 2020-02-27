@@ -20,7 +20,7 @@
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <!-- Google Font -->
-<link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Passion+One|Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
 <!-- readmore -->
 <script src="<c:url value="/resources/readmore.min.js"/>"></script>
 <style>
@@ -48,16 +48,22 @@
 		margin-top: 50px;
 	}
 	.ratingArea {
+		font-family: 'Passion One', sans-serif;
+		letter-spacing: -1px;
 		background-color: #fde16d;
 		border-radius: 20px;
 		width: 250px;
 		height: 100px;
 		margin: 0 auto;
 	}
+	.ratingArea h1 {
+		font-size:3.0em;
+		margin-top: -5px;
+	}
 	.ratingBA, .ratingBS {
 		float:left;
 		width: 100px;
-		height: 100px;
+		height: 75px;
 		margin: 12.5px;
 	}
 	.logo {
@@ -81,9 +87,9 @@
 	}
 	.beername {
 		font-family: 'Knewave', cursive;
-		font-size: 1.5em;
-		line-height: 1.2em;
-		margin-bottom: 8px;
+		font-size: 2.0em;
+		line-height: 1.0em;
+		margin: 8px 0;
 	}
 	.likeArea {
 		width: 30px;
@@ -108,6 +114,7 @@
 		min-height: 100px;
 	}
 	.msg {
+		font-size:0.9em;
 		color: #fff;
 		height: 100px;
 		width: 210px;

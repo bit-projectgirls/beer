@@ -19,7 +19,7 @@
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <!-- Google Font -->
-<link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Coda:800|Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
 <style>
 	html, body {
 	    position: relative;
@@ -30,6 +30,9 @@
 		background-color: #323940;
 	    margin:0;
 	    padding:0;
+	}
+	a:active, a:visited, a:hover {
+		text-decoration: none;
 	}
 	.header {
 		z-index: 1;
@@ -43,11 +46,11 @@
 		padding: 0;
 	}
 	.header a{
-		position:relative;
+		position:absolute;
 		color: #323940;
-		float: left;
-		bottom: 56px;
-		left: 20px;
+		top: 4px;
+		left: 15px;
+		z-index: 1;
 	}
 	#recenttitle {
 		color: #fff;
@@ -70,13 +73,13 @@
 		float: left;
 		color: #323940;
 		padding-left: 45px;
-		padding-right: 10px;
+		padding-right: 45px;
 		border-radius: 20px;
 	}
 	.searchbox .icon{
 		position: absolute;
 		top: 11px;
-		left: 20px;
+		right: 15px;
 		z-index: 1;
 		color: #323940;
 	}
@@ -166,12 +169,12 @@
 <div class="header">
 
 <div class="searchbox">
+	<a href="<c:url value="/"/>"><i class="fas fa-chevron-left fa-2x"></i></a>
 	<form name="searchform" action="" method="POST" onsubmit="return false;">
 		<input type="search" name="keyword" id="search">
 		<span class="icon"><i class="fas fa-search fa-lg"></i></span>
 	</form>
 </div>
-	<a href="<c:url value="/"/>"><i class="fas fa-chevron-left fa-2x"></i></a>
 </div>
 <div id="searchresult">
 	<h5 id="recenttitle">최근 검색 기록</h5>

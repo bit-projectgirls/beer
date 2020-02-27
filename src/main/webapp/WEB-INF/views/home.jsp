@@ -37,7 +37,10 @@
 	    padding:0;
 	}
 	.wrap {
-		margin-bottom: 70px;
+		margin-bottom: 100px;
+	}
+	a:active, a:visited, a:hover {
+		text-decoration: none;
 	}
 	h5 {
 		margin: 0;

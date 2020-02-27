@@ -39,7 +39,7 @@
 		
 	}
 	.wrap {
-		margin-bottom: 70px;
+		margin-bottom: 100px;
 	}
 	.navbar {
 		background:#fff;

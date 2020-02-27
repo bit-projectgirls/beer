@@ -33,9 +33,12 @@
 		margin:0;
 	    padding:0;
 	}
+	a:active, a:visited, a:hover {
+		text-decoration: none;
+	}
 	.wrap {
 		margin-top: 60px;
-		margin-bottom: 80px;		
+		margin-bottom: 100px;		
 	}
 	.navbar {
 		background:#fff;

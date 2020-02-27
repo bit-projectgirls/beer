@@ -19,41 +19,75 @@
 <style>
 	html, body {
 	    position: relative;
-	    height: 100%;
 	}
 	body {
-	    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-	    font-size: 14px;
-	    color:#000;
+	    font-family: 'Nanum Gothic', sans-serif;
+		background-color: #323940;
 	    margin:0;
 	    padding:0;
 	}
-	.navbar {
-		background:#fff;
-		z-index:99;
-	  	position:fixed;
-	  	bottom: 0;
-	  	width: 100%;
+	a:active, a:visited, a:hover {
+		text-decoration: none;
 	}
-	#mypageMenu {
-		padding-bottom:68px;
+	.header {
+		z-index: 1;
+		position: fixed;
+		top:0;
+		width: 100%;
+		height: 50px;	
+		color: #323940;
+		background-color: #fde16d;
+		margin: 0;
+		padding: 10px 20px;
 		text-align: center;
 	}
-	img {
-		width: 100px;
-		height: 100px;
-		object-fit: cover;
-		object-position: top;
-		border-radius: 50%;
+	.header a{
+		color: #323940;
+		float: left;
+	}
+	.pagetitle {
+		margin: 8px;
+		font-size: 18px;
+	}
+	.modform {
+		width: 300px;
+		margin: 70px auto;
+	}
+	.modform input#inputname {
+		width: 300px;
+		height: 40px;
+		background: #fff;
+		border: none;
+		font-size: 10pt;
+		color: #323940;
+		padding-left: 18px;
+		padding-right: 45px;
+		border-radius: 20px;
+	}
+	.modform input#btnSubmit {
+		position: relative;
+		bottom: 40px;
+		left: 240px;
+		z-index: 1;
+		background-color: #fde16d;
+		border: 0;
+		height: 40px;
+		width: 60px;
+		border-bottom-right-radius: 20px;
+		border-top-right-radius: 20px;
 	}
 </style>
 </head>
 <body>
-	<a href="<c:url value="/mypage"/>">뒤로</a>
+	<div class="header">
+		<a href="<c:url value="/mypage"/>"><i class="fas fa-chevron-left fa-2x"></i></a>
+		<h4 class="pagetitle"><strong>닉네임 변경</strong></h4>
+	</div>
+	<div class="modform">
 	<form id="modForm" name="modForm" action="<c:url value="/modnameaction"/>" method="POST">
-		<input name="nickname" type="text"  value="${ authUser.nickname }"/>
-		<input id="btnSubmit" type="submit" value="변경" class="btn btn-warning">
-		
+		<input  id='inputname' name="nickname" type="text"  value="${ authUser.nickname }"/>
+		<input id="btnSubmit" type="submit" value="변경" class="btnsubmit">
 	</form>
+	</div>
 </body>
 </html>

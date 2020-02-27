@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!-- loadimage -->
+<script src="<c:url value="/resources/load-image.all.min.js"/>"></script>
 
 <style type="text/css" >
 .wrap-loading{ /*화면 전체를 어둡게 합니다.*/
@@ -181,6 +183,14 @@
                } 
                image.src = readerEvent.target.result;
             }
+         var file_rotated = loadImage(
+        		 file,
+        		 function(img){
+        			 return img;
+        		 },
+        		 {
+        			 orientation: 1
+        		 })
          reader.readAsDataURL(file);
          }
       }

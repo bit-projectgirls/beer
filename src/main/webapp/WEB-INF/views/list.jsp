@@ -35,9 +35,12 @@
 		background-color: #323940;
 	    margin:0;
 	    padding:0;
-	}	
+	}
+	a:active, a:visited, a:hover {
+		text-decoration: none;
+	}
 	.wrap {
-		padding-bottom: 70px;
+		padding-bottom: 100px;
 	}
 	#modal {
 		font-size: 0.8em;
@@ -72,7 +75,7 @@
 		position: absolute;
 		left: 50%;
 		margin-left: -150px;
-		margin-bottom: 70px;
+		margin-bottom: 100px;
 	}
 	#filtermenu {
 		background-color: #fff;
