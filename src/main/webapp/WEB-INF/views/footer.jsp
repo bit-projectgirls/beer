@@ -23,8 +23,21 @@
 .display-none{ /*감추기*/
 	display:none;
 }
+#myimg {
+    height: 100px;
+    border: 1px solid #fff;
+}
+#imgwrap {
+	position: inherit;
+    top: 42px;
+    left: 50%;
+    margin-left: -100px;
+	display: none;
+	width: 200px;
+	text-align: center;
+}
 </style>
-
+<div class="imgwrap" id="imgwrap"><img id="myimg"></div>
 <a href="<c:url value="/"/>" class="btn btn-sm">
    <i class="fas fa-home fa-lg"></i><br/>
    <span class="text">Home</span>
@@ -80,7 +93,8 @@
                version: match[2] || "0"
            };
        };
-    
+       
+       
        matched = jQuery.uaMatch(navigator.userAgent);
        browser = {};
     
@@ -142,10 +156,14 @@
                         width *= max_size / height;
                         height = max_size;
                      }
-                  } 
-                  canvas.width = width;
+                  }
+                  var cc = {
+                		  x : width / 10,
+                		  cwidth : (width / 10) * 8
+                  }
+                  canvas.width = Math.floor(cc.cwidth);
                   canvas.height = height;
-                  canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                  canvas.getContext('2d').drawImage(image, -Math.floor(cc.x), 0, width, height);
                   var dataUrl = canvas.toDataURL('image/jpeg');
                   //var dataUrl = canvas.toDataURL('image/jpeg', 0.90);
                   // 이미지 퀄리티 조절도 가능...
@@ -202,9 +220,16 @@
             processData: false,
             type: 'POST', 
             success: function(result){
-               console.log(result);
-               // TODO: result로 맥주리스트 보여주기
-               $('body').html(result);
+            	var url = URL.createObjectURL(event.blob);
+            	const img = document.getElementById('myimg');
+            	img.src = url;
+            	img.onload = function() {
+            		//cleanup.
+            		URL.revokeObjectURL(this.src);
+            	}
+            	$('#imgwrap').css('display', 'block');
+            	$('html').scrollTop(0);
+				$('.wrap').html(result);
             },
             beforeSend:function(){
                 $('.wrap-loading').removeClass('display-none');

@@ -37,7 +37,7 @@
 	    padding:0;
 	}
 	.wrap {
-		padding-bottom: 70px;
+		margin-bottom: 70px;
 	}
 	h5 {
 		margin: 0;

@@ -1,5 +1,6 @@
 package com.bit.beer.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -31,11 +34,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.beer.repository.BeerVo;
 import com.bit.beer.service.BeerService;
+import com.bit.beer.service.UserService;
 
 
 @Controller
 public class MatchController {
-	
+	private static final Logger logger = LoggerFactory.getLogger(MatchController.class);
+
 	 @Autowired
 	   BeerService beerService;
    
@@ -71,13 +76,24 @@ public class MatchController {
       System.out.println(response.getBody());
       System.out.println("End:" + new Date());
       model.addAttribute("result", response.getBody());
+      String res = response.getBody();
+      int start = res.indexOf("[")+1;
+      int end = res.indexOf("]");
+      res = res.substring(start, end);
+      String[] strlist =res.split(",");
       List<BeerVo> list = new ArrayList<>();
+      for(String str: strlist) {
+         str = str.trim();
+         int beerNo = Integer.valueOf(str);
+         BeerVo vo = beerService.getBeerInfo(beerNo); 
+         list.add(vo);
+         
+      }
       // TODO: for문 돌려서 번호로 맥주정보 DB에서 받아와서 list에 add해주기
+//	  List<BeerVo> list = beerService.getTopList();
       model.addAttribute("beerList", list);
-//      return response.getBody();
-      return "beerresult";
-
       
+      return "beerresult";      
    }
    
   

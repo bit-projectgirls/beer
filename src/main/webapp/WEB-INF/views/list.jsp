@@ -35,9 +35,9 @@
 		background-color: #323940;
 	    margin:0;
 	    padding:0;
-	}
+	}	
 	.wrap {
-		padding-bottom: 80px;
+		padding-bottom: 70px;
 	}
 	#modal {
 		font-size: 0.8em;
@@ -72,6 +72,7 @@
 		position: absolute;
 		left: 50%;
 		margin-left: -150px;
+		margin-bottom: 70px;
 	}
 	#filtermenu {
 		background-color: #fff;

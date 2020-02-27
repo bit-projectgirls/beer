@@ -14,6 +14,11 @@
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <!-- jQuery -->
 <script src="<c:url value="/resources/jquery/jquery-3.4.1.min.js"/>"></script>
+<!-- star rating -->
+<link href="<c:url value="/resources/star-rating.css"/>" media="all" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/resources/star-rating.js"/>" type="text/javascript"></script>
+<link href="<c:url value="/resources/krajee-fa/theme.css"/>" media="all" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/resources/krajee-fa/theme.js"/>" type="text/javascript"></script>
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <!-- Google Font -->
@@ -102,7 +107,7 @@
 	<c:choose>
 		<c:when test="${ empty authUser }">
 		<div class="kakaologin">
-			<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://192.168.1.41:8080/beer/login&response_type=code">
+			<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=247c6d507dbd703741920ee35f89946e&redirect_uri=http://localhost:8080/beer/login&response_type=code">
 			<img src="<c:url value="/img/kakao_account_login_btn.png"/>">
 			</a>
 		</div>
@@ -165,6 +170,5 @@
 			}
 		});
 	});
-	
 </script>
 </html>	
