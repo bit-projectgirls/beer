@@ -13,6 +13,7 @@ public class BeerVo {
 	private double ratingBA;
 	private String note;
 	private boolean chkBLike;
+	private String beerKo;
 	
 	public int getIdx() {
 		return idx;
@@ -85,6 +86,12 @@ public class BeerVo {
 	}
 	public void setchkBLike(boolean chkBLike) {
 		this.chkBLike = chkBLike;
+	}
+	public String getBeerKo() {
+		return beerKo;
+	}
+	public void setBeerKo(String beerKo) {
+		this.beerKo = beerKo;
 	}
 	
 	

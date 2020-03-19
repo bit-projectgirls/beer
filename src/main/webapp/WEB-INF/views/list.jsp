@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css?family=Knewave|Nanum+Gothic&display=swap" rel="stylesheet">
+<!-- flag icon -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css" rel="stylesheet">
 <style>
 	html, body {
 	    position: relative;
@@ -147,7 +149,7 @@
 	}
 	#countrylist {
 		overflow:auto;
-		max-height: 250px;
+		max-height: 100px;
 	}
 	#con3 {
 		height: 50px;
@@ -336,7 +338,7 @@
 					<dd class='company'>${ beerVo.company }</dd>
 					<dd class='beeridx' data-idx="${ beerVo.idx }"></dd>
 					<dt class='beername'><a href="<c:url value="/beer/${ beerVo.beerNo }"/>" target='_blank'>${ beerVo.beerName }</a></dt>
-					<dd class='beerinfo'>${ beerVo.type } from ${ beerVo.country }</dd>
+					<dd class='beerinfo'>${ beerVo.type } ${ beerVo.country }</dd>
 					<dd class='beerrating'><div class="ratingcap">${ beerVo.ratingBA }</div><input name="ratingBA" value="${ beerVo.ratingBA }" class="kv-fa rating"></dd>
 					<c:if test='${ not empty authUser }'>
 					<dd id='like${beerVo.beerNo }' class='likeArea' onclick='bLike(${ beerVo.beerNo})'>
@@ -482,6 +484,7 @@ $("#label1").on("click", function(event){
 	    success : function(result){
 	    	var str = renderButton(result);
 	    	$("#countrylist").html(str);
+	    	console.log(result);
 	    }
 	});
 })

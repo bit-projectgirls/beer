@@ -32,6 +32,15 @@
 		border-radius: 20px;
 		background: #fff;
 	}
+	.likeArea {
+		font-size: 1.1em;
+		color: #ff7575;
+		float : right;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		bottom: 6px;
+	}
 	.beerpic {   
 		text-align: center;
 		width:60px;
@@ -143,6 +152,33 @@
 		margin-top: 170px;
 		margin-bottom: 20px;
 	}
+	.searchbox {
+		margin:10px auto;
+		width:300px;
+		height:50px;
+		vertical-align: middle;
+		white-space: nowrap;
+		position: relative;
+	}
+	.searchbox input#search {
+		width: 300px;
+		height: 40px;
+		background: #fde16d;
+		border: none;
+		font-size: 10pt;
+		float: left;
+		color: #63717f;
+		padding-left: 45px;
+		border-radius: 20px;
+		margin-top: 10px;
+	}
+	.searchbox .icon {
+		position: relative;
+		bottom: -20px;
+		left: -285px;
+		z-index: 1;
+		color: #323940;
+	}
 </style>
 	<div class="searchimg">
 		<h3 align="center">검색에 사용된 이미지</h3>
@@ -216,7 +252,14 @@
          </li>
       </c:forEach>
       </ul>
-      </div>
+   </div>
+   <div class="searchbox">
+      <h5 align="center">검색이 되지 않으면 이름으로 검색해보세요.</h5>
+      <a href="<c:url value="/search"/>">
+			<input type="search" name="keyword" id="search">
+			<span class="icon"><i class="fas fa-search fa-lg"></i></span>
+	  </a>
+   </div>
 
 <script>
 

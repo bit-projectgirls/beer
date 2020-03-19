@@ -108,6 +108,8 @@ public class BeerController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("beerNo", beerNo);
 		result.put("chkLike", chkLike);
+		List<BeerVo> bLikeList = beerService.getBeerLikeList(authUser.getUuid());
+		session.setAttribute("bLikeList", bLikeList);
 		return gson.toJson(result);
 	}
 	

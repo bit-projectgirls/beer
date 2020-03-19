@@ -189,7 +189,7 @@
 		<dd class='beerno' id="infoBeerNo" style="display:none;">${ beerVo.beerNo }</dd>
 		<dd class="company">${ beerVo.company }</dd>
 		<dt class="beername">${ beerVo.beerName }</dt>
-		<dd>한글이름</dd>
+		<dd>${ beerVo.beerKo }</dd>
 	<dd class="type">${ beerVo.type } from ${ beerVo.country }</dd>
 	</dl>
 	<div class="likeArea" id="likeArea">
@@ -210,7 +210,8 @@
 			<h1 align="center">${ beerVo.ratingBA }</h1>
 		</div>
 		<div class="ratingBS">
-		우리별점<br/><h1 align="center">${ beerVo.rating }</h1>
+		<img class="logo" src="<c:url value="/img/beer_logo_b.png"/>">
+		<h1 align="center">${ beerVo.rating }</h1>
 		</div>
 	</div>
 	<div class="reviewArea">

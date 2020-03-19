@@ -61,7 +61,7 @@
 	  	bottom: 0;
 	  	width: 100%;
 	}
-	#mybeerlist {
+	.wrap {
 		margin-top: 60px;
 		margin-bottom: 80px;		
 	}
@@ -149,7 +149,7 @@
 		<a href="<c:url value="/mypage"/>"><i class="fas fa-chevron-left fa-2x"></i></a>
 		<h4 class="pagetitle"><strong>좋아요 맥주리스트</strong></h4>
 	</div>
-	<div id="mybeerlist">
+	<div id="mybeerlist" class="wrap">
 	<ul id="beerlist" class="beerlist">
 	<c:if test="${ empty beerList }">
 	좋아요 리스트가 없어요.

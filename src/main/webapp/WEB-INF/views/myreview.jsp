@@ -76,6 +76,8 @@
 		border: 0;
 		background-color: #fde16d;
 		border-radius: 20px;
+		position: relative;
+    	right: -10px;
 	}
 	.reviewitem {
 		width: 90%;
@@ -92,7 +94,7 @@
 		max-height: 95px;
 	}
 	.reviewcnt a {
-		color: #a8efff;
+		color: #35b0cc;
 	}
 	.reviewrating {
 	  	height: 20px;

@@ -10,7 +10,7 @@
 	        FROM beer
 	        WHERE country Like ('%'|| #{keyword} ||'%')
 	        ORDER BY country) a
-    	<![CDATA[WHERE ROWNUM <= #{idx} + 20)
+    	<![CDATA[WHERE ROWNUM <= #{idx} + 30)
 	WHERE idx > #{idx}
 	]]>
 	</select>

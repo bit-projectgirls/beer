@@ -42,6 +42,14 @@
 	a:active, a:visited, a:hover {
 		text-decoration: none;
 	}
+	.header {
+		text-align: center;
+	}
+	.logo {
+		width: 60%;
+		max-width: 300px;
+		margin: 20px auto;
+	}
 	h5 {
 		margin: 0;
 	}
@@ -191,14 +199,16 @@
 </head>
 <body>
 	<div class="wrap">
-	<h3 align="center">Beer Searcher</h3>
+	<div class="header">
+	<img class="logo" src="<c:url value="/img/beer_logo_f.png"/>">
+	</div>
 	<div class="searchbox">
 		<a href="<c:url value="/search"/>">
 			<input type="search" name="keyword" id="search">
 			<span class="icon"><i class="fas fa-search fa-lg"></i></span>
 		</a>
 	</div>
-	<h5 class="title">우리 TOP 10 리스트</h5>
+	<h5 class="title">Beer Searcher TOP 10</h5>
 	<!-- Swiper -->
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
@@ -238,7 +248,7 @@
 		<!-- Add Pagination -->
 		<div class="swiper-pagination"></div>
 	</div>
-	<h5 class="title">Beeradvocate TOP 10 리스트</h5>
+	<h5 class="title">Beeradvocate TOP 10</h5>
 	<!-- Swiper -->
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
